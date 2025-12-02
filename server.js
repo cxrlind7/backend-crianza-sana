@@ -3,17 +3,8 @@ const express = require('express')
 const axios = require('axios')
 const cors = require('cors')
 const AWS = require('aws-sdk')
-const { initializeApp } = require('firebase/app')
-const {
-  getFirestore,
-  collection,
-  getDocs,
-  query,
-  where,
-  doc,
-  getDoc,
-  orderBy,
-} = require('firebase/firestore')
+// Usamos firebase-admin en lugar de firebase/app
+const admin = require('firebase-admin')
 
 const app = express()
 app.use(cors())
@@ -27,17 +18,25 @@ AWS.config.update({
 })
 const s3 = new AWS.S3()
 
-// --- CONFIGURACIÓN FIREBASE ---
-const firebaseConfig = {
-  apiKey: process.env.FIREBASE_API_KEY,
-  authDomain: process.env.FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.FIREBASE_PROJECT_ID,
-  storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.FIREBASE_APP_ID,
+// --- CONFIGURACIÓN FIREBASE ADMIN (Usando el JSON) ---
+let serviceAccount
+try {
+  // Railway necesita el contenido del JSON en una variable de entorno llamada FIREBASE_SERVICE_ACCOUNT
+  // El contenido debe ser el texto crudo del archivo JSON.
+  serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT)
+} catch (error) {
+  console.error('\n❌ ERROR CRÍTICO: No se pudo leer la configuración de Firebase Admin.')
+  console.error('Asegúrate de crear la variable de entorno FIREBASE_SERVICE_ACCOUNT en Railway')
+  console.error('y pegar ahí TODO el contenido del archivo JSON que descargaste de Firebase.\n')
+  // Si esto falla, es mejor que el servidor no arranque
+  process.exit(1)
 }
-const firebaseApp = initializeApp(firebaseConfig)
-const db = getFirestore(firebaseApp)
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+})
+const db = admin.firestore()
+console.log('✅ Firebase Admin inicializado correctamente con credenciales de servicio.')
 
 // --- SPOTIFY ---
 const SPOTIFY_CLIENT_ID = process.env.SPOTIFY_CLIENT_ID
@@ -129,19 +128,19 @@ app.post('/api/aws/upload-url', async (req, res) => {
   }
 })
 
-// --- FIREBASE ENDPOINTS ---
+// --- FIREBASE ENDPOINTS (Adaptados a Admin SDK) ---
 
 // 1. Get People
 app.get('/api/firestore/people', async (req, res) => {
   try {
-    const q = query(collection(db, 'people'), where('isSpecialist', '==', 1))
-    const querySnapshot = await getDocs(q)
+    // Sintaxis Admin SDK: db.collection().where().get()
+    const querySnapshot = await db.collection('people').where('isSpecialist', '==', 1).get()
 
     const people = await Promise.all(
       querySnapshot.docs.map(async (doc) => {
         const personData = { id: doc.id, ...doc.data() }
-        const socialsRef = collection(db, `people/${doc.id}/socials`)
-        const socialsSnapshot = await getDocs(socialsRef)
+        // Subcolección
+        const socialsSnapshot = await db.collection(`people/${doc.id}/socials`).get()
         personData.socials = socialsSnapshot.docs.map((s) => ({ id: s.id, ...s.data() }))
         return personData
       }),
@@ -159,8 +158,10 @@ app.get('/api/firestore/reels', async (req, res) => {
   if (!personId) return res.status(400).json({ error: 'personId required' })
 
   try {
-    const q = query(collection(db, 'reels'), where('idPersona', '==', String(personId)))
-    const querySnapshot = await getDocs(q)
+    const querySnapshot = await db
+      .collection('reels')
+      .where('idPersona', '==', String(personId))
+      .get()
 
     const reels = querySnapshot.docs
       .map((doc) => {
@@ -186,10 +187,11 @@ app.get('/api/firestore/reels', async (req, res) => {
 // 3. Get Campaign
 app.get('/api/firestore/campaign', async (req, res) => {
   try {
-    const docRef = doc(db, 'campana', 'tVNJj7bqmEXeUYjb60r2')
-    const snap = await getDoc(docRef)
+    // Sintaxis Admin SDK para un solo documento
+    const docRef = db.collection('campana').doc('tVNJj7bqmEXeUYjb60r2')
+    const snap = await docRef.get()
 
-    if (snap.exists()) {
+    if (snap.exists) {
       const data = snap.data()
       const { finalDate, img } = data
       if (!finalDate || !img) return res.json(null)
@@ -216,7 +218,7 @@ app.get('/api/firestore/campaign', async (req, res) => {
 // 4. Get Videos (Programas)
 app.get('/api/firestore/videos', async (req, res) => {
   try {
-    const snapshot = await getDocs(collection(db, 'programas'))
+    const snapshot = await db.collection('programas').get()
     const videos = snapshot.docs.map((doc) => {
       const data = doc.data()
       return { id: doc.id, ...data, parsedDate: new Date(data.date.split('-').reverse().join('-')) }
@@ -234,8 +236,7 @@ app.get('/api/firestore/collection/:name', async (req, res) => {
   const { name } = req.params
   const { orderField = 'orden', orderDirection = 'asc' } = req.query
   try {
-    const q = query(collection(db, name), orderBy(orderField, orderDirection))
-    const snapshot = await getDocs(q)
+    const snapshot = await db.collection(name).orderBy(orderField, orderDirection).get()
     const items = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
     res.json(items)
   } catch (error) {
@@ -248,8 +249,7 @@ app.get('/api/firestore/collection/:name', async (req, res) => {
 app.get('/api/firestore/blogs/:id/comments', async (req, res) => {
   const { id } = req.params
   try {
-    const commentsRef = collection(db, `blogs/${id}/comments`)
-    const snapshot = await getDocs(commentsRef)
+    const snapshot = await db.collection(`blogs/${id}/comments`).get()
     const comments = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
     res.json(comments)
   } catch (error) {
@@ -261,12 +261,11 @@ app.get('/api/firestore/blogs/:id/comments', async (req, res) => {
 // 7. Get Galleries
 app.get('/api/firestore/galleries', async (req, res) => {
   try {
-    const snapshot = await getDocs(collection(db, 'galerias'))
+    const snapshot = await db.collection('galerias').get()
     const galleries = await Promise.all(
       snapshot.docs.map(async (docGaleria) => {
         const galeriaData = docGaleria.data()
-        const fotosRef = collection(db, `galerias/${docGaleria.id}/fotos`)
-        const fotosSnapshot = await getDocs(fotosRef)
+        const fotosSnapshot = await db.collection(`galerias/${docGaleria.id}/fotos`).get()
         const fotos = fotosSnapshot.docs.map((f) => ({ id: f.id, ...f.data(), comments: [] }))
         return { id: docGaleria.id, ...galeriaData, images: fotos }
       }),
@@ -282,9 +281,10 @@ app.get('/api/firestore/galleries', async (req, res) => {
 app.get('/api/firestore/galleries/:galeriaId/images/:imageId/comments', async (req, res) => {
   const { galeriaId, imageId } = req.params
   try {
-    const commentsRef = collection(db, `galerias/${galeriaId}/fotos/${imageId}/comments`)
-    const q = query(commentsRef, orderBy('createdAt', 'desc'))
-    const snapshot = await getDocs(q)
+    const snapshot = await db
+      .collection(`galerias/${galeriaId}/fotos/${imageId}/comments`)
+      .orderBy('createdAt', 'desc')
+      .get()
     const comments = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
     res.json(comments)
   } catch (error) {
@@ -297,8 +297,7 @@ app.get('/api/firestore/galleries/:galeriaId/images/:imageId/comments', async (r
 app.get('/api/firestore/videos/:id/comments', async (req, res) => {
   const { id } = req.params
   try {
-    const commentsRef = collection(db, `programas/${id}/comments`)
-    const snapshot = await getDocs(commentsRef)
+    const snapshot = await db.collection(`programas/${id}/comments`).get()
     const comments = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
     res.json(comments)
   } catch (error) {
@@ -310,7 +309,7 @@ app.get('/api/firestore/videos/:id/comments', async (req, res) => {
 // 10. Get Programs (Temas)
 app.get('/api/firestore/programs', async (req, res) => {
   try {
-    const snapshot = await getDocs(collection(db, 'temas'))
+    const snapshot = await db.collection('temas').get()
     const programs = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
     res.json(programs)
   } catch (error) {
