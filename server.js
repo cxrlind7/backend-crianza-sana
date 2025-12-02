@@ -1,5 +1,7 @@
-/* eslint-env node :)*/
+/* eslint-env node */
 require('dotenv').config()
+console.log('🚀 INICIO DEL SCRIPT SERVER.JS')
+console.log('Variables de entorno cargadas.')
 // Usamos fs.promises para lectura asíncrona
 const fs = require('fs').promises
 const path = require('path')
@@ -19,6 +21,7 @@ process.on('unhandledRejection', (reason, promise) => {
 
 const app = express()
 const PORT = process.env.PORT || 3000
+console.log(`Puerto configurado: ${PORT}`)
 
 // ==========================================
 // 1. RUTA DE SALUD (¡LO PRIMERO!)
@@ -418,11 +421,16 @@ app.get('/blog/:id', ensureServicesReady, async (req, res) => {
 // 6. ¡ARRANCAR EL SERVIDOR!
 // ==========================================
 // Primero empezamos a escuchar. El Health Check funcionará inmediatamente.
-app.listen(PORT, '0.0.0.0', () => { // 👈 AGREGA '0.0.0.0' AQUÍ
+app.listen(PORT, '0.0.0.0', () => {
+  // 👈 AGREGA '0.0.0.0' AQUÍ
   console.log(`🚀 Servidor backend escuchando en puerto ${PORT}`)
   console.log(`🩺 Health check disponible en http://0.0.0.0:${PORT}/`)
-  
+
   // Una vez que escuchamos, iniciamos los servicios pesados
   initializeServices()
 })
 
+process.on('SIGTERM', () => {
+  console.log('🛑 Recibido SIGTERM. Cerrando servidor grácilmente...')
+  process.exit(0)
+})
