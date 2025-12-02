@@ -18,14 +18,11 @@ process.on('unhandledRejection', (reason, promise) => {
 })
 
 const app = express()
+app.get('/', (req, res) => {
+  res.status(200).send('OK')
+})
 app.use(cors())
 app.use(express.json())
-
-// --- RUTA DE SALUD (Health Check) ---
-// Esto ayuda a Railway a saber que el servidor está vivo
-app.get('/', (req, res) => {
-  res.send('¡El backend de Crianza Sana está funcionando! 🚀')
-})
 
 // --- CONFIGURACIÓN AWS ---
 AWS.config.update({
