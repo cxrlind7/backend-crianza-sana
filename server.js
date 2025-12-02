@@ -418,8 +418,10 @@ app.get('/blog/:id', ensureServicesReady, async (req, res) => {
 // 6. ¡ARRANCAR EL SERVIDOR!
 // ==========================================
 // Primero empezamos a escuchar. El Health Check funcionará inmediatamente.
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => { // 👈 AGREGA '0.0.0.0' AQUÍ
   console.log(`🚀 Servidor backend escuchando en puerto ${PORT}`)
-  // Una vez que escuchamos, iniciamos los servicios pesados en segundo plano.
+  console.log(`🩺 Health check disponible en http://0.0.0.0:${PORT}/`)
+  
+  // Una vez que escuchamos, iniciamos los servicios pesados
   initializeServices()
 })
