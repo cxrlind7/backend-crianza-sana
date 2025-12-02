@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="/logo_original.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- 
+      ✅ PLACEHOLDERS PARA EL BACKEND 
+      Estos valores (__OG_...) serán reemplazados por tu servidor en Railway.
+      Si se cargan directamente en el navegador, mostrarán los valores por defecto.
+    -->
+    <title>__OG_TITLE__</title>
+    <meta name="description" content="__OG_DESCRIPTION__" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="__OG_TITLE__" />
+    <meta property="og:description" content="__OG_DESCRIPTION__" />
+    <meta property="og:image" content="__OG_IMAGE__" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:title" content="__OG_TITLE__" />
+    <meta property="twitter:description" content="__OG_DESCRIPTION__" />
+    <meta property="twitter:image" content="__OG_IMAGE__" />
+
+    <!-- Google Analytics y resto de tus scripts... -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-B6LXJW1YE4"></script>
+    <script>
+      window.dataLayer = window.dataLayer || []
+      function gtag() {
+        dataLayer.push(arguments)
+      }
+      gtag('js', new Date())
+      gtag('config', 'G-B6LXJW1YE4')
+    </script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
