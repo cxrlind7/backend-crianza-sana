@@ -1,3 +1,4 @@
+/* eslint-env node */
 require('dotenv').config()
 const express = require('express')
 const axios = require('axios')
@@ -6,9 +7,23 @@ const AWS = require('aws-sdk')
 // Usamos firebase-admin en lugar de firebase/app
 const admin = require('firebase-admin')
 
+// --- MANEJO DE ERRORES GLOBALES (Para depuración en Railway) ---
+process.on('uncaughtException', (err) => {
+  console.error('🔥 Excepción no capturada:', err)
+})
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('🔥 Rechazo de promesa no manejado:', reason)
+})
+
 const app = express()
 app.use(cors())
 app.use(express.json())
+
+// --- RUTA DE SALUD (Health Check) ---
+// Esto ayuda a Railway a saber que el servidor está vivo
+app.get('/', (req, res) => {
+  res.send('¡El backend de Crianza Sana está funcionando! 🚀')
+})
 
 // --- CONFIGURACIÓN AWS ---
 AWS.config.update({
@@ -22,13 +37,9 @@ const s3 = new AWS.S3()
 let serviceAccount
 try {
   // Railway necesita el contenido del JSON en una variable de entorno llamada FIREBASE_SERVICE_ACCOUNT
-  // El contenido debe ser el texto crudo del archivo JSON.
   serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT)
 } catch (error) {
   console.error('\n❌ ERROR CRÍTICO: No se pudo leer la configuración de Firebase Admin.')
-  console.error('Asegúrate de crear la variable de entorno FIREBASE_SERVICE_ACCOUNT en Railway')
-  console.error('y pegar ahí TODO el contenido del archivo JSON que descargaste de Firebase.\n')
-  // Si esto falla, es mejor que el servidor no arranque
   process.exit(1)
 }
 
@@ -133,13 +144,11 @@ app.post('/api/aws/upload-url', async (req, res) => {
 // 1. Get People
 app.get('/api/firestore/people', async (req, res) => {
   try {
-    // Sintaxis Admin SDK: db.collection().where().get()
     const querySnapshot = await db.collection('people').where('isSpecialist', '==', 1).get()
 
     const people = await Promise.all(
       querySnapshot.docs.map(async (doc) => {
         const personData = { id: doc.id, ...doc.data() }
-        // Subcolección
         const socialsSnapshot = await db.collection(`people/${doc.id}/socials`).get()
         personData.socials = socialsSnapshot.docs.map((s) => ({ id: s.id, ...s.data() }))
         return personData
@@ -187,7 +196,6 @@ app.get('/api/firestore/reels', async (req, res) => {
 // 3. Get Campaign
 app.get('/api/firestore/campaign', async (req, res) => {
   try {
-    // Sintaxis Admin SDK para un solo documento
     const docRef = db.collection('campana').doc('tVNJj7bqmEXeUYjb60r2')
     const snap = await docRef.get()
 
