@@ -25,10 +25,7 @@ const PORT = process.env.PORT || 3000
 // ==========================================
 // Esta ruta debe responder INSTANTÁNEAMENTE para que Railway no mate el servidor.
 app.get('/', (req, res) => {
-  console.log('💓 ¡Health Check recibido! Respondiendo OK y cerrando.');
-  // Establecemos el tipo de contenido y enviamos la respuesta
-  res.writeHead(200, { 'Content-Type': 'text/plain' });
-  res.end('OK');
+  res.status(200).send('OK')
 })
 
 // Middlewares
@@ -426,5 +423,3 @@ app.listen(PORT, () => {
   // Una vez que escuchamos, iniciamos los servicios pesados en segundo plano.
   initializeServices()
 })
-
-
