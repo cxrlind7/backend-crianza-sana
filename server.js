@@ -1,4 +1,4 @@
-/* eslint-env node */
+/* eslint-env node :)*/
 require('dotenv').config()
 // Usamos fs.promises para lectura asíncrona
 const fs = require('fs').promises
@@ -425,3 +425,4 @@ app.listen(PORT, '0.0.0.0', () => { // 👈 AGREGA '0.0.0.0' AQUÍ
   // Una vez que escuchamos, iniciamos los servicios pesados
   initializeServices()
 })
+
