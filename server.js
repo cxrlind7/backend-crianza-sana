@@ -1,5 +1,7 @@
 /* eslint-env node */
 require('dotenv').config()
+const fs = require('fs')
+const path = require('path')
 const express = require('express')
 const axios = require('axios')
 const cors = require('cors')
@@ -323,6 +325,61 @@ app.get('/api/firestore/programs', async (req, res) => {
   } catch (error) {
     console.error('Error Firestore Programs (Temas):', error)
     res.status(500).json({ error: 'Error fetching programs' })
+  }
+})
+
+// --- NUEVA RUTA ESPECIAL PARA COMPARTIR BLOGS ---
+
+// Leemos la plantilla HTML una sola vez al iniciar el servidor para que sea rápido
+const templatePath = path.join(__dirname, 'templates', 'index.html')
+let indexTemplate = fs.readFileSync(templatePath, 'utf8')
+
+// Valores por defecto por si algo falla o no se encuentra el blog
+const defaultMeta = {
+  title: 'Crianza Sana by Kids',
+  description: 'Especialistas en el desarrollo integral de niños y niñas.',
+  image: 'https://csdkids-images.s3.us-east-2.amazonaws.com/portadota.png', // Tu imagen genérica
+}
+
+// Esta ruta interceptará las peticiones a /blog/:id
+app.get('/blog/:id', async (req, res) => {
+  const blogId = req.params.id
+  console.log(`🤖 Solicitud de blog para metadatos: ${blogId}`)
+
+  try {
+    // 1. Buscar los datos del blog en Firestore usando firebase-admin
+    // Asegúrate de que 'db' es tu instancia de admin.firestore()
+    const blogRef = db.collection('blogs').doc(blogId)
+    const doc = await blogRef.get()
+
+    let metaData = defaultMeta
+
+    if (doc.exists) {
+      const blogData = doc.data()
+      // Preparamos los datos, cortando la descripción si es muy larga
+      metaData = {
+        title: blogData.title || defaultMeta.title,
+        description:
+          blogData.title1 || blogData.text?.substring(0, 150) + '...' || defaultMeta.description,
+        image: blogData.imageUrl || defaultMeta.image,
+      }
+    } else {
+      console.log('Blog no encontrado, usando metadatos por defecto')
+    }
+
+    // 2. Reemplazar los placeholders en la plantilla HTML
+    let finalHtml = indexTemplate
+      .replace(/__OG_TITLE__/g, metaData.title)
+      .replace(/__OG_DESCRIPTION__/g, metaData.description)
+      .replace(/__OG_IMAGE__/g, metaData.image)
+
+    // 3. Enviar el HTML modificado al navegador/robot
+    res.send(finalHtml)
+  } catch (error) {
+    console.error('❌ Error generando metadatos del blog:', error)
+    // En caso de error grave, enviamos la plantilla sin modificar (con los placeholders)
+    // o podrías reemplazar con los defaults aquí también.
+    res.send(indexTemplate)
   }
 })
 
