@@ -341,14 +341,17 @@ const defaultMeta = {
   image: 'https://csdkids-images.s3.us-east-2.amazonaws.com/portadota.png', // Tu imagen genérica
 }
 
-// Esta ruta interceptará las peticiones a /blog/:id
+// ... (código anterior) ...
+
+// Define la URL base de tu frontend en Hostinger
+const FRONTEND_BASE_URL = 'https://staging.crianzasanabydkids.mx'
+
+// Esta ruta interceptará las peticiones a /blog/:id EN EL BACKEND
 app.get('/blog/:id', async (req, res) => {
   const blogId = req.params.id
   console.log(`🤖 Solicitud de blog para metadatos: ${blogId}`)
 
   try {
-    // 1. Buscar los datos del blog en Firestore usando firebase-admin
-    // Asegúrate de que 'db' es tu instancia de admin.firestore()
     const blogRef = db.collection('blogs').doc(blogId)
     const doc = await blogRef.get()
 
@@ -356,30 +359,32 @@ app.get('/blog/:id', async (req, res) => {
 
     if (doc.exists) {
       const blogData = doc.data()
-      // Preparamos los datos, cortando la descripción si es muy larga
       metaData = {
         title: blogData.title || defaultMeta.title,
         description:
           blogData.title1 || blogData.text?.substring(0, 150) + '...' || defaultMeta.description,
         image: blogData.imageUrl || defaultMeta.image,
       }
-    } else {
-      console.log('Blog no encontrado, usando metadatos por defecto')
     }
+
+    // Construimos la URL final a donde queremos enviar al usuario humano
+    const finalRedirectUrl = `${FRONTEND_BASE_URL}/blog/${blogId}`
 
     // 2. Reemplazar los placeholders en la plantilla HTML
     let finalHtml = indexTemplate
       .replace(/__OG_TITLE__/g, metaData.title)
       .replace(/__OG_DESCRIPTION__/g, metaData.description)
       .replace(/__OG_IMAGE__/g, metaData.image)
+      // ✅ NUEVO: Reemplazamos la URL de redirección
+      .replace(/__FRONTEND_REDIRECT_URL__/g, finalRedirectUrl)
 
-    // 3. Enviar el HTML modificado al navegador/robot
+    // 3. Enviar el HTML modificado
+    // Facebook leerá las etiquetas. Los humanos ejecutarán el script de redirección.
     res.send(finalHtml)
   } catch (error) {
     console.error('❌ Error generando metadatos del blog:', error)
-    // En caso de error grave, enviamos la plantilla sin modificar (con los placeholders)
-    // o podrías reemplazar con los defaults aquí también.
-    res.send(indexTemplate)
+    // En caso de error, redirigir al home del frontend por seguridad
+    res.redirect(FRONTEND_BASE_URL)
   }
 })
 
