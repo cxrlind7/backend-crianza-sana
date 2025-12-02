@@ -422,15 +422,17 @@ app.get('/blog/:id', ensureServicesReady, async (req, res) => {
 // ==========================================
 // Primero empezamos a escuchar. El Health Check funcionará inmediatamente.
 app.listen(PORT, '0.0.0.0', () => {
-  // 👈 AGREGA '0.0.0.0' AQUÍ
   console.log(`🚀 Servidor backend escuchando en puerto ${PORT}`)
   console.log(`🩺 Health check disponible en http://0.0.0.0:${PORT}/`)
 
-  // Una vez que escuchamos, iniciamos los servicios pesados
-  initializeServices()
-})
+  // 2. SEGUNDO: Iniciamos los servicios pesados (Firebase/AWS) DESPUÉS de que el servidor ya responda
+  initializeServices().catch(err => {
+      console.error('Error fatal iniciando servicios:', err);
+  });
+});
 
 process.on('SIGTERM', () => {
   console.log('🛑 Recibido SIGTERM. Cerrando servidor grácilmente...')
   process.exit(0)
 })
+
