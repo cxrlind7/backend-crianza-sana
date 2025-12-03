@@ -28,8 +28,12 @@ console.log(`Puerto configurado: ${PORT}`)
 // ==========================================
 // Esta ruta debe responder INSTANTÁNEAMENTE para que Railway no mate el servidor.
 app.get('/', (req, res) => {
-  console.log('💓 ¡Railway me ha tocado la puerta! (Health Check recibido)'); // <--- AGREGA ESTO
-  res.status(200).send('OK')
+  console.log('💓 ¡Railway me ha tocado la puerta! (Health Check recibido). Forzando cierre.');
+
+  // 🔥 EL TRUCO: Decirle a Railway que cierre la conexión inmediatamente.
+  res.set('Connection', 'close');
+
+  res.status(200).send('OK');
 })
 // Middlewares
 app.use(cors())
@@ -435,5 +439,6 @@ process.on('SIGTERM', () => {
   console.log('🛑 Recibido SIGTERM. Cerrando servidor grácilmente...')
   process.exit(0)
 })
+
 
 
