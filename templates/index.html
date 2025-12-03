@@ -6,58 +6,54 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!-- 
-      ✅ PLACEHOLDERS PARA EL BACKENDXD 
-      Estos valores (__OG_...) serán reemplazados por tu servidor en Railway.
+      ✅ LA SOLUCIÓN DEFINITIVA: REDIRECCIÓN HTML (Meta Refresh) 
+      Esta etiqueta fuerza al navegador a ir a la URL de destino inmediatamente (content="0;...")
+      Funciona incluso si JavaScript está bloqueado.
     -->
+    <meta http-equiv="refresh" content="0;url=__FRONTEND_REDIRECT_URL__">
+
+    <!-- ✅ METADATOS PARA FACEBOOK -->
     <title>__OG_TITLE__</title>
     <meta name="description" content="__OG_DESCRIPTION__" />
-
-    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:title" content="__OG_TITLE__" />
     <meta property="og:description" content="__OG_DESCRIPTION__" />
     <meta property="og:image" content="__OG_IMAGE__" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-
-    <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:title" content="__OG_TITLE__" />
     <meta property="twitter:description" content="__OG_DESCRIPTION__" />
     <meta property="twitter:image" content="__OG_IMAGE__" />
 
-    <!-- 
-      ✅ SCRIPT DE REDIRECCIÓN PARA HUMANOS 
-      Si un humano abre este enlace, este script lo enviará a la página bonita en el frontend.
-      Facebook ignora los scripts, así que solo verá los metadatos de arriba.
-    -->
+    <!-- ✅ SCRIPT DE REDIRECCIÓN (Se mantiene como respaldo secundario) -->
     <script>
-      // El backend reemplazará esto con la URL final (ej: https://crianzasanabydkids.mx/blog/123)
       var destinationUrl = "__FRONTEND_REDIRECT_URL__";
-
-      // Verificamos que el reemplazo se haya hecho correctamente antes de redirigir
       if (destinationUrl && destinationUrl !== "__FRONTEND_REDIRECT_URL__" && destinationUrl.startsWith('http')) {
-         // Usamos 'replace' para que el botón "Atrás" no vuelva a esta página blanca
          window.location.replace(destinationUrl);
       }
     </script>
 
-    <!-- Google Analytics y resto de tus scripts... -->
+    <!-- Google Analytics... -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-B6LXJW1YE4"></script>
     <script>
       window.dataLayer = window.dataLayer || []
-      function gtag() {
-        dataLayer.push(arguments)
-      }
+      function gtag() { dataLayer.push(arguments) }
       gtag('js', new Date())
       gtag('config', 'G-B6LXJW1YE4')
     </script>
+
+    <style>
+      body { font-family: sans-serif; text-align: center; padding: 50px; color: #333; }
+      a { color: #E94E1B; text-decoration: none; font-weight: bold; }
+    </style>
   </head>
   <body>
-    <!-- 
-      El body se deja vacío intencionalmente. 
-      Los humanos serán redirigidos antes de ver nada, 
-      y los bots solo leen el head.
-    -->
+    <!-- ✅ MENSAJE VISIBLE (Plan C, por si todo lo demás falla) -->
+    <h2>Redirigiendo al artículo...</h2>
+    <p>Si no eres redirigido automáticamente, haz clic abajo:</p>
+    <p>
+      <a href="__FRONTEND_REDIRECT_URL__">👉 Leer el artículo: __OG_TITLE__</a>
+    </p>
   </body>
 </html>
