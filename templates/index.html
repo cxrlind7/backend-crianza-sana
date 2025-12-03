@@ -8,7 +8,6 @@
     <!-- 
       ✅ PLACEHOLDERS PARA EL BACKEND 
       Estos valores (__OG_...) serán reemplazados por tu servidor en Railway.
-      Si se cargan directamente en el navegador, mostrarán los valores por defecto.
     -->
     <title>__OG_TITLE__</title>
     <meta name="description" content="__OG_DESCRIPTION__" />
@@ -27,6 +26,22 @@
     <meta property="twitter:description" content="__OG_DESCRIPTION__" />
     <meta property="twitter:image" content="__OG_IMAGE__" />
 
+    <!-- 
+      ✅ SCRIPT DE REDIRECCIÓN PARA HUMANOS 
+      Si un humano abre este enlace, este script lo enviará a la página bonita en el frontend.
+      Facebook ignora los scripts, así que solo verá los metadatos de arriba.
+    -->
+    <script>
+      // El backend reemplazará esto con la URL final (ej: https://crianzasanabydkids.mx/blog/123)
+      var destinationUrl = "__FRONTEND_REDIRECT_URL__";
+
+      // Verificamos que el reemplazo se haya hecho correctamente antes de redirigir
+      if (destinationUrl && destinationUrl !== "__FRONTEND_REDIRECT_URL__" && destinationUrl.startsWith('http')) {
+         // Usamos 'replace' para que el botón "Atrás" no vuelva a esta página blanca
+         window.location.replace(destinationUrl);
+      }
+    </script>
+
     <!-- Google Analytics y resto de tus scripts... -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-B6LXJW1YE4"></script>
     <script>
@@ -39,7 +54,10 @@
     </script>
   </head>
   <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.js"></script>
+    <!-- 
+      El body se deja vacío intencionalmente. 
+      Los humanos serán redirigidos antes de ver nada, 
+      y los bots solo leen el head.
+    -->
   </body>
 </html>
