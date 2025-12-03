@@ -28,9 +28,9 @@ console.log(`Puerto configurado: ${PORT}`)
 // ==========================================
 // Esta ruta debe responder INSTANTÁNEAMENTE para que Railway no mate el servidor.
 app.get('/', (req, res) => {
+  console.log('💓 ¡Railway me ha tocado la puerta! (Health Check recibido)'); // <--- AGREGA ESTO
   res.status(200).send('OK')
 })
-
 // Middlewares
 app.use(cors())
 app.use(express.json())
@@ -435,4 +435,5 @@ process.on('SIGTERM', () => {
   console.log('🛑 Recibido SIGTERM. Cerrando servidor grácilmente...')
   process.exit(0)
 })
+
 
