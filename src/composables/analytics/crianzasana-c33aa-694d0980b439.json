@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "crianzasana-c33aa",
+  "private_key_id": "694d0980b4395231fbb3bc5de05cacfcb2b0447f",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCN1shQ/o83JoRp\nvOaN05t6nhuFm1nWMWB5l4W23h9klULMGsICRuqNqUmP0oFQke5GKLwJdM9vZgcA\ndOsovMrw1H6N0evOoWfAd7kJgjoGgCGQwdE9yOJ8Az8zdXmjQ2y2yyuU07ZPx0VT\nIRNl8fdi1kqctjycbosOVOSaR8JET+HF91IWsD/fuRUW7Wm3simQk0YW9ZUP3u30\nQgFZRmsv6UyXKzhNYN8hXVZL8wAqOUrxKYIM91hzvDS4JlcoSHhhQAWUPdbYsjxh\nurVThB1ryEcrosi9rx3jpI+VWTt1G2gd5nD9NrO1sYyUM4y3/pW/jWGp5zSyFTc0\noWXvAPNhAgMBAAECggEAMub7UbHhdMHicE4GEaz41drq9ppndaqXvFtH9fYmHwNA\nCx6pNIb9wyQXTcGWffM5Jz2UKfKdRRXA+oV7JU4HqMEhv8Sv0yJyqQxuP/7X0yBl\nq10bOgifWzERG+cTZaebWsh0Ff+apGvXsbsjioj5JqPP+AignOVBCz4lIkcRbVES\n3thM6YRdYe+IrQRxhpdYQw5RE/7QUVRyUDbixNUCtgddyrC/oTDspUnqaW+UmW3x\nm1LPbuZ2LifHCkzq2zghaQP8QklWrKywRXh3ryiw8DbyArVYA9AD9U6sWSM5qqcq\n5+RqFjU0sHSeFA9KZ0E65JFxGiOJ9DUwGFl8XXcSfwKBgQDDDV6Q9PKPQnJu/Ryn\nCt/Z4YvSoihtA2U9Scf7K+CCYQPqKjuy+xJSN+Ug2H2pTiTvAhh2ebDDLnp72qkt\ndlHnfEIDknpxptmKPQvjEv1hAnnuXkYJ2vTYDFXuo2Fc+07/zmQ3wuORpVB80nRD\nAHhjlU31v9U6jPPi1sDs9klo5wKBgQC6KMbdOhY3H29LzUCDE3m3wJcsz9jAJJZX\nm0NmZ9Q1N7ElVzLcOCD6fBsktk5d3SKGZxCJSjr8FGFE2z9Fe2YcHLjxMVPtOujM\n2jJzzLibq+pf/WL8S3bXAVeMAsBgSWK5EtQ+m+KySHE68IJCLGKV3roSmDSqUJc+\nkeYaXP9QdwKBgAOlV1QsT/BflJYAgy2YJXEEJ0HrqAfJnXXU0Dkgq9SkDZet7Gm/\nCauhwdWoVkj43fXduylTwvsS/lUcVDc2U/eYuf8pGMLRFJXh6Dv5WeUbT74l4vdC\nMXtsV5rbUPGU/PgJGpR0Px600VlT8bpi4t0xqEBkso6indhqnTaQr/SXAoGAErae\npwZ7zTa/vWL4pTSD+9DEYaDTLR2Ab3YQJG8zidX7XMGTP0f1KLjpEZux7QWZvuEF\nbIelvkleLcnMZnOtJA5PGQ/YW/ScClu0zqc5t4xklxmlpa8AV0SvREfShttZrTkT\nVOfetgVKPJ6IuZY0otQs6EmcobJQQd3wv52xnKkCgYEAr6cuiA6LZW7xwUC2dDta\n+FZWGDbReS0cFpkynXefuncgAMKGC9bnqt666YvH9kdILNa7q/0hkCUXxxkgfD3+\n72gQK/f2Sz8VrnG3393Xj/FnW/r0VudTEUhaA/B7KqP13j3i19GoK0pVU8OhC914\nz2oMUXkHH2FIoSj/S9JW09E=\n-----END PRIVATE KEY-----\n",
+  "client_email": "analytics-reader-322@crianzasana-c33aa.iam.gserviceaccount.com",
+  "client_id": "110837336930057584628",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/analytics-reader-322%40crianzasana-c33aa.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
