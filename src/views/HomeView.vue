@@ -26,7 +26,7 @@ const closeVideo = () => {
       <Title></Title>
       <CampaignModal v-if="showModal" @close="closeVideo" />
 
-      <div class="thank-you-banner">
+      <!-- <div class="thank-you-banner">
         <div class="banner-content">
           <div class="icon-box">
             <svg
@@ -52,7 +52,7 @@ const closeVideo = () => {
             </p>
           </div>
         </div>
-      </div>
+      </div> -->
       <br />
       <WorkshopCard />
       <br />
