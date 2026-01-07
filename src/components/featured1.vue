@@ -13,21 +13,6 @@
             @mouseleave="hoveredIndex = null"
           >
             <div class="polaroid-frame">
-              <!-- Decoración Navideña -->
-              <img src="@/assets/images/hat.png" alt="Santa Hat" class="santa-hat-decoration" />
-              <div class="snowflake">❄</div>
-              <div class="snowflake">❄</div>
-
-              <!-- Luces de Navidad -->
-              <div class="christmas-lights">
-                <span class="bulb red"></span>
-                <span class="bulb green"></span>
-                <span class="bulb gold"></span>
-                <span class="bulb blue"></span>
-                <span class="bulb red"></span>
-                <span class="bulb green"></span>
-              </div>
-
               <div class="image-container">
                 <img
                   v-if="member.src"
@@ -37,13 +22,6 @@
                 />
                 <div v-else class="image-placeholder">
                   <div class="placeholder-content">
-                    <svg class="placeholder-icon" fill="currentColor" viewBox="0 0 20 20">
-                      <path
-                        fill-rule="evenodd"
-                        d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                        clip-rule="evenodd"
-                      />
-                    </svg>
                     <p>Foto</p>
                   </div>
                 </div>
@@ -250,7 +228,7 @@ onUnmounted(() => {
 .team-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 3rem;
+  gap: 2rem;
   place-items: center;
 }
 
@@ -386,32 +364,13 @@ onUnmounted(() => {
   width: 1.5rem; /* Aumentado para ver mejor el detalle */
   height: 1.5rem;
   /* Conic gradient para simular caramelo de menta (rojo y blanco) */
-  background: repeating-conic-gradient(from 0deg, #ef4444 0deg 20deg, #ffffff 20deg 40deg);
+  background: repeating-conic-gradient(from 0deg, #ef4444 0deg 20deg, #c4f1d2 20deg 40deg);
   border-radius: 50%;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   border: 2px solid #ffffff; /* Borde blanco para suavizar */
   transition: all 300ms ease;
   opacity: 0;
   transform: translateX(-50%) scale(0);
-}
-
-/* Clase que se añade con Vue para mostrar el pin */
-.active-pin.pin-visible {
-  opacity: 1;
-  transform: translateX(-50%) scale(1) rotate(180deg); /* Rotación al aparecer */
-}
-
-/* Decoración de Navidad: Gorro de Santa */
-.santa-hat-decoration {
-  position: absolute;
-  top: -33px;
-  left: -33px;
-  width: 80px;
-  height: auto;
-  z-index: 20;
-  pointer-events: none; /* Para que no interfiera con el hover */
-  transform: rotate(-20deg);
-  filter: drop-shadow(2px 4px 6px rgba(0, 0, 0, 0.3));
 }
 
 @media (max-width: 768px) {
@@ -458,13 +417,6 @@ onUnmounted(() => {
   /* NUEVO: Ajuste de tamaño para móvil */
   .member-specialty {
     font-size: 0.6rem;
-  }
-
-  /* Ajuste del gorro en móvil */
-  .santa-hat-decoration {
-    width: 40px;
-    top: -15px;
-    left: -10px;
   }
 
   /* Ajuste del caramelo en móvil */
