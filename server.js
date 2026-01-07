@@ -15,7 +15,7 @@ import {
   getPersonPageViews,
   getBlogEventBreakdown,
 } from './utils/getAnalyticsData.js'
-
+import compression from 'compression'
 // --- CONFIGURACIÓN DE RUTAS Y DIRECTORIOS ---
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -500,7 +500,7 @@ app.get('/blog/:id', async (req, res) => {
     res.redirect('/')
   }
 })
-
+app.use(compression())
 // ==========================================
 // 5. SERVIR FRONTEND (VUE)
 // ==========================================
