@@ -9,7 +9,7 @@ import SpotifySection from '@/components/SpotifySection.vue'
 import DynamicEventCard from '@/components/DynamicEventCard.vue'
 import WorkshopCard from '@/components/WorkshopCard.vue'
 import { ref } from 'vue'
-// import Ad from '@/components/Ad.vue'
+import Ad from '@/components/Ad.vue'
 
 const showModal = ref(false)
 
@@ -25,7 +25,7 @@ const closeVideo = () => {
     <div class="todo">
       <Title></Title>
       <CampaignModal v-if="showModal" @close="closeVideo" />
-
+      <Ad />
       <!-- <div class="thank-you-banner">
         <div class="banner-content">
           <div class="icon-box">

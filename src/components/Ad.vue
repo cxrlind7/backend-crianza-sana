@@ -18,8 +18,8 @@ export default {
 
       // --- Nuevos datos para el carrusel de imágenes ---
       images: [
-        '/vtfix.jpeg', // Imagen 1
-        '/vtfix2.jpeg', // Imagen 2 (puedes cambiar esta ruta)
+        'https://res.cloudinary.com/duiqgfa0v/image/upload/v1767886615/vtfixEne1_rivvvh.jpg', // Imagen 1
+        'https://res.cloudinary.com/duiqgfa0v/image/upload/v1767886616/vtfixEne2_jrl2hb.jpg', // Imagen 2 (puedes cambiar esta ruta)
       ],
       currentImageIndex: 0,
       imageInterval: null, // Para guardar la referencia del setInterval
@@ -45,7 +45,7 @@ export default {
       this.isMobileExpanded = true // Empezamos expandidos
       setTimeout(() => {
         this.isMobileExpanded = false // Nos contraemos
-      }, 4000) // Después de 4 segundos
+      }, 6000) // Después de 4 segundos
     }
 
     // 4. Iniciamos el carrusel de imágenes
