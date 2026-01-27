@@ -25,7 +25,7 @@ const closeVideo = () => {
     <div class="todo">
       <Title></Title>
       <CampaignModal v-if="showModal" @close="closeVideo" />
-      <!-- <Ad /> -->
+      <Ad />
       <!-- <div class="thank-you-banner">
         <div class="banner-content">
           <div class="icon-box">

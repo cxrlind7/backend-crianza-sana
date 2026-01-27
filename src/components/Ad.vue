@@ -18,8 +18,8 @@ export default {
 
       // --- Nuevos datos para el carrusel de imágenes ---
       images: [
-        'https://res.cloudinary.com/duiqgfa0v/image/upload/v1767886615/vtfixEne1_rivvvh.jpg', // Imagen 1
-        'https://res.cloudinary.com/duiqgfa0v/image/upload/v1767886616/vtfixEne2_jrl2hb.jpg', // Imagen 2 (puedes cambiar esta ruta)
+        'https://res.cloudinary.com/duiqgfa0v/image/upload/v1769474008/IMG_1400_djwzjb.png',
+        'https://res.cloudinary.com/duiqgfa0v/image/upload/v1769474008/IMG_1400_djwzjb.png',
       ],
       currentImageIndex: 0,
       imageInterval: null, // Para guardar la referencia del setInterval

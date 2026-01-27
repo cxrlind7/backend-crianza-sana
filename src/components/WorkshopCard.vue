@@ -67,22 +67,22 @@ export default {
       timer: null,
       showToast: false, // Variable para controlar el Toast
       events: [
-        {
-          type: 'whatsapp',
-          altText: 'Workshop Salvando Pulpitas - Dra. Patricia Peña',
-          imageSrc: flyerWorkshop2,
-          phone: '526188002379',
-          message: 'Hola, estoy interesado/a en inscribirme al Workshop "Salvando Pulpitas"...',
-          buttonText: 'Regístrate vía WhatsApp',
-        },
-        {
-          type: 'whatsapp',
-          altText: 'Reto Reiniciate 2026',
-          imageSrc: restart2,
-          phone: '526182692637',
-          message: 'Hola, estoy interesado/a en inscribirme al "RETO REINÍCIATE 2026"...',
-          buttonText: 'Regístrate vía WhatsApp',
-        },
+        // {
+        //   type: 'whatsapp',
+        //   altText: 'Workshop Salvando Pulpitas - Dra. Patricia Peña',
+        //   imageSrc: flyerWorkshop2,
+        //   phone: '526188002379',
+        //   message: 'Hola, estoy interesado/a en inscribirme al Workshop "Salvando Pulpitas"...',
+        //   buttonText: 'Regístrate vía WhatsApp',
+        // },
+        // {
+        //   type: 'whatsapp',
+        //   altText: 'Reto Reiniciate 2026',
+        //   imageSrc: restart2,
+        //   phone: '526182692637',
+        //   message: 'Hola, estoy interesado/a en inscribirme al "RETO REINÍCIATE 2026"...',
+        //   buttonText: 'Regístrate vía WhatsApp',
+        // },
         {
           type: 'call',
           altText: 'NeuroKids Center Durango - Desarrollo Cognitivo',
