@@ -26,33 +26,17 @@ const closeVideo = () => {
       <Title></Title>
       <CampaignModal v-if="showModal" @close="closeVideo" />
       <Ad />
-      <!-- <div class="thank-you-banner">
+      <div class="thank-you-banner">
         <div class="banner-content">
-          <div class="icon-box">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              class="heart-icon"
-            >
-              <path
-                d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z"
-              />
-            </svg>
-          </div>
-          <div class="text-content">
-            <p class="main-message">
-              El equipo de <strong>Crianza Sana</strong> agradece su confianza y el acompañamiento
-              que brindan a sus hijos cada día.
-            </p>
-            <div class="divider"></div>
-            <p class="wishes">
-              ✨ Les deseamos un feliz cierre de año y un año nuevo lleno de
-              <strong>calma, presencia y acompañamiento.</strong>
-            </p>
+          <div class="image-box">
+            <img
+              src="https://res.cloudinary.com/duiqgfa0v/image/upload/v1769641672/WhatsApp_Image_2026-01-26_at_18.57.02_q9bjld.jpg"
+              alt="Imagen de prueba"
+              class="banner-img"
+            />
           </div>
         </div>
-      </div> -->
+      </div>
       <br />
       <WorkshopCard />
       <br />
@@ -69,13 +53,32 @@ const closeVideo = () => {
 </template>
 
 <style scoped>
+.image-box {
+  flex-shrink: 0;
+  margin-bottom: 0;
+}
+
+.banner-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  border-radius: 20px 20px 0 0; /* Optional: match container radius if desired, or just 0 if full bleed */
+}
+
+@media (min-width: 600px) {
+  .image-box {
+    margin-bottom: 0;
+  }
+}
+
 /* Main Banner Container */
 .thank-you-banner {
   /* Slightly more vibrant gradient */
   background: linear-gradient(135deg, #d9f4f2 0%, #ffeaf2 100%);
   border-radius: 20px;
   margin: 30px auto;
-  max-width: 700px;
+  max-width: 500px;
   position: relative;
   box-shadow:
     0 10px 25px -5px rgba(168, 237, 234, 0.4),
@@ -98,7 +101,7 @@ const closeVideo = () => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 30px 40px;
+  padding: 0;
   text-align: center;
 }
 
@@ -159,7 +162,7 @@ const closeVideo = () => {
 /* Media query for mobile */
 @media (max-width: 600px) {
   .banner-content {
-    padding: 20px 20px;
+    padding: 0;
   }
   .thank-you-banner {
     margin: 20px 15px; /* Add side margins on mobile */
