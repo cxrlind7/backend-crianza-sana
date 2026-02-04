@@ -4,6 +4,7 @@
       <span>Enlace copiado al portapapeles</span>
       <button @click="showToast = false">✖</button>
     </div>
+    
   </transition>
   <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
     <!-- <div class="carousel-overlay-title">
