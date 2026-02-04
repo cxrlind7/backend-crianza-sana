@@ -1,49 +1,69 @@
 <template>
   <div
+    v-if="currentAd"
     class="promo-image-container"
     :class="{ 'expanded-mobile': isMobileExpanded }"
     @click="handleToggle"
   >
     <div class="close-btn" @click.stop="closePromo">×</div>
 
-    <img :src="currentImageSrc" alt="Anuncio Buen Fin Vitafix" />
+    <img :src="currentImageSrc" :alt="currentAltText" />
   </div>
 </template>
 
 <script>
+import { getAd } from '@/composables/useFirestore'
+
 export default {
   name: 'PromoBuenFin',
   data() {
     return {
       isMobile: false,
       isMobileExpanded: false,
-      images: [
-        'https://res.cloudinary.com/duiqgfa0v/image/upload/v1769474008/IMG_1400_djwzjb.png',
-        'https://res.cloudinary.com/duiqgfa0v/image/upload/v1769474008/IMG_1400_djwzjb.png',
-      ],
-      currentImageIndex: 0,
+      ads: [],
+      currentAdIndex: 0,
       imageInterval: null,
     }
   },
   computed: {
+    currentAd() {
+      return this.ads.length > 0 ? this.ads[this.currentAdIndex] : null
+    },
     currentImageSrc() {
-      return this.images[this.currentImageIndex]
+      return this.currentAd ? this.currentAd.imageSrc : ''
+    },
+    currentAltText() {
+      return this.currentAd ? this.currentAd.altText : 'Anuncio'
     },
   },
-  mounted() {
+  async mounted() {
     this.checkDeviceType()
     window.addEventListener('resize', this.checkDeviceType)
 
-    // Aparece a los 5 segundos
-    setTimeout(() => {
-      this.isMobileExpanded = true
-    }, 5000)
+    try {
+      this.ads = await getAd()
+      if (this.ads && this.ads.length > 0) {
+        console.log('✅ Anuncios cargados:', this.ads)
 
-    this.startImageCarousel()
+        // Aparece a los 5 segundos si hay anuncios
+        setTimeout(() => {
+          this.isMobileExpanded = true
+        }, 5000)
+
+        // Start cycling if more than one ad
+        if (this.ads.length > 1) {
+          this.startAdCarousel()
+        }
+      } else {
+        console.warn('⚠️ No hay anuncios activos.')
+      }
+    } catch (error) {
+      console.error('❌ Error cargando anuncios:', error)
+    }
   },
   beforeUnmount() {
     window.removeEventListener('resize', this.checkDeviceType)
-    clearInterval(this.imageInterval)
+    this.stopAdCarousel()
   },
   methods: {
     checkDeviceType() {
@@ -57,11 +77,17 @@ export default {
     closePromo() {
       this.isMobileExpanded = false
     },
-    startImageCarousel() {
-      clearInterval(this.imageInterval)
+    startAdCarousel() {
+      this.stopAdCarousel()
       this.imageInterval = setInterval(() => {
-        this.currentImageIndex = (this.currentImageIndex + 1) % this.images.length
+        this.currentAdIndex = (this.currentAdIndex + 1) % this.ads.length
       }, 4000)
+    },
+    stopAdCarousel() {
+      if (this.imageInterval) {
+        clearInterval(this.imageInterval)
+        this.imageInterval = null
+      }
     },
   },
 }

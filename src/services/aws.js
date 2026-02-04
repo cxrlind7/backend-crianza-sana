@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 // URL del backend (ajustar según entorno)
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000'
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8080'
 
 /**
  * Genera una URL firmada para acceder a un objeto en S3.

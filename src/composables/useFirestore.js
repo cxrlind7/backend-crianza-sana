@@ -19,7 +19,7 @@ import { getSignedUrl } from '../services/aws'
 import axios from 'axios'
 
 // URL del backend
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000'
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8080'
 
 // Avatares por defecto
 const defaultAvatars = [
@@ -141,6 +141,51 @@ export const getCampaignData = async () => {
     return response.data
   } catch (error) {
     console.error('❌ Error getting campaign data from backend:', error)
+    return null
+  }
+}
+
+/**
+ * Obtiene la lista de blogs.
+ * @returns {Promise<Array>} Lista de blogs.
+ */
+export const getBlogs = async () => {
+  try {
+    const response = await axios.get(`${BACKEND_URL}/api/firestore/blogs`)
+    return response.data
+  } catch (error) {
+    console.error('❌ Error getting blogs data from backend:', error)
+    return []
+  }
+}
+
+/**
+ * Actualiza un blog existente.
+ * @param {string} blogId - ID del blog.
+ * @param {Object} data - Datos a actualizar.
+ * @returns {Promise<boolean>} True si tuvo éxito.
+ */
+export const updateBlog = async (blogId, data) => {
+  try {
+    await axios.put(`${BACKEND_URL}/api/firestore/blogs/${blogId}`, data)
+    return true
+  } catch (error) {
+    console.error(`❌ Error actualizando blog ${blogId}:`, error)
+    return false
+  }
+}
+
+/**
+ * Crea un nuevo blog.
+ * @param {Object} data - Datos del nuevo blog.
+ * @returns {Promise<string|null>} ID del nuevo blog o null si falló.
+ */
+export const createBlog = async (data) => {
+  try {
+    const response = await axios.post(`${BACKEND_URL}/api/firestore/blogs`, data)
+    return response.data.id
+  } catch (error) {
+    console.error('❌ Error creating blog:', error)
     return null
   }
 }
@@ -352,6 +397,72 @@ export const getPrograms = async () => {
   } catch (error) {
     console.error('❌ Error obteniendo la colección de temas del backend:', error)
     throw error
+  }
+}
+
+/**
+ * Actualiza un tema (programa) existente.
+ * @param {string} id ID del documento.
+ * @param {Object} data Datos a actualizar.
+ * @returns {Promise<boolean>} True si tuvo éxito.
+ */
+export const updateProgram = async (id, data) => {
+  try {
+    await axios.put(`${BACKEND_URL}/api/firestore/programs/${id}`, data)
+    return true
+  } catch (error) {
+    console.error(`❌ Error actualizando programa ${id}:`, error)
+    return false
+  }
+}
+
+/**
+ * Obtiene la lista de eventos.
+ * @returns {Promise<Array>} Lista de eventos.
+ */
+export const getEvents = async () => {
+  try {
+    const response = await axios.get(`${BACKEND_URL}/api/firestore/eventos`)
+    return response.data
+  } catch (error) {
+    console.error('❌ Error obteniendo la colección de eventos del backend:', error)
+    // Return empty array on error to allow frontend to continue
+    return []
+  }
+}
+
+/**
+ * Obtiene el banner activo.
+ * @returns {Promise<Object|null>} El banner activo o null.
+ */
+export const getBanner = async () => {
+  try {
+    const response = await axios.get(`${BACKEND_URL}/api/firestore/banner`)
+    // Asumimos que la colección banner puede traer varios, filtramos por 'active' === 'true'
+    // Opcionalmente el backend podría filtrar, pero aquí lo hacemos en cliente para seguridad.
+    const banners = response.data
+    const activeBanner = banners.find((b) => b.active === 'true')
+    return activeBanner || null
+  } catch (error) {
+    console.error('❌ Error obteniendo banner:', error)
+    return null
+  }
+}
+
+/**
+ * Obtiene los anuncios activos.
+ * @returns {Promise<Array>} Lista de anuncios activos.
+ */
+export const getAd = async () => {
+  try {
+    const response = await axios.get(`${BACKEND_URL}/api/firestore/ad`)
+    // Filtrar todos los que tengan active === 'true'
+    const ads = response.data
+    const activeAds = ads.filter((a) => a.active === 'true')
+    return activeAds
+  } catch (error) {
+    console.error('❌ Error obteniendo ad:', error)
+    return []
   }
 }
 

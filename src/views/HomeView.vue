@@ -8,8 +8,10 @@ import CampaignModal from '@/components/CampaignModal.vue'
 import SpotifySection from '@/components/SpotifySection.vue'
 import DynamicEventCard from '@/components/DynamicEventCard.vue'
 import WorkshopCard from '@/components/WorkshopCard.vue'
+import MainBanner from '@/components/MainBanner.vue'
 import { ref } from 'vue'
 import Ad from '@/components/Ad.vue'
+import QuizCallToAction from '@/components/QuizCallToAction.vue'
 
 const showModal = ref(false)
 
@@ -26,17 +28,8 @@ const closeVideo = () => {
       <Title></Title>
       <CampaignModal v-if="showModal" @close="closeVideo" />
       <Ad />
-      <div class="thank-you-banner">
-        <div class="banner-content">
-          <div class="image-box">
-            <img
-              src="https://res.cloudinary.com/duiqgfa0v/image/upload/v1769641672/WhatsApp_Image_2026-01-26_at_18.57.02_q9bjld.jpg"
-              alt="Imagen de prueba"
-              class="banner-img"
-            />
-          </div>
-        </div>
-      </div>
+      <MainBanner />
+      <!-- <QuizCallToAction /> -->
       <br />
       <WorkshopCard />
       <br />
@@ -53,58 +46,6 @@ const closeVideo = () => {
 </template>
 
 <style scoped>
-.image-box {
-  flex-shrink: 0;
-  margin-bottom: 0;
-}
-
-.banner-img {
-  width: 100%;
-  height: auto;
-  display: block;
-  object-fit: cover;
-  border-radius: 20px 20px 0 0; /* Optional: match container radius if desired, or just 0 if full bleed */
-}
-
-@media (min-width: 600px) {
-  .image-box {
-    margin-bottom: 0;
-  }
-}
-
-/* Main Banner Container */
-.thank-you-banner {
-  /* Slightly more vibrant gradient */
-  background: linear-gradient(135deg, #d9f4f2 0%, #ffeaf2 100%);
-  border-radius: 20px;
-  margin: 30px auto;
-  max-width: 500px;
-  position: relative;
-  box-shadow:
-    0 10px 25px -5px rgba(168, 237, 234, 0.4),
-    0 8px 10px -6px rgba(254, 214, 227, 0.4);
-  /* Glassmorphism subtle border */
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  transition:
-    transform 0.3s ease,
-    box-shadow 0.3s ease;
-  overflow: hidden;
-}
-
-.thank-you-banner:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 15px 30px -5px rgba(0, 0, 0, 0.1);
-}
-
-/* Inner Layout */
-.banner-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 0;
-  text-align: center;
-}
-
 /* Icon Styles */
 .icon-box {
   background: rgba(255, 255, 255, 0.6);
@@ -157,16 +98,6 @@ const closeVideo = () => {
 
 .wishes strong {
   color: #d53f8c; /* A slightly deeper pink for emphasis */
-}
-
-/* Media query for mobile */
-@media (max-width: 600px) {
-  .banner-content {
-    padding: 0;
-  }
-  .thank-you-banner {
-    margin: 20px 15px; /* Add side margins on mobile */
-  }
 }
 
 .todo {

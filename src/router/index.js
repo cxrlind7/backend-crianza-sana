@@ -5,6 +5,9 @@ import LiveView from '@/views/LiveView.vue'
 import PersonProfile from '@/components/PersonProfile.vue'
 import BlogDetail from '@/views/BlogDetail.vue'
 import TiendaView from '@/views/TiendaView.vue'
+import ConfigurationView from '@/views/ConfigurationView.vue'
+import QuizView from '@/views/QuizView.vue'
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -60,6 +63,16 @@ const router = createRouter({
       component: () => import('../views/StoreDetailView.vue'),
       props: true,
     },
+    // {
+    //   path: '/configuration',
+    //   name: 'configuration',
+    //   component: () => import('../views/ConfigurationView.vue'),
+    // },
+    {
+      path: '/quiz',
+      name: 'quiz',
+      component: () => import('../views/QuizView.vue'),
+    },
 
     // {
     //   path: '/special',
@@ -77,6 +90,11 @@ const router = createRouter({
       name: 'BlogDetail',
       component: BlogDetail, // Componente para mostrar los detalles de la persona
       props: true, // Permitir que los parámetros se pasen como props
+    },
+    {
+      path: '/configuration',
+      name: 'configuration',
+      component: () => import('../views/ConfigurationView.vue'),
     },
   ],
   scrollBehavior(to, from, savedPosition) {
