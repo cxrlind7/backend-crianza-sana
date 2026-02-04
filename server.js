@@ -461,7 +461,190 @@ app.get('/api/firestore/programs', async (req, res) => {
   }
 })
 
+app.put('/api/firestore/programs/:id', async (req, res) => {
+  const { id } = req.params
+  const data = req.body
+  console.log(`📡 Request received to UPDATE program (tema) ${id}`, data)
+
+  if (!db) {
+    console.warn('⚠️ DB not available, MOCK update success.')
+    return res.json({ success: true, message: 'Mock update success' })
+  }
+
+  try {
+    await db.collection('temas').doc(id).set(data, { merge: true })
+    res.json({ success: true, message: 'Program updated successfully' })
+  } catch (error) {
+    console.error('Error updating program:', error)
+    res.status(500).json({ error: 'Error updating program' })
+  }
+})
+
+// --- BANNER ---
+app.get('/api/firestore/banner', async (req, res) => {
+  console.log('📡 Request received for /api/firestore/banner')
+
+  // MOCK DATA FALLBACK (If DB is down)
+  if (!db) {
+    console.warn('⚠️ DB not available, returning MOCK data for banner.')
+    return res.json([
+      {
+        id: 'AC3DWGgPJQHHE9legSLY',
+        active: 'true',
+        altText: 'Aniversario Neurokids',
+        imageSrc:
+          'https://res.cloudinary.com/duiqgfa0v/image/upload/v1769641672/WhatsApp_Image_2026-01-26_at_18.57.02_q9bjld.jpg',
+      },
+    ])
+  }
+
+  try {
+    const snapshot = await db.collection('banner').get()
+    const banners = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
+    res.json(banners)
+  } catch (error) {
+    console.error('Error Firestore Banner:', error)
+    res.status(500).json({ error: 'Error fetching banner' })
+  }
+})
+
+// --- AD ---
+app.get('/api/firestore/ad', async (req, res) => {
+  console.log('📡 Request received for /api/firestore/ad')
+
+  // MOCK DATA FALLBACK (If DB is down)
+  if (!db) {
+    console.warn('⚠️ DB not available, returning MOCK data for ad.')
+    return res.json([
+      {
+        id: 'WosTmr9VgCsYknnsSDrK',
+        altText: 'Ad anuncio 1',
+        active: 'true',
+        imageSrc: 'https://picsum.photos/200/300',
+      },
+      {
+        id: 'w0dFr5VUUHE5XaD7ilMT',
+        active: 'true',
+        altText: 'Ad anuncio 2',
+        imageSrc:
+          'https://res.cloudinary.com/duiqgfa0v/image/upload/v1769474008/IMG_1400_djwzjb.png',
+      },
+    ])
+  }
+
+  try {
+    const snapshot = await db.collection('ad').get()
+    const ads = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
+    res.json(ads)
+  } catch (error) {
+    console.error('Error Firestore Ad:', error)
+    res.status(500).json({ error: 'Error fetching ad' })
+  }
+})
+
+// --- BLOGS ---
+app.get('/api/firestore/blogs', async (req, res) => {
+  console.log('📡 Request received for /api/firestore/blogs')
+
+  // MOCK DATA FALLBACK
+  if (!db) {
+    console.warn('⚠️ DB not available, returning MOCK data for blogs.')
+    return res.json([
+      {
+        id: '0KxoRmqUKBDPwwYEMbNP',
+        authorImage: 'https://csdkids-images.s3.us-east-2.amazonaws.com/defaultAvatar1.jpg',
+        authorName: 'Ana Laura Sosa Nevárez',
+        category: 'Terapia de Lenguaje',
+        categoryColor: '#2aa2c2',
+        date: '2025-07-13T10:58:56.827Z',
+        description:
+          '13 de julio | Día Internacional del TDAH Hoy es un día para reflexionar, aprender y empatizar. El Trastorno por Dé...',
+        imageUrl: 'https://csdkids-images.s3.us-east-2.amazonaws.com/defaultAvatar1.jpg',
+        orden: 39,
+        text: '<p><strong>Cada 13 de julio</strong> se conmemora el <strong>Día Internacional del TDAH</strong>...</p>',
+        title: 'TDAH: Entender para acompañar mejor a nuestros niños',
+      },
+    ])
+  }
+
+  try {
+    const snapshot = await db.collection('blogs').orderBy('date', 'desc').get()
+    const blogs = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
+    res.json(blogs)
+  } catch (error) {
+    console.error('Error Firestore Blogs:', error)
+    res.status(500).json({ error: 'Error fetching blogs' })
+  }
+})
+
+app.put('/api/firestore/blogs/:id', async (req, res) => {
+  const { id } = req.params
+  const data = req.body
+  console.log(`📡 Request received to UPDATE blog ${id}`, data)
+
+  if (!db) {
+    console.warn('⚠️ DB not available, MOCK update success.')
+    return res.json({ success: true, message: 'Mock update success' })
+  }
+
+  try {
+    await db.collection('blogs').doc(id).set(data, { merge: true })
+    res.json({ success: true, message: 'Blog updated successfully' })
+  } catch (error) {
+    console.error('Error updating blog:', error)
+    res.status(500).json({ error: 'Error updating blog' })
+  }
+})
+
+app.post('/api/firestore/blogs', async (req, res) => {
+  const data = req.body
+  console.log('📡 Request received to CREATE blog', data)
+
+  if (!db) {
+    console.warn('⚠️ DB not available, MOCK create success.')
+    return res.json({ success: true, id: 'mock-new-id', message: 'Mock create success' })
+  }
+
+  try {
+    const docRef = await db.collection('blogs').add(data)
+    res.json({ success: true, id: docRef.id, message: 'Blog created successfully' })
+  } catch (error) {
+    console.error('Error creating blog:', error)
+    res.status(500).json({ error: 'Error creating blog' })
+  }
+})
+
 // --- SEO / SERVER SIDE RENDERING (LIGERO) ---
+
+app.get('/api/firestore/eventos', async (req, res) => {
+  console.log('📡 Request received for /api/firestore/eventos')
+
+  // MOCK DATA FALLBACK (If DB is down)
+  if (!db) {
+    console.warn('⚠️ DB not available, returning MOCK data for events.')
+    return res.json([
+      {
+        id: 'LkjjgMSU400fjttjXAdi',
+        altText: 'Prueba',
+        buttonText: 'Texto del botón ',
+        imageSrc: 'https://picsum.photos/200/300',
+        message: 'Mensaje',
+        phone: '6181072514',
+        showButton: 'true',
+        type: 'call',
+      },
+    ])
+  }
+
+  try {
+    const snapshot = await db.collection('eventos').get()
+    const eventos = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
+    res.json(eventos)
+  } catch (error) {
+    console.error('Error Firestore Eventos:', error)
+    res.status(500).json({ error: 'Error fetching eventos' })
+  }
+})
 app.get('/blog/:id', async (req, res) => {
   const blogId = req.params.id
   console.log(`🤖 Solicitud de blog para metadatos: ${blogId}`)

@@ -58,6 +58,7 @@
 import flyerWorkshop2 from '@/assets/images/flyer-workshop2.png'
 import restart2 from '@/assets/images/restart2.png'
 import neuro from '@/assets/images/neuro.png'
+import { getEvents } from '@/composables/useFirestore'
 
 export default {
   name: 'UpcomingEventsRotator',
@@ -116,7 +117,26 @@ export default {
       }
     },
   },
-  mounted() {
+  async mounted() {
+    try {
+      const data = await getEvents()
+      console.log('✅ Eventos cargados desde Firestore:', data)
+
+      if (Array.isArray(data) && data.length > 0) {
+        // FILTER: Keep only events where active is strictly the string "true"
+        const activeEvents = data.filter((event) => event.active === 'true')
+
+        if (activeEvents.length > 0) {
+          console.log('✅ Eventos activos filtrados:', activeEvents)
+          this.events = activeEvents
+        } else {
+          console.warn('⚠️ No hay eventos marcados como activos.')
+          // Option: Keep local events or clear the list
+        }
+      }
+    } catch (error) {
+      console.error('❌ Error al cargar eventos desde Firestore:', error)
+    }
     this.startRotation()
   },
   beforeUnmount() {
