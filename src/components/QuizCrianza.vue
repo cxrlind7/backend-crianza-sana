@@ -44,6 +44,26 @@
                     >
                       Disponible el {{ getUnlockDate(index) }}
                     </small>
+
+                    <!-- Acciones de Compartir (Solo si desbloqueado o incluso bloqueado? Mejor solo desbloqueado para no spoilear o frustrar) -->
+                    <!-- El usuario pidió "each one of the cards", así que lo pondremos en todas, pero el deep link validará si se puede abrir. -->
+                    <div class="share-actions mt-3 d-flex gap-2" @click.stop>
+                      <button
+                        class="btn btn-sm btn-light rounded-circle shadow-sm share-btn"
+                        @click="shareLink(cat.id)"
+                        title="Copiar enlace"
+                      >
+                        🔗
+                      </button>
+                      <button
+                        class="btn btn-sm btn-primary rounded-circle shadow-sm share-btn facebook-btn"
+                        @click="shareFacebook(cat.id)"
+                        title="Compartir en Facebook"
+                        style="background-color: #1877f2; border: none"
+                      >
+                        f
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -358,6 +378,22 @@ export default {
   },
   mounted() {
     this.initSchedule()
+
+    // Deep Linking: Check URL for category
+    setTimeout(() => {
+      const catId = this.$route.query.cat
+      if (catId) {
+        const index = this.categories.findIndex((c) => c.id === catId)
+        if (index !== -1) {
+          if (this.isUnlocked(index)) {
+            this.startQuiz(this.categories[index], index)
+          } else {
+            // Opcional: Mostrar Toast o alerta de que aún no está disponible
+            console.log('Categoría bloqueada o no disponible aún')
+          }
+        }
+      }
+    }, 500) // Pequeño delay para asegurar carga
   },
   methods: {
     initSchedule() {
@@ -485,6 +521,27 @@ export default {
     resetProgress() {
       localStorage.removeItem('quiz_start_date')
       this.initSchedule()
+    },
+    shareLink(catId) {
+      const url = `${window.location.origin}${window.location.pathname}?cat=${catId}`
+      navigator.clipboard
+        .writeText(url)
+        .then(() => {
+          alert('Enlace copiado al portapapeles: ' + url)
+        })
+        .catch((err) => console.error('Error al copiar', err))
+    },
+    shareFacebook(catId) {
+      // ✅ ASÍ DEBE SER (CORRECTO):
+      // Fíjate en el orden: backend-crianza-sana
+      const backendUrl = 'https://backend-crianza-sana-production.up.railway.app'
+      // const backendUrl = 'http://localhost:8080'
+
+      // Forzamos la ruta /quiz para asegurar que server.js genere los metadatos correctos
+      const shareUrl = encodeURIComponent(`${backendUrl}/quiz?cat=${catId}`)
+      const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`
+
+      window.open(facebookShareUrl, 'facebook-share-dialog', 'width=626,height=436')
     },
   },
 }
@@ -621,6 +678,24 @@ body {
   animation-delay: 4s;
   color: #ffe66d;
   transform: rotate(15deg);
+}
+
+.share-btn {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s;
+  font-size: 0.9rem;
+}
+
+.share-btn:hover {
+  transform: scale(1.1);
+}
+
+.facebook-btn {
+  color: white;
 }
 
 @keyframes float {

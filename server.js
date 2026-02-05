@@ -683,6 +683,53 @@ app.get('/blog/:id', async (req, res) => {
     res.redirect('/')
   }
 })
+
+// --- SEO QUIZ ---
+app.get('/quiz', async (req, res) => {
+  const catId = req.query.cat
+  console.log(`🤖 Solicitud de quiz para metadatos: ${catId}`)
+
+  if (!indexTemplate) {
+    return res.sendFile(path.join(__dirname, 'dist', 'index.html'))
+  }
+
+  // Datos copiados de QuizCrianza.vue para generar metadatos server-side
+  const categories = [
+    { id: 'pediatria', name: 'Pediatría / Cardiología', emoji: '🩺' },
+    { id: 'psicologia', name: 'Psicología Infantil', emoji: '❤️' },
+    { id: 'nutricion', name: 'Nutrición', emoji: '🍎' },
+    { id: 'lenguaje', name: 'Lenguaje / Comunicación', emoji: '👅' },
+    { id: 'fisioterapia', name: 'Fisioterapia', emoji: '🤸' },
+    { id: 'odontopediatria', name: 'Odontopediatría', emoji: '🦷' },
+    { id: 'tcc', name: 'Terapia Cognitivo-Conductual', emoji: '🧠' },
+    { id: 'legal', name: 'Orientación Legal Familiar', emoji: '⚖️' },
+  ]
+
+  let metaData = { ...defaultMeta } // Copia base
+  metaData.title = 'Quiz Crianza Sana'
+  metaData.description =
+    'Descubre si tu hijo necesita apoyo profesional con nuestro breve cuestionario.'
+
+  if (catId) {
+    const cat = categories.find((c) => c.id === catId)
+    if (cat) {
+      metaData.title = `${cat.emoji} Test de ${cat.name} - Crianza Sana`
+      metaData.description = `Responde este test rápido para saber si tu hijo podría beneficiarse de apoyo en ${cat.name}.`
+      // Si tuvieras imágenes específicas por categoría, aquí las asignarías:
+      // metaData.image = cat.image || defaultMeta.image
+    }
+  }
+
+  const finalRedirectUrl = `${FRONTEND_BASE_URL}/quiz?cat=${catId || ''}`
+
+  let finalHtml = indexTemplate
+    .replace(/__OG_TITLE__/g, metaData.title)
+    .replace(/__OG_DESCRIPTION__/g, metaData.description)
+    .replace(/__OG_IMAGE__/g, metaData.image)
+    .replace(/__FRONTEND_REDIRECT_URL__/g, finalRedirectUrl)
+
+  res.send(finalHtml)
+})
 app.use(compression())
 // ==========================================
 // 5. SERVIR FRONTEND (VUE)
