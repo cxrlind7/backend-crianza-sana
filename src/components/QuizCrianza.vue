@@ -210,6 +210,36 @@
               </div>
             </div>
 
+            <!-- Sección de Compartir en Resultados -->
+            <div class="share-result-section mt-4 text-center">
+              <p class="text-muted mb-2 small">Compartir este test:</p>
+              <div class="d-flex justify-content-center gap-3">
+                <button
+                  class="btn btn-light rounded-circle shadow-sm share-btn p-2"
+                  @click="shareLink(selectedCategory.id)"
+                  title="Copiar enlace"
+                  style="width: 45px; height: 45px; font-size: 1.2rem"
+                >
+                  🔗
+                </button>
+                <button
+                  class="btn btn-primary rounded-circle shadow-sm share-btn facebook-btn p-2"
+                  @click="shareFacebook(selectedCategory.id)"
+                  title="Compartir en Facebook"
+                  style="
+                    background-color: #1877f2;
+                    border: none;
+                    width: 45px;
+                    height: 45px;
+                    font-size: 1.2rem;
+                    color: white;
+                  "
+                >
+                  f
+                </button>
+              </div>
+            </div>
+
             <button
               @click="resetQuiz"
               class="btn btn-link text-muted mt-4 text-decoration-none sm-text"
