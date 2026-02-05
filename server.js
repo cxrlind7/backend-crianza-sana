@@ -65,6 +65,9 @@ const FRONTEND_BASE_URL = 'https://staging.crianzasanabydkids.mx' // Ajusta seg�
 // ==========================================
 // 3. INICIALIZACIÓN DE SERVICIOS
 // ==========================================
+// Variable separada para la plantilla SEO (con placeholders)
+let seoTemplate = null
+
 async function initializeServices() {
   console.log('🔵 Iniciando servicios en segundo plano...')
 
@@ -97,23 +100,28 @@ async function initializeServices() {
       console.warn('⚠️ Credenciales AWS no definidas. S3 no funcionará.')
     }
 
-    // --- LEER PLANTILLA HTML ---
-    // Intentamos leer primero de dist/index.html (producción), si no, de templates/index.html (fallback)
+    // --- LEER PLANTILLAS HTML ---
     const distIndexPath = path.join(__dirname, 'dist', 'index.html')
     const templatePath = path.join(__dirname, 'templates', 'index.html')
 
+    // 1. Cargar plantilla principal (Prod)
     try {
       await fs.access(distIndexPath)
       indexTemplate = await fs.readFile(distIndexPath, 'utf8')
-      console.log('✅ Plantilla HTML cargada desde dist/index.html')
+      console.log('✅ Plantilla PROD cargada desde dist/index.html')
     } catch (e) {
-      console.log('ℹ️ dist/index.html no encontrado, buscando en templates...')
-      try {
-        indexTemplate = await fs.readFile(templatePath, 'utf8')
-        console.log('✅ Plantilla HTML cargada desde templates/index.html')
-      } catch (err) {
-        console.warn('⚠️ No se pudo cargar ninguna plantilla HTML. El SEO dinámico no funcionará.')
-      }
+      console.log('ℹ️ dist/index.html no encontrado (dev mode?), usando templates...')
+      // Fallback
+    }
+
+    // 2. Cargar plantilla SEO (Siempre desde templates/index.html para tener los placeholders)
+    try {
+      seoTemplate = await fs.readFile(templatePath, 'utf8')
+      // Si no hay indexTemplate (dev), usar esta misma
+      if (!indexTemplate) indexTemplate = seoTemplate
+      console.log('✅ Plantilla SEO cargada correctamente desde templates/index.html')
+    } catch (err) {
+      console.warn('⚠️ No se pudo cargar templates/index.html. El SEO dinámico fallará.')
     }
 
     console.log('🟢 Servicios inicializados.')
@@ -649,8 +657,10 @@ app.get('/blog/:id', async (req, res) => {
   const blogId = req.params.id
   console.log(`🤖 Solicitud de blog para metadatos: ${blogId}`)
 
-  if (!indexTemplate) {
-    // Si no hay template, redirigir al home o servir archivo estático normal
+  // IMPORTANTE: Usamos seoTemplate si existe (tiene placeholders), sino el index normal
+  const templateToUse = seoTemplate || indexTemplate
+
+  if (!templateToUse) {
     return res.sendFile(path.join(__dirname, 'dist', 'index.html'))
   }
 
@@ -661,17 +671,29 @@ app.get('/blog/:id', async (req, res) => {
       const doc = await blogRef.get()
       if (doc.exists) {
         const blogData = doc.data()
+
+        // --- CONSTRUCCIÓN DE LA DESCRIPCIÓN CON CATEGORÍA ---
+        let baseDescription =
+          blogData.title1 || blogData.text?.substring(0, 150) + '...' || defaultMeta.description
+
+        // Limpiamos la descripción de tags HTML si los hubiera (basico)
+        baseDescription = baseDescription.replace(/<[^>]*>?/gm, '')
+
+        // Agregamos la categoría si existe
+        if (blogData.category) {
+          baseDescription = `${blogData.category} | ${baseDescription}`
+        }
+
         metaData = {
           title: blogData.title || defaultMeta.title,
-          description:
-            blogData.title1 || blogData.text?.substring(0, 150) + '...' || defaultMeta.description,
+          description: baseDescription,
           image: blogData.imageUrl || defaultMeta.image,
         }
       }
     }
 
     const finalRedirectUrl = `${FRONTEND_BASE_URL}/blog/${blogId}`
-    let finalHtml = indexTemplate
+    let finalHtml = templateToUse
       .replace(/__OG_TITLE__/g, metaData.title)
       .replace(/__OG_DESCRIPTION__/g, metaData.description)
       .replace(/__OG_IMAGE__/g, metaData.image)
@@ -689,7 +711,10 @@ app.get('/quiz', async (req, res) => {
   const catId = req.query.cat
   console.log(`🤖 Solicitud de quiz para metadatos: ${catId}`)
 
-  if (!indexTemplate) {
+  // IMPORTANTE: Usamos seoTemplate
+  const templateToUse = seoTemplate || indexTemplate
+
+  if (!templateToUse) {
     return res.sendFile(path.join(__dirname, 'dist', 'index.html'))
   }
 
@@ -722,7 +747,7 @@ app.get('/quiz', async (req, res) => {
 
   const finalRedirectUrl = `${FRONTEND_BASE_URL}/quiz?cat=${catId || ''}`
 
-  let finalHtml = indexTemplate
+  let finalHtml = templateToUse
     .replace(/__OG_TITLE__/g, metaData.title)
     .replace(/__OG_DESCRIPTION__/g, metaData.description)
     .replace(/__OG_IMAGE__/g, metaData.image)
