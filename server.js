@@ -60,7 +60,7 @@ const defaultMeta = {
   description: 'Especialistas en el desarrollo integral de niños y niñas.',
   image: 'https://csdkids-images.s3.us-east-2.amazonaws.com/portadota.png',
 }
-const FRONTEND_BASE_URL = 'https://www.crianzasanabydkids.mx' // Ajusta según tu dominio real
+const FRONTEND_BASE_URL = 'https://crianzasanabydkids.mx' // Ajusta según tu dominio real
 
 // ==========================================
 // 3. INICIALIZACIÓN DE SERVICIOS
