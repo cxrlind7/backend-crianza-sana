@@ -250,6 +250,15 @@
         </div>
       </div>
     </div>
+    <!-- Toast de Notificación -->
+    <transition name="toast-fade">
+      <div v-if="showToast" class="toast-notification">
+        <div class="toast-content">
+          <span class="toast-icon">✅</span>
+          <span>Enlace copiado al portapapeles</span>
+        </div>
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -264,6 +273,7 @@ export default {
       finalResult: null,
       selectedCategory: null,
       startDate: null,
+      showToast: false, // Toast State
 
       categories: [
         {
@@ -557,7 +567,10 @@ export default {
       navigator.clipboard
         .writeText(url)
         .then(() => {
-          alert('Enlace copiado al portapapeles: ' + url)
+          this.showToast = true
+          setTimeout(() => {
+            this.showToast = false
+          }, 3000)
         })
         .catch((err) => console.error('Error al copiar', err))
     },
@@ -799,6 +812,46 @@ body {
   transition: transform 0.2s;
 }
 
+/* --- TOAST STYLES --- */
+.toast-notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: white;
+  border-left: 4px solid #48bb78; /* Green accent */
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  z-index: 9999;
+  font-family: 'Inter', sans-serif;
+}
+
+.toast-content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #2d3748;
+  font-weight: 500;
+}
+
+.toast-icon {
+  font-size: 1.2rem;
+}
+
+/* Toast Transitions */
+.toast-fade-enter-active,
+.toast-fade-leave-active {
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+
+.toast-fade-enter-from,
+.toast-fade-leave-to {
+  opacity: 0;
+  transform: translateY(-20px) scale(0.9);
+}
+</style>
 /* Answer Button Colors on Hover */
 /* Answer Button Colors on Hover - Unified */
 .answer-btn:hover {
