@@ -690,11 +690,19 @@ app.get('/blog/:id', async (req, res) => {
   const blogId = req.params.id
   console.log(`🤖 Solicitud de blog para metadatos: ${blogId}`)
 
-  // IMPORTANTE: Usamos seoTemplate si existe (tiene placeholders), sino el index normal
-  const templateToUse = seoTemplate || indexTemplate
+  // IMPORTANTE: Siempre usar la plantilla compilada de producción (dist)
+  // Si no está cargada (dev mode?), intentamos leerla o fallar a estático
+  let htmlToSend = indexTemplate
 
-  if (!templateToUse) {
-    return res.sendFile(path.join(__dirname, 'dist', 'index.html'))
+  if (!htmlToSend) {
+    // Si no tenemos plantilla en memoria, intentamos leer al vuelo o mandar archivo
+    try {
+      const distPath = path.join(__dirname, 'dist', 'index.html')
+      htmlToSend = await fs.readFile(distPath, 'utf8')
+    } catch (e) {
+      // Si falla todo, mandamos el archivo directo (Express lo maneja)
+      return res.sendFile(path.join(__dirname, 'dist', 'index.html'))
+    }
   }
 
   try {
@@ -705,14 +713,12 @@ app.get('/blog/:id', async (req, res) => {
       if (doc.exists) {
         const blogData = doc.data()
 
-        // --- CONSTRUCCIÓN DE LA DESCRIPCIÓN CON CATEGORÍA ---
+        // --- CONSTRUCCIÓN DE LA DESCRIPCIÓN ---
         let baseDescription =
           blogData.title1 || blogData.text?.substring(0, 150) + '...' || defaultMeta.description
 
-        // Limpiamos la descripción de tags HTML si los hubiera (basico)
-        baseDescription = baseDescription.replace(/<[^>]*>?/gm, '')
+        baseDescription = baseDescription.replace(/<[^>]*>?/gm, '') // Limpiar HTML
 
-        // Agregamos la categoría si existe
         if (blogData.category) {
           baseDescription = `${blogData.category} | ${baseDescription}`
         }
@@ -725,17 +731,41 @@ app.get('/blog/:id', async (req, res) => {
       }
     }
 
-    const finalRedirectUrl = `${FRONTEND_BASE_URL}/blog/${blogId}`
-    let finalHtml = templateToUse
-      .replace(/__OG_TITLE__/g, metaData.title)
-      .replace(/__OG_DESCRIPTION__/g, metaData.description)
-      .replace(/__OG_IMAGE__/g, metaData.image)
-      .replace(/__FRONTEND_REDIRECT_URL__/g, finalRedirectUrl)
+    // Reemplazo usando Regex sobre los tags existentes en dist/index.html
+    // Buscamos <meta property="og:title" content="..."> y lo reemplazamos
+    const finalHtml = htmlToSend
+      .replace(/<title>.*?<\/title>/, `<title>${metaData.title}</title>`)
+      .replace(
+        /<meta property="og:title" content=".*?" \/>/,
+        `<meta property="og:title" content="${metaData.title}" />`,
+      )
+      .replace(
+        /<meta property="og:description" content=".*?" \/>/,
+        `<meta property="og:description" content="${metaData.description}" />`,
+      )
+      .replace(
+        /<meta property="og:image" content=".*?" \/>/,
+        `<meta property="og:image" content="${metaData.image}" />`,
+      )
+      // Ajuste opcional para Twitter cards si existen
+      .replace(
+        /<meta name="twitter:title" content=".*?" \/>/,
+        `<meta name="twitter:title" content="${metaData.title}" />`,
+      )
+      .replace(
+        /<meta name="twitter:description" content=".*?" \/>/,
+        `<meta name="twitter:description" content="${metaData.description}" />`,
+      )
+      .replace(
+        /<meta name="twitter:image" content=".*?" \/>/,
+        `<meta name="twitter:image" content="${metaData.image}" />`,
+      )
 
     res.send(finalHtml)
   } catch (error) {
     console.error('❌ Error generando metadatos del blog:', error)
-    res.redirect('/')
+    // En caso de error, mandamos el HTML base sin modificar
+    res.send(htmlToSend || 'Error cargando aplicación')
   }
 })
 
@@ -744,14 +774,16 @@ app.get('/quiz', async (req, res) => {
   const catId = req.query.cat
   console.log(`🤖 Solicitud de quiz para metadatos: ${catId}`)
 
-  // IMPORTANTE: Usamos seoTemplate
-  const templateToUse = seoTemplate || indexTemplate
-
-  if (!templateToUse) {
-    return res.sendFile(path.join(__dirname, 'dist', 'index.html'))
+  let htmlToSend = indexTemplate
+  if (!htmlToSend) {
+    try {
+      const distPath = path.join(__dirname, 'dist', 'index.html')
+      htmlToSend = await fs.readFile(distPath, 'utf8')
+    } catch (e) {
+      return res.sendFile(path.join(__dirname, 'dist', 'index.html'))
+    }
   }
 
-  // Datos copiados de QuizCrianza.vue para generar metadatos server-side
   const categories = [
     { id: 'pediatria', name: 'Pediatría / Cardiología', emoji: '🩺' },
     { id: 'psicologia', name: 'Psicología Infantil', emoji: '❤️' },
@@ -763,7 +795,7 @@ app.get('/quiz', async (req, res) => {
     { id: 'legal', name: 'Orientación Legal Familiar', emoji: '⚖️' },
   ]
 
-  let metaData = { ...defaultMeta } // Copia base
+  let metaData = { ...defaultMeta }
   metaData.title = 'Quiz Crianza Sana'
   metaData.description =
     'Descubre si tu hijo necesita apoyo profesional con nuestro breve cuestionario.'
@@ -773,18 +805,23 @@ app.get('/quiz', async (req, res) => {
     if (cat) {
       metaData.title = `${cat.emoji} Test de ${cat.name} - Crianza Sana`
       metaData.description = `Responde este test rápido para saber si tu hijo podría beneficiarse de apoyo en ${cat.name}.`
-      // Si tuvieras imágenes específicas por categoría, aquí las asignarías:
-      // metaData.image = cat.image || defaultMeta.image
     }
   }
 
-  const finalRedirectUrl = `${FRONTEND_BASE_URL}/quiz?cat=${catId || ''}`
-
-  let finalHtml = templateToUse
-    .replace(/__OG_TITLE__/g, metaData.title)
-    .replace(/__OG_DESCRIPTION__/g, metaData.description)
-    .replace(/__OG_IMAGE__/g, metaData.image)
-    .replace(/__FRONTEND_REDIRECT_URL__/g, finalRedirectUrl)
+  const finalHtml = htmlToSend
+    .replace(/<title>.*?<\/title>/, `<title>${metaData.title}</title>`)
+    .replace(
+      /<meta property="og:title" content=".*?" \/>/,
+      `<meta property="og:title" content="${metaData.title}" />`,
+    )
+    .replace(
+      /<meta property="og:description" content=".*?" \/>/,
+      `<meta property="og:description" content="${metaData.description}" />`,
+    )
+    .replace(
+      /<meta property="og:image" content=".*?" \/>/,
+      `<meta property="og:image" content="${metaData.image}" />`,
+    )
 
   res.send(finalHtml)
 })
