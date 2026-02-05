@@ -851,7 +851,6 @@ body {
   opacity: 0;
   transform: translateY(-20px) scale(0.9);
 }
-</style>
 /* Answer Button Colors on Hover */
 /* Answer Button Colors on Hover - Unified */
 .answer-btn:hover {
