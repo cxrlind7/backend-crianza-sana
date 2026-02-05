@@ -8,7 +8,7 @@ export const courses = [
     subtitle:
       'Herramientas prácticas para fortalecer el vínculo y gestionar los desafíos emocionales desde la infancia hasta la adolescencia.',
     description:
-      'Este programa, diseñado por el Psicólogo Infanto-Juvenil Luis P. Galván Solís, te guiará para descifrar el comportamiento de tus hijos más allá de las palabras. Aprenderás a validar sus emociones, establecer límites sanos y fomentar una autoestima sólida, dejando de lado los gritos y castigos para conectar desde la empatía y el respeto mutuo.',
+      'Este programa, diseñado por el Psicólogo Infanto-Juvenil Luis P. Galván Solís, te  guiará para descifrar el comportamiento de tus hijos más allá de las palabras. Aprenderás a validar sus emociones, establecer límites sanos y fomentar una autoestima sólida, dejando de lado los gritos y castigos para conectar desde la empatía y el respeto mutuo.',
     presenter: {
       name: 'Luis P. Galván Solís',
       role: 'Psicólogo Infanto-Juvenil',
