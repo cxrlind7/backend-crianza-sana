@@ -815,7 +815,7 @@ body {
 /* --- TOAST STYLES --- */
 .toast-notification {
   position: fixed;
-  top: 20px;
+  top: 5rem;
   right: 20px;
   background-color: white;
   border-left: 4px solid #48bb78; /* Green accent */
