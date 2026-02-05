@@ -121,7 +121,40 @@ async function initializeServices() {
       if (!indexTemplate) indexTemplate = seoTemplate
       console.log('✅ Plantilla SEO cargada correctamente desde templates/index.html')
     } catch (err) {
-      console.warn('⚠️ No se pudo cargar templates/index.html. El SEO dinámico fallará.')
+      console.warn('⚠️ No se pudo cargar templates/index.html. Usando FALLBACK en código.')
+      // Fallback robusto en caso de que todo falle
+      seoTemplate = `<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="/logo_original.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>__OG_TITLE__</title>
+    <meta name="description" content="__OG_DESCRIPTION__">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="__OG_TITLE__">
+    <meta property="og:description" content="__OG_DESCRIPTION__">
+    <meta property="og:image" content="__OG_IMAGE__">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="__OG_TITLE__">
+    <meta name="twitter:description" content="__OG_DESCRIPTION__">
+    <meta name="twitter:image" content="__OG_IMAGE__">
+    <script>
+      var destinationUrl = '__FRONTEND_REDIRECT_URL__';
+      if (destinationUrl && destinationUrl !== '__FRONTEND_REDIRECT_URL__' && destinationUrl.startsWith('http')) {
+        window.location.replace(destinationUrl);
+      }
+    </script>
+</head>
+<body>
+    <div style="font-family: sans-serif; text-align: center; padding: 50px;">
+        <h2>Cargando...</h2>
+        <p>Si no eres redirigido, <a href="__FRONTEND_REDIRECT_URL__">haz clic aquí</a>.</p>
+    </div>
+</body>
+</html>`
     }
 
     console.log('🟢 Servicios inicializados.')
