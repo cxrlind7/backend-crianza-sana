@@ -46,6 +46,11 @@ app.get('/health', (req, res) => {
 // Middlewares
 app.use(cors())
 app.use(express.json())
+app.use(compression())
+
+// --- SERVIR ARCHIVOS ESTÁTICOS (CRÍTICO PARA PRODUCCIÓN) ---
+// Sirve el contenido de la carpeta 'dist' (JS, CSS, Imágenes compiladas)
+app.use(express.static(path.join(__dirname, 'dist')))
 
 // ==========================================
 // 2. VARIABLES GLOBALES (Servicios)
@@ -114,14 +119,12 @@ async function initializeServices() {
       // Fallback
     }
 
-    // 2. Cargar plantilla SEO (Siempre desde templates/index.html para tener los placeholders)
+    // 2. Cargar plantilla SEO (Solo como referencia, NO como fallback de app principal)
     try {
       seoTemplate = await fs.readFile(templatePath, 'utf8')
-      // Si no hay indexTemplate (dev), usar esta misma
-      if (!indexTemplate) indexTemplate = seoTemplate
       console.log('✅ Plantilla SEO cargada correctamente desde templates/index.html')
     } catch (err) {
-      console.warn('⚠️ No se pudo cargar templates/index.html. Usando FALLBACK en código.')
+      console.warn('⚠️ No se pudo cargar templates/index.html.')
       // Fallback robusto en caso de que todo falle
       seoTemplate = `<!DOCTYPE html>
 <html lang="es">
@@ -695,13 +698,20 @@ app.get('/blog/:id', async (req, res) => {
   let htmlToSend = indexTemplate
 
   if (!htmlToSend) {
-    // Si no tenemos plantilla en memoria, intentamos leer al vuelo o mandar archivo
+    // Si no tenemos plantilla en memoria, intentamos leer al vuelo
     try {
       const distPath = path.join(__dirname, 'dist', 'index.html')
       htmlToSend = await fs.readFile(distPath, 'utf8')
     } catch (e) {
-      // Si falla todo, mandamos el archivo directo (Express lo maneja)
-      return res.sendFile(path.join(__dirname, 'dist', 'index.html'))
+      // ERROR CLARO: No hay build
+      console.error('❌ Build no encontrado (dist/index.html)')
+      return res.status(500).send(`
+        <div style="font-family:sans-serif; text-align:center; padding:50px;">
+          <h1>⚠️ Error: Application Not Built</h1>
+          <p>The server cannot find <code>dist/index.html</code>.</p>
+          <p>Please run <b>npm run build</b> to generate the production files.</p>
+        </div>
+      `)
     }
   }
 
@@ -780,7 +790,14 @@ app.get('/quiz', async (req, res) => {
       const distPath = path.join(__dirname, 'dist', 'index.html')
       htmlToSend = await fs.readFile(distPath, 'utf8')
     } catch (e) {
-      return res.sendFile(path.join(__dirname, 'dist', 'index.html'))
+      console.error('❌ Build no encontrado (dist/index.html)')
+      return res.status(500).send(`
+        <div style="font-family:sans-serif; text-align:center; padding:50px;">
+          <h1>⚠️ Error: Application Not Built</h1>
+          <p>The server cannot find <code>dist/index.html</code>.</p>
+          <p>Please run <b>npm run build</b> to generate the production files.</p>
+        </div>
+      `)
     }
   }
 
