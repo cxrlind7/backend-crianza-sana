@@ -13,27 +13,44 @@
             <div class="float-icon icon-3">❔</div>
           </div>
 
-          <!-- PASO 0: INTRODUCCIÓN -->
-          <div v-if="step === 0" class="step-intro fade-in">
-            <div class="mb-4">
-              <!-- Icono Principal Grande -->
-              <div class="main-icon mb-3">
-                <span style="font-size: 4rem">🤔</span>
+          <!-- PASO 0: DASHBOARD (GRID DE TARJETAS) -->
+          <div v-if="step === 0" class="step-dashboard fade-in">
+            <!-- <h2 class="fw-bold mb-4" style="color: #4a1a1a">Tu Camino de Crianza</h2> -->
+            <p class="text-muted mb-5">Descubre una nueva área de apoyo cada 2 días.</p>
+
+            <div class="row row-cols-2 row-cols-md-3 g-4 justify-content-center">
+              <div v-for="(cat, index) in categories" :key="cat.id" class="col">
+                <div
+                  class="card h-100 border-0 shadow-sm category-card"
+                  :class="{ locked: !isUnlocked(index), unlocked: isUnlocked(index) }"
+                  @click="startQuiz(cat, index)"
+                >
+                  <div
+                    class="card-body d-flex flex-column align-items-center justify-content-center p-3"
+                  >
+                    <div class="card-icon mb-3">
+                      <span v-if="isUnlocked(index)" style="font-size: 2.5rem">{{
+                        cat.emoji
+                      }}</span>
+                      <span v-else style="font-size: 2.5rem">🔒</span>
+                    </div>
+                    <h6 class="card-title fw-bold text-dark mb-0" style="font-size: 0.9rem">
+                      {{ cat.name }}
+                    </h6>
+                    <small
+                      v-if="!isUnlocked(index)"
+                      class="text-muted mt-2"
+                      style="font-size: 0.7rem"
+                    >
+                      Disponible el {{ getUnlockDate(index) }}
+                    </small>
+                  </div>
+                </div>
               </div>
-              <h2 class="fw-bold mb-3" style="color: #4a1a1a">¿Necesito ayuda profesional?</h2>
-              <p class="lead text-muted mb-4">
-                apoyo especializado en áreas como Psicología, Nutrición o Lenguaje.
-              </p>
             </div>
-            <button
-              @click="startQuiz"
-              class="btn-cta btn-lg rounded-pill px-5 shadow-sm hover-scale d-inline-flex align-items-center"
-            >
-              <span class="btn-icon-wrapper me-2">
-                <i class="bi bi-play-fill" style="font-size: 1.2rem"></i>
-              </span>
-              <span class="fw-bold">Comenzar test</span>
-            </button>
+
+            <!-- Botón de reset para debug (Opcional, quitar en prod) -->
+            <!-- <button @click="resetProgress" class="btn btn-link btn-sm text-muted mt-5">Reiniciar Progreso</button> -->
           </div>
 
           <!-- PASO 1: PREGUNTAS -->
@@ -121,9 +138,23 @@
 
             <div class="cta-section mb-5">
               <span class="d-block fw-bold mb-2 text-uppercase letter-spacing-1"
-                >Agenda tu Cita</span
+                >Siguientes pasos</span
               >
+
+              <!-- Opción 1: Enlace interno (Blogs) -->
+              <router-link
+                v-if="finalResult.ctaLink"
+                :to="finalResult.ctaLink"
+                class="btn btn-primary btn-lg rounded-pill px-4 shadow hover-scale d-inline-flex align-items-center gap-2"
+                style="border: none"
+              >
+                <i class="bi bi-book fs-4"></i>
+                <span>{{ finalResult.ctaText }}</span>
+              </router-link>
+
+              <!-- Opción 2: WhatsApp (Default) -->
               <a
+                v-else
                 :href="whatsappLink"
                 target="_blank"
                 class="btn btn-success btn-lg rounded-pill px-4 shadow hover-scale d-inline-flex align-items-center gap-2"
@@ -181,8 +212,25 @@ export default {
       currentQuestionIdx: 0,
       answers: {}, // { categoriaId: score }
       finalResult: null,
+      selectedCategory: null,
+      startDate: null,
 
       categories: [
+        {
+          id: 'pediatria',
+          name: 'Pediatría / Cardiología',
+          emoji: '🩺',
+          questions: [
+            '¿Se enferma seguido de gripa, tos, garganta o estómago y tarda mucho en recuperarse?',
+            '¿Lo notas más cansado de lo normal, con poco apetito o cambios en su sueño/energía?',
+            '¿Sientes que algo “no te cuadra” en su salud, aunque no sepas explicar exactamente qué?',
+          ],
+          resultMessage:
+            'Podría necesitar una valoración pediátrica general. Un chequeo oportuno ayuda a detectar a tiempo pequeños problemas antes de que se vuelvan grandes.',
+          contactPhone: '526183711950', // Miriam Cervantes Huerta
+          contactName: 'Miriam Cervantes Huerta',
+          ctaText: 'Agenda su revisión pediátrica',
+        },
         {
           id: 'psicologia',
           name: 'Psicología Infantil',
@@ -196,6 +244,21 @@ export default {
             'Tu hijo podría beneficiarse de acompañamiento emocional. Un psicólogo infantil puede ayudarle a regular sus emociones, mejorar su conducta y fortalecer su seguridad.',
           contactPhone: '526181875036', // Saraid Chávez
           contactName: 'Saraid Chávez',
+        },
+        {
+          id: 'nutricion',
+          name: 'Nutrición',
+          emoji: '🍎',
+          questions: [
+            '¿Es muy selectivo con la comida o rechaza muchos alimentos?',
+            '¿Las comidas se convierten en pelea o estrés diario?',
+            '¿Tiene cambios de peso, estreñimiento o malestar frecuente?',
+          ],
+          resultMessage:
+            'Podría beneficiarse de orientación nutricional. Un plan adecuado mejora energía, crecimiento y hábitos saludables.',
+          contactPhone: '526182692637', // Silvia Andrea Soria Díaz
+          contactName: 'Silvia Andrea Soria Díaz',
+          ctaText: 'Agenda consulta nutricional',
         },
         {
           id: 'lenguaje',
@@ -212,21 +275,6 @@ export default {
           contactName: 'Ana Laura Sosa Nevárez',
           image: null,
           ctaText: 'Agenda evaluación de lenguaje',
-        },
-        {
-          id: 'nutricion',
-          name: 'Nutrición',
-          emoji: '🍎',
-          questions: [
-            '¿Es muy selectivo con la comida o rechaza muchos alimentos?',
-            '¿Las comidas se convierten en pelea o estrés diario?',
-            '¿Tiene cambios de peso, estreñimiento o malestar frecuente?',
-          ],
-          resultMessage:
-            'Podría beneficiarse de orientación nutricional. Un plan adecuado mejora energía, crecimiento y hábitos saludables.',
-          contactPhone: '526182692637', // Silvia Andrea Soria Díaz
-          contactName: 'Silvia Andrea Soria Díaz',
-          ctaText: 'Agenda consulta nutricional',
         },
         {
           id: 'fisioterapia',
@@ -257,21 +305,6 @@ export default {
           contactPhone: '526181515530', // Patricia Peña Raigosa
           contactName: 'Patricia Peña Raigosa',
           ctaText: 'Agenda consulta odontológica',
-        },
-        {
-          id: 'pediatria',
-          name: 'Pediatría / Cardiología',
-          emoji: '🩺',
-          questions: [
-            '¿Se enferma seguido de gripa, tos, garganta o estómago y tarda mucho en recuperarse?',
-            '¿Lo notas más cansado de lo normal, con poco apetito o cambios en su sueño/energía?',
-            '¿Sientes que algo “no te cuadra” en su salud, aunque no sepas explicar exactamente qué?',
-          ],
-          resultMessage:
-            'Podría necesitar una valoración pediátrica general. Un chequeo oportuno ayuda a detectar a tiempo pequeños problemas antes de que se vuelvan grandes.',
-          contactPhone: '526183711950', // Miriam Cervantes Huerta
-          contactName: 'Miriam Cervantes Huerta',
-          ctaText: 'Agenda su revisión pediátrica',
         },
         {
           id: 'tcc',
@@ -323,26 +356,73 @@ export default {
       return `https://wa.me/${this.finalResult.contactPhone}?text=${encodeURIComponent(message)}`
     },
   },
+  mounted() {
+    this.initSchedule()
+  },
   methods: {
-    startQuiz() {
+    initSchedule() {
+      // FECHA DE INICIO GLOBAL: 5 de Febrero, 2026 (Mañana)
+      // Ajusta esta fecha según lo requieras.
+      this.startDate = new Date('2026-02-05T00:00:00')
+    },
+    daysPassed() {
+      if (!this.startDate) return 0
+      const now = new Date()
+      // Diferencia en y milisegundos
+      const diff = now - this.startDate
+      // Convertir a días (permitimos negativos para "faltan X días")
+      return Math.floor(diff / (1000 * 60 * 60 * 24))
+    },
+    isUnlocked(index) {
+      const dp = this.daysPassed()
+      // Si la fecha de inicio es futuro (dp < 0), todo está bloqueado.
+      if (dp < 0) return false
+
+      // Índice 0 se desbloquea en día 0
+      // Índice 1 se desbloquea en día 2
+      // Índice 2 se desbloquea en día 4
+      return dp >= index * 2
+    },
+    daysToUnlock(index) {
+      const dp = this.daysPassed()
+
+      // Si aún no empieza el "día 1" global
+      if (dp < 0) {
+        const daysToStart = Math.abs(dp)
+        return daysToStart + index * 2
+      }
+
+      const requiredDays = index * 2
+      const left = requiredDays - dp
+      return left > 0 ? left : 0
+    },
+    getUnlockDate(index) {
+      if (!this.startDate) return ''
+      // Fecha base de desbloqueo = startDate + (index * 2) días
+      const unlockDate = new Date(this.startDate)
+      unlockDate.setDate(unlockDate.getDate() + index * 2)
+
+      // Formato bonito: "5 de feb."
+      return unlockDate.toLocaleDateString('es-ES', { day: 'numeric', month: 'short' })
+    },
+    startQuiz(categoryData, index) {
+      if (!this.isUnlocked(index)) return
+
+      this.selectedCategory = categoryData
       this.step = 1
       this.currentQuestionIdx = 0
       this.answers = {}
-      this.prepareQuestions()
+      this.prepareQuestions(categoryData)
     },
-    prepareQuestions() {
-      // Aplanamos las preguntas para el flujo lineal.
-      // Cada pregunta sabrá a qué categoría pertenece.
+    prepareQuestions(categoryData) {
       this.flattenedQuestions = []
-      this.categories.forEach((cat) => {
-        cat.questions.forEach((qText) => {
-          this.flattenedQuestions.push({
-            text: qText,
-            categoryId: cat.id,
-          })
+      categoryData.questions.forEach((qText) => {
+        this.flattenedQuestions.push({
+          text: qText,
+          categoryId: categoryData.id,
         })
       })
-      // Mezclar preguntas aleatoriamente
+      // Mezclar preguntas aleatoriamente (solo las de esta categoría)
       this.flattenedQuestions.sort(() => 0.5 - Math.random())
     },
     handleAnswer(value) {
@@ -371,43 +451,28 @@ export default {
       }
     },
     calculateResult() {
-      // Encontrar la categoría con mayor puntaje
-      let maxScore = -1
-      let winningCategory = null
+      const cat = this.selectedCategory
+      const score = this.answers[cat.id] || 0
 
-      this.categories.forEach((cat) => {
-        const score = this.answers[cat.id] || 0
-        // Condición: Se requiere al menos 2 respuestas positivas (>= 2 puntos)
-        if (score >= 2 && score > maxScore) {
-          maxScore = score
-          winningCategory = cat
+      // SI TODO ESTÁ BIEN (Score < 2)
+      if (score < 2) {
+        this.finalResult = {
+          name: '¡Excelente!',
+          emoji: '💛',
+          resultMessage:
+            'Tu hijo va por buen camino 💛. Si quieres seguir fortaleciendo su desarrollo, te invitamos a seguir nuestro contenido y aprender herramientas prácticas para acompañarlo mejor.',
+          ctaText: 'Ver contenido educativo',
+          ctaLink: '/blog',
+          contactPhone: null,
+          contactName: 'Crianza Sana By D-Kids',
+          logo: null,
+          image: null,
         }
-      })
-
-      // Si nadie cumple el requisito de 2 puntos, mostrar mensaje genérico o primer paso
-      // Opcional: Crear una categoría "Todo bien" o "Evaluación General"
-      if (!winningCategory) {
-        // Fallback: Mostrar Pediatría Preventiva o simplemente el de mayor puntaje aunque sea bajo?
-        // El usuario pidió: "Resultado si responde 'Sí/A veces' en 2 o más"
-        // Si no cumple, podríamos mostrar un mensaje de "Todo parece estar bien, pero si tienes dudas..."
-        // Por ahora, para no romper el flujo, mostramos Pediatría como default o el que tenga más puntos.
-
-        // Buscamos el que tenga más puntos aunque sea < 2
-        this.categories.forEach((cat) => {
-          const score = this.answers[cat.id] || 0
-          if (score > maxScore) {
-            maxScore = score
-            winningCategory = cat
-          }
-        })
-
-        if (!winningCategory) winningCategory = this.categories[0]
+      } else {
+        // SI NECESITA APOYO (Score >= 2)
+        this.finalResult = cat
       }
 
-      // Failsafe por si todo es 0 o empate (tomar el primero o Psicología por defecto)
-      if (!winningCategory) winningCategory = this.categories[0]
-
-      this.finalResult = winningCategory
       this.step = 2 // Ir a Resultados
     },
     resetQuiz() {
@@ -415,6 +480,11 @@ export default {
       this.finalResult = null
       this.answers = {}
       this.currentQuestionIdx = 0
+      this.selectedCategory = null
+    },
+    resetProgress() {
+      localStorage.removeItem('quiz_start_date')
+      this.initSchedule()
     },
   },
 }
@@ -563,6 +633,30 @@ body {
   100% {
     transform: translateY(0px) rotate(0deg);
   }
+}
+
+/* Card Styles */
+.category-card {
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  background: white;
+  cursor: pointer;
+  border-radius: 1.5rem !important;
+}
+
+.category-card.unlocked:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+}
+
+.category-card.locked {
+  cursor: not-allowed;
+  opacity: 0.7;
+  background: #f8f9fa;
+  filter: grayscale(0.8);
+}
+
+.category-card.locked:hover {
+  transform: none;
 }
 
 .bg-gradient-primary {

@@ -29,7 +29,7 @@ const closeVideo = () => {
       <CampaignModal v-if="showModal" @close="closeVideo" />
       <Ad />
       <MainBanner />
-      <!-- <QuizCallToAction /> -->
+      <QuizCallToAction />
       <br />
       <WorkshopCard />
       <br />
