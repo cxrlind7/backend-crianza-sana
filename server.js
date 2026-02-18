@@ -50,7 +50,9 @@ app.use(compression())
 
 // --- SERVIR ARCHIVOS ESTÁTICOS (CRÍTICO PARA PRODUCCIÓN) ---
 // Sirve el contenido de la carpeta 'dist' (JS, CSS, Imágenes compiladas)
-app.use(express.static(path.join(__dirname, 'dist')))
+// --- SERVIR ARCHIVOS ESTÁTICOS (CRÍTICO PARA PRODUCCIÓN) ---
+// Sirve el contenido de la carpeta 'dist' (JS, CSS, Imágenes compiladas)
+// app.use(express.static(path.join(__dirname, 'dist'))) // SE MOVIÓ AL FINAL PARA ORDEN CORRECTO
 
 // ==========================================
 // 2. VARIABLES GLOBALES (Servicios)
@@ -849,7 +851,15 @@ app.use(compression())
 // Servir archivos estáticos de la carpeta dist
 app.use(express.static(path.join(__dirname, 'dist')))
 
-// Cualquier otra ruta que no sea API, enviar al index.html (SPA)
+// Manejo específico para archivos estáticos no encontrados (evitar devolver index.html como JS)
+app.get(
+  ['/assets/*', '/*.js', '/*.css', '/*.png', '/*.jpg', '/*.jpeg', '/*.gif', '/*.ico', '/*.svg'],
+  (req, res) => {
+    res.status(404).send('Archivo no encontrado')
+  },
+)
+
+// Cualquier otra ruta que no sea API ni archivo estático, enviar al index.html (SPA)
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'))
 })

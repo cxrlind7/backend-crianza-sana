@@ -94,7 +94,7 @@
 
         <!-- Logo Inferior Derecho (+pop) -->
         <div class="bottom-logo-container pe-4 pe-md-5 mb-2">
-          <img src="/public/+pop.png" alt="Logo +Pop" class="bottom-logo" />
+          <img src="/+pop.png" alt="Logo +Pop" class="bottom-logo" />
         </div>
       </div>
     </footer>
