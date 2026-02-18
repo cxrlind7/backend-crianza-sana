@@ -168,12 +168,11 @@
           <div class="story-content">
             <!-- Imagen del Blog con marco -->
             <div class="story-image-container">
-              <img
-                :src="blog.imageUrl"
-                crossorigin="anonymous"
-                class="story-main-image"
-                @load="onImageLoad"
-              />
+              <!-- Usamos background-image porque html2canvas maneja mejor el object-fit/cover así -->
+              <div
+                class="story-main-image-bg"
+                :style="{ backgroundImage: `url(${blog.imageUrl})` }"
+              ></div>
             </div>
 
             <!-- Título y Categoría -->
@@ -821,10 +820,12 @@ export default {
   position: relative;
 }
 
-.story-main-image {
+.story-main-image-bg {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .story-text-container {
