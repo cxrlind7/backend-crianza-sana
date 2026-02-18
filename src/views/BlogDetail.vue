@@ -177,10 +177,7 @@
 
             <!-- Título y Categoría -->
             <div class="story-text-container">
-              <span
-                class="story-category"
-                :style="{ backgroundColor: blog.categoryColor || 'rgba(255,255,255,0.2)' }"
-              >
+              <span class="story-category" :style="{ backgroundColor: getCategoryColor(blog) }">
                 {{ blog.category }}
               </span>
               <h1 class="story-title">{{ blog.title }}</h1>
@@ -231,6 +228,8 @@ import LoginModal from '@/components/LoginModal.vue'
 // import { onMounted, onBeforeUnmount } from 'vue' // Removed unused imports
 import html2canvas from 'html2canvas'
 
+import people from '../../data.js'
+
 // Añadir iconos a la librería
 library.add(faLink, faFacebookF, faInstagram, faPaperPlane, faTrash, faCheckCircle, faArrowLeft)
 
@@ -253,6 +252,7 @@ export default {
       defaultAvatar:
         'https://res.cloudinary.com/duiqgfa0v/image/upload/v1761837867/samples/zoom.avif',
       isGeneratingImage: false,
+      specialists: people,
     }
   },
   props: {
@@ -511,29 +511,40 @@ export default {
         'No se pudo abrir Instagram directamente. La imagen se ha guardado en tu dispositivo. ¡Ábrela desde Instagram Stories!',
       )
     },
+    getCategoryColor(blog) {
+      if (!blog) return '#718096'
+
+      // 1. Prioridad: Buscar color del especialista por nombre de autor
+      if (blog.authorName) {
+        const authorName = blog.authorName.toLowerCase().trim()
+        const specialist = this.specialists.find((p) => p.name.toLowerCase().trim() === authorName)
+        if (specialist && specialist.color) {
+          return specialist.color
+        }
+      }
+
+      // 2. Fallback: Color explícito en categoría (campo DB legacy)
+      if (blog.categoryColor) return blog.categoryColor
+
+      // 3. Fallback final: Por nombre de categoría
+      const category = blog.category || ''
+      const cat = category.toLowerCase().trim()
+
+      if (cat.includes('crianza')) return '#e53e3e' // Rojo/Rosa fuerte
+      if (cat.includes('salud')) return '#38a169' // Verde
+      if (cat.includes('educa')) return '#3182ce' // Azul
+      if (cat.includes('nutri')) return '#dd6b20' // Naranja
+      if (cat.includes('psico')) return '#805ad5' // Morado
+      if (cat.includes('odont')) return '#d53f8c' // Rosa fuerte (Odontopediatría)
+
+      return '#718096'
+    },
     getStoryGradient(blog) {
       if (!blog) return 'linear-gradient(180deg, #1a202c 0%, #2d3748 100%)'
 
-      // Si tenemos un color de categoría definido, lo usamos
-      if (blog.categoryColor) {
-        // Gradiente que va del color de la categoría (arriba) a un tono oscuro (abajo)
-        // Esto asegura que el texto blanco siempre se lea bien abajo
-        return `linear-gradient(180deg, ${blog.categoryColor} 0%, #1a202c 100%)`
-      }
+      const color = this.getCategoryColor(blog)
 
-      const colors = {
-        Crianza: 'linear-gradient(45deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%)',
-        Salud: 'linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%)',
-        Educación: 'linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%)',
-        default: 'linear-gradient(180deg, #1a202c 0%, #2d3748 100%)',
-      }
-
-      if (blog.category) {
-        const categoryKey = Object.keys(colors).find((key) => blog.category.includes(key))
-        return categoryKey ? colors[categoryKey] : colors['default']
-      }
-
-      return colors['default']
+      return `linear-gradient(180deg, ${color} 0%, #1a202c 100%)`
     },
     onImageLoad() {
       // Helper para saber cuando la imagen cargó, aunque html2canvas suele manejarlo con useCORS
