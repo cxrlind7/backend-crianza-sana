@@ -177,7 +177,12 @@
 
             <!-- Título y Categoría -->
             <div class="story-text-container">
-              <span class="story-category">{{ blog.category }}</span>
+              <span
+                class="story-category"
+                :style="{ backgroundColor: blog.categoryColor || 'rgba(255,255,255,0.2)' }"
+              >
+                {{ blog.category }}
+              </span>
               <h1 class="story-title">{{ blog.title }}</h1>
               <div class="story-author">
                 <img
@@ -507,7 +512,14 @@ export default {
       )
     },
     getStoryGradient(blog) {
-      if (!blog || !blog.category) return 'linear-gradient(180deg, #1a202c 0%, #2d3748 100%)'
+      if (!blog) return 'linear-gradient(180deg, #1a202c 0%, #2d3748 100%)'
+
+      // Si tenemos un color de categoría definido, lo usamos
+      if (blog.categoryColor) {
+        // Gradiente que va del color de la categoría (arriba) a un tono oscuro (abajo)
+        // Esto asegura que el texto blanco siempre se lea bien abajo
+        return `linear-gradient(180deg, ${blog.categoryColor} 0%, #1a202c 100%)`
+      }
 
       const colors = {
         Crianza: 'linear-gradient(45deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%)',
@@ -516,8 +528,12 @@ export default {
         default: 'linear-gradient(180deg, #1a202c 0%, #2d3748 100%)',
       }
 
-      const categoryKey = Object.keys(colors).find((key) => blog.category.includes(key))
-      return categoryKey ? colors[categoryKey] : colors['default']
+      if (blog.category) {
+        const categoryKey = Object.keys(colors).find((key) => blog.category.includes(key))
+        return categoryKey ? colors[categoryKey] : colors['default']
+      }
+
+      return colors['default']
     },
     onImageLoad() {
       // Helper para saber cuando la imagen cargó, aunque html2canvas suele manejarlo con useCORS
