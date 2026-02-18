@@ -547,7 +547,7 @@ export default {
       return `linear-gradient(180deg, ${color} 0%, #1a202c 100%)`
     },
     onImageLoad() {
-      // Helper para saber cuando la imagen cargó, aunque html2canvas suele manejarlo con useCORS
+      //- Helper para saber cuando la imagen cargó, aunque html2canvas suele manejarlo con useCORS
     },
     trackShare(method, id) {
       if (typeof window.gtag === 'function') {
