@@ -861,6 +861,8 @@ app.get(
 
 // Cualquier otra ruta que no sea API ni archivo estático, enviar al index.html (SPA)
 app.get('*', (req, res) => {
+  // Evitar cache del index.html para que siempre cargue la versión más reciente (con los nuevos JS/CSS)
+  res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate')
   res.sendFile(path.join(__dirname, 'dist', 'index.html'))
 })
 
