@@ -428,16 +428,15 @@ export default {
       this.isGeneratingImage = true
 
       try {
-        // Esperamos un momento para asegurar que el DOM oculto esté listo
-        await this.$nextTick()
-
         const element = this.$refs.instagramStoryRef
         if (!element) {
           console.error('No se encontró el elemento para la historia')
+          this.isGeneratingImage = false
           return
         }
 
         // Configuración para mejor calidad
+        // Eliminamos await nextTick para reducir latencia, asumimos que el elemento ya está (v-if="blog")
         const canvas = await html2canvas(element, {
           useCORS: true,
           scale: 2,
@@ -445,55 +444,68 @@ export default {
           logging: false,
         })
 
-        // --- LÓGICA WEB SHARE API ---
-        canvas.toBlob(async (blob) => {
-          if (!blob) {
-            alert('Error al generar la imagen.')
-            this.isGeneratingImage = false
-            return
-          }
+        // --- LÓGICA WEB SHARE API OPTIMIZADA ---
+        // 1. Convertir a DataURL (Síncrono)
+        const dataUrl = canvas.toDataURL('image/png')
 
-          const file = new File([blob], `crianza-sana-story-${this.blog.id}.png`, {
-            type: 'image/png',
-          })
+        // 2. Convertir a Blob (Síncrono con helper) para evitar callbacks async de toBlob
+        const blob = this.dataURItoBlob(dataUrl)
+        const file = new File([blob], `crianza-sana-story-${this.blog.id}.png`, {
+          type: 'image/png',
+        })
 
-          // Verificar soporte de Web Share API con archivos
-          if (navigator.canShare && navigator.canShare({ files: [file] })) {
-            try {
-              await navigator.share({
-                files: [file],
-                title: 'Compartir en Instagram',
-                text: '¡Mira este blog en Crianza Sana!',
-              })
-              this.trackShare('instagram_story_share_api', this.blog.id)
-            } catch (shareError) {
-              if (shareError.name !== 'AbortError') {
-                console.error('Error al compartir:', shareError)
-                // Fallback a descarga si falla (ej. usuario cancela o error desconocido)
-                this.downloadImage(canvas)
-              }
+        // 3. Intentar compartir DIRECTAMENTE
+        if (navigator.share) {
+          try {
+            // Algunos navegadores requieren solo 'files' para compartir archivos
+            const shareData = {
+              files: [file],
             }
-          } else {
-            // Fallback para Desktop o navegadores antiguos
-            this.downloadImage(canvas)
-          }
 
-          this.isGeneratingImage = false
-        }, 'image/png')
+            // Intentamos compartir
+            await navigator.share(shareData)
+            this.trackShare('instagram_story_share_api', this.blog.id)
+          } catch (shareError) {
+            // Si el usuario cancela, no hacemos nada (AbortError)
+            // Si es otro error (ej. formato no soportado), hacemos fallback
+            if (shareError.name !== 'AbortError') {
+              console.warn('Share API falló, fallback a descarga:', shareError)
+              this.downloadImage(dataUrl)
+            }
+          }
+        } else {
+          // Fallback para Desktop
+          this.downloadImage(dataUrl)
+        }
       } catch (error) {
         console.error('Error generando historia:', error)
-        alert('Hubo un error al generar la imagen. Intenta de nuevo.')
+        alert('Hubo un error al generar la imagen.')
+      } finally {
         this.isGeneratingImage = false
       }
     },
-    downloadImage(canvas) {
-      const image = canvas.toDataURL('image/png')
+    // Helper síncrono para mantener la interacción de usuario activa
+    dataURItoBlob(dataURI) {
+      const byteString = atob(dataURI.split(',')[1])
+      const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0]
+      const ab = new ArrayBuffer(byteString.length)
+      const ia = new Uint8Array(ab)
+      for (let i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i)
+      }
+      return new Blob([ab], { type: mimeString })
+    },
+    downloadImage(dataUrl) {
       const link = document.createElement('a')
-      link.href = image
+      link.href = dataUrl
       link.download = `crianza-sana-story-${this.blog.id}.png`
       link.click()
       this.trackShare('instagram_story_download', this.blog.id)
-      alert('Imagen descargada. Súbela a tu historia de Instagram.')
+
+      // Mensaje más claro para el fallback
+      alert(
+        'No se pudo abrir Instagram directamente. La imagen se ha guardado en tu dispositivo. ¡Ábrela desde Instagram Stories!',
+      )
     },
     getStoryGradient(blog) {
       if (!blog || !blog.category) return 'linear-gradient(180deg, #1a202c 0%, #2d3748 100%)'
