@@ -52,6 +52,16 @@
             >
               <font-awesome-icon icon="fa-brands fa-facebook-f" />
             </button>
+            <!-- Botón Instagram -->
+            <button
+              class="share-btn instagram-btn"
+              @click="generateInstagramStory"
+              title="Compartir en Historias (Descargar Imagen)"
+              :disabled="isGeneratingImage"
+            >
+              <font-awesome-icon v-if="!isGeneratingImage" icon="fa-brands fa-instagram" />
+              <div v-else class="spinner-border spinner-border-sm" role="status"></div>
+            </button>
           </div>
         </div>
       </header>
@@ -140,7 +150,56 @@
       <p>Cargando artículo o no encontrado...</p>
     </div>
 
-    <!-- Toast de notificación -->
+    <!-- Botón Toast de notificación -->
+    <!-- ... (toast original) ... -->
+
+    <!-- TEMPLATE OCULTO PARA INSTAGRAM STORIES -->
+    <!-- Nota: Lo renderizamos fuera de la vista pero visible para html2canvas -->
+    <div class="instagram-story-wrapper">
+      <div ref="instagramStoryRef" class="instagram-story-template" v-if="blog">
+        <!-- Fondo con degradado y branding -->
+        <div class="story-background" :style="{ background: getStoryGradient(blog) }">
+          <!-- Header de Marca -->
+          <div class="story-header">
+            <span class="story-brand">Crianza Sana</span>
+          </div>
+
+          <!-- Contenido Principal -->
+          <div class="story-content">
+            <!-- Imagen del Blog con marco -->
+            <div class="story-image-container">
+              <img
+                :src="blog.imageUrl"
+                crossorigin="anonymous"
+                class="story-main-image"
+                @load="onImageLoad"
+              />
+            </div>
+
+            <!-- Título y Categoría -->
+            <div class="story-text-container">
+              <span class="story-category">{{ blog.category }}</span>
+              <h1 class="story-title">{{ blog.title }}</h1>
+              <div class="story-author">
+                <img
+                  :src="getImagePerCategory(blog.authorName)"
+                  crossorigin="anonymous"
+                  class="story-author-img"
+                />
+                <span>{{ blog.authorName }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Footer Simulado -->
+          <div class="story-footer">
+            <div class="story-listen-badge">
+              <span>Leer en el blog</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <transition name="toast-fade">
       <div v-if="showToast" class="toast-notification">
         <font-awesome-icon icon="fa-solid fa-check-circle" class="toast-icon" />
@@ -160,15 +219,16 @@ import {
   faCheckCircle,
   faArrowLeft,
 } from '@fortawesome/free-solid-svg-icons'
-import { faFacebookF } from '@fortawesome/free-brands-svg-icons'
+import { faFacebookF, faInstagram } from '@fortawesome/free-brands-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { getCollection, getComments, addComment, deleteComment } from '../composables/useFirestore'
 import { auth } from '@/firebase/firebaseConfig'
 import LoginModal from '@/components/LoginModal.vue'
-import { onMounted, onBeforeUnmount } from 'vue'
+// import { onMounted, onBeforeUnmount } from 'vue' // Removed unused imports
+import html2canvas from 'html2canvas'
 
 // Añadir iconos a la librería
-library.add(faLink, faFacebookF, faPaperPlane, faTrash, faCheckCircle, faArrowLeft)
+library.add(faLink, faFacebookF, faInstagram, faPaperPlane, faTrash, faCheckCircle, faArrowLeft)
 
 let scrollListener
 
@@ -188,6 +248,7 @@ export default {
       showLoginModal: false,
       defaultAvatar:
         'https://res.cloudinary.com/duiqgfa0v/image/upload/v1761837867/samples/zoom.avif',
+      isGeneratingImage: false,
     }
   },
   props: {
@@ -360,6 +421,95 @@ export default {
 
       window.open(facebookShareUrl, 'facebook-share-dialog', 'width=626,height=436')
       // ...
+    },
+    // NUEVA FUNCIÓN: Generar Historia de Instagram
+    async generateInstagramStory() {
+      if (this.isGeneratingImage) return
+      this.isGeneratingImage = true
+
+      try {
+        // Esperamos un momento para asegurar que el DOM oculto esté listo
+        await this.$nextTick()
+
+        const element = this.$refs.instagramStoryRef
+        if (!element) {
+          console.error('No se encontró el elemento para la historia')
+          return
+        }
+
+        // Configuración para mejor calidad
+        const canvas = await html2canvas(element, {
+          useCORS: true,
+          scale: 2,
+          backgroundColor: null,
+          logging: false,
+        })
+
+        // --- LÓGICA WEB SHARE API ---
+        canvas.toBlob(async (blob) => {
+          if (!blob) {
+            alert('Error al generar la imagen.')
+            this.isGeneratingImage = false
+            return
+          }
+
+          const file = new File([blob], `crianza-sana-story-${this.blog.id}.png`, {
+            type: 'image/png',
+          })
+
+          // Verificar soporte de Web Share API con archivos
+          if (navigator.canShare && navigator.canShare({ files: [file] })) {
+            try {
+              await navigator.share({
+                files: [file],
+                title: 'Compartir en Instagram',
+                text: '¡Mira este blog en Crianza Sana!',
+              })
+              this.trackShare('instagram_story_share_api', this.blog.id)
+            } catch (shareError) {
+              if (shareError.name !== 'AbortError') {
+                console.error('Error al compartir:', shareError)
+                // Fallback a descarga si falla (ej. usuario cancela o error desconocido)
+                this.downloadImage(canvas)
+              }
+            }
+          } else {
+            // Fallback para Desktop o navegadores antiguos
+            this.downloadImage(canvas)
+          }
+
+          this.isGeneratingImage = false
+        }, 'image/png')
+      } catch (error) {
+        console.error('Error generando historia:', error)
+        alert('Hubo un error al generar la imagen. Intenta de nuevo.')
+        this.isGeneratingImage = false
+      }
+    },
+    downloadImage(canvas) {
+      const image = canvas.toDataURL('image/png')
+      const link = document.createElement('a')
+      link.href = image
+      link.download = `crianza-sana-story-${this.blog.id}.png`
+      link.click()
+      this.trackShare('instagram_story_download', this.blog.id)
+      alert('Imagen descargada. Súbela a tu historia de Instagram.')
+    },
+    getStoryGradient(blog) {
+      if (!blog || !blog.category) return 'linear-gradient(180deg, #1a202c 0%, #2d3748 100%)'
+
+      const colors = {
+        Crianza: 'linear-gradient(45deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%)',
+        Salud: 'linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%)',
+        Educación: 'linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%)',
+        default: 'linear-gradient(180deg, #1a202c 0%, #2d3748 100%)',
+      }
+
+      const categoryKey = Object.keys(colors).find((key) => blog.category.includes(key))
+      return categoryKey ? colors[categoryKey] : colors['default']
+    },
+    onImageLoad() {
+      // Helper para saber cuando la imagen cargó, aunque html2canvas suele manejarlo con useCORS
     },
     trackShare(method, id) {
       if (typeof window.gtag === 'function') {
@@ -579,9 +729,148 @@ export default {
   background-color: #1877f2; /* Color oficial de Facebook */
   color: white;
 }
-.facebook-btn:hover {
-  background-color: #166fe5;
+/* Botón Instagram */
+.instagram-btn {
+  background: radial-gradient(
+    circle at 30% 107%,
+    #fdf497 0%,
+    #fdf497 5%,
+    #fd5949 45%,
+    #d6249f 60%,
+    #285aeb 90%
+  );
+  color: white;
+}
+.instagram-btn:hover {
+  opacity: 0.9;
   transform: translateY(-2px);
+}
+
+/* --- Estilos para la Historia de Instagram Generada --- */
+/* Wrapper oculto pero renderizado */
+.instagram-story-wrapper {
+  position: absolute;
+  top: -9999px;
+  left: -9999px;
+  /* Importante: width/height fijos para simular pantalla de móvil */
+  width: 1080px;
+  height: 1920px;
+  overflow: hidden;
+}
+
+.instagram-story-template {
+  width: 1080px;
+  height: 1920px;
+  position: relative;
+  font-family: 'Inter', sans-serif; /* Asegurar fuente moderna */
+}
+
+.story-background {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 80px;
+  box-sizing: border-box;
+}
+
+.story-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.story-brand {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.story-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 60px;
+}
+
+.story-image-container {
+  width: 800px;
+  height: 800px; /* Cuadrado o ratio 4:5 */
+  border-radius: 40px;
+  overflow: hidden;
+  box-shadow: 0 50px 100px -20px rgba(0, 0, 0, 0.5); /* Sombra dramática estilo Spotify */
+  position: relative;
+}
+
+.story-main-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.story-text-container {
+  text-align: center;
+  color: white;
+  max-width: 900px;
+}
+
+.story-category {
+  display: inline-block;
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 10px 25px;
+  border-radius: 50px;
+  margin-bottom: 20px;
+  backdrop-filter: blur(10px);
+}
+
+.story-title {
+  font-size: 4rem; /* Muy grande y legible */
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 30px;
+  text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.story-author {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  font-size: 1.8rem;
+  font-weight: 500;
+}
+
+.story-author-img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 3px solid white;
+}
+
+.story-footer {
+  display: flex;
+  justify-content: center;
+  padding-top: 40px;
+}
+
+.story-listen-badge {
+  background: white;
+  color: black;
+  padding: 15px 40px;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 1.5rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
 /* --- Imagen Destacada --- */
