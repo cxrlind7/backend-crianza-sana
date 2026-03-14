@@ -663,8 +663,8 @@ export default {
       }
 
       // URL base de Railway (Asegúrate de que sea la correcta y esté desplegada)
-      // const API_BASE = 'https://ga4-backend-production.up.railway.app/api'
-      const API_BASE = 'http://localhost:3001/api'
+      const API_BASE = 'https://ga4-backend-production.up.railway.app/api'
+      // const API_BASE = 'http://localhost:3001/api'
 
       try {
         // Ejecutar peticiones en paralelo
