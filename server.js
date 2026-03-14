@@ -14,6 +14,7 @@ import {
   getRoutePageViews,
   getPersonPageViews,
   getBlogEventBreakdown,
+  getLocationViews,
 } from './utils/getAnalyticsData.js'
 import compression from 'compression'
 // --- CONFIGURACIÓN DE RUTAS Y DIRECTORIOS ---
@@ -279,6 +280,17 @@ app.get('/api/blog-events-breakdown', async (req, res) => {
     res.json(data)
   } catch (error) {
     console.error('Error analytics blog-events:', error)
+    res.status(500).json({ error: 'Error interno' })
+  }
+})
+
+app.get('/api/location-views', async (req, res) => {
+  try {
+    const { startDate, endDate, personId } = req.query
+    const data = await getLocationViews(startDate, endDate, personId)
+    res.json(data)
+  } catch (error) {
+    console.error('Error analytics location-views:', error)
     res.status(500).json({ error: 'Error interno' })
   }
 })

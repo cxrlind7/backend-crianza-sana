@@ -315,6 +315,62 @@
         </div>
       </div>
 
+      <!-- Nivel 3.5: Ubicaciones Geográficas -->
+      <div class="row mb-5 fade-in delay-3 g-4">
+        <div class="col-12">
+          <div class="chart-card">
+            <div class="card-header-clean d-flex justify-content-between align-items-center">
+              <h4 class="card-title mb-0">
+                <i class="fas fa-map-marker-alt text-muted me-2"></i>Visitas por Ubicación
+                Geográfica
+              </h4>
+              <span
+                class="badge bg-secondary text-white rounded-pill"
+                v-if="locationsData.length > 0"
+              >
+                Top {{ locationsData.length > 15 ? 15 : locationsData.length }}
+              </span>
+            </div>
+
+            <div
+              v-if="locationsData.length > 0"
+              class="mt-4 table-responsive"
+              style="max-height: 350px; overflow-y: auto"
+            >
+              <table class="table table-sm table-hover mb-0" style="font-size: 0.9rem">
+                <thead class="table-light sticky-top">
+                  <tr>
+                    <th>País</th>
+                    <th>Ciudad</th>
+                    <th class="text-center">Visitas</th>
+                    <th class="text-center">Usuarios</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="(loc, index) in locationsData.slice(0, 15)" :key="index">
+                    <td>
+                      <div class="d-flex align-items-center fw-medium">
+                        {{ loc.country }}
+                      </div>
+                    </td>
+                    <td class="text-muted">{{ loc.city }}</td>
+                    <td class="text-center fw-bold">{{ formatNumber(loc.views) }}</td>
+                    <td class="text-center text-muted">{{ formatNumber(loc.users) }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div v-else class="text-center text-muted p-4">
+              {{
+                isLoading
+                  ? 'Cargando ubicaciones...'
+                  : 'No hay datos de ubicaciones para mostrar en el periodo seleccionado.'
+              }}
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- Nivel 4: Tabla Detallada (Se actualiza según el filtro) -->
       <div class="detail-section fade-in delay-3 mb-5" v-if="Object.keys(stats).length > 0">
         <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
@@ -443,6 +499,7 @@ export default {
       sectionData: [],
       sectionStats: [], // NUEVO: Para la tabla de secciones
       personViews: [],
+      locationsData: [], // NUEVO: Para la tabla de ubicaciones
 
       // Referencias a gráficos
       charts: {
@@ -606,22 +663,26 @@ export default {
       }
 
       // URL base de Railway (Asegúrate de que sea la correcta y esté desplegada)
-      const API_BASE = 'https://ga4-backend-production.up.railway.app/api'
-      // const API_BASE = 'http://localhost:3001/api'
+      // const API_BASE = 'https://ga4-backend-production.up.railway.app/api'
+      const API_BASE = 'http://localhost:3001/api'
 
       try {
         // Ejecutar peticiones en paralelo
-        const [blogStatsRes, homepageRes, routesRes, personRes] = await Promise.all([
+        const [blogStatsRes, homepageRes, routesRes, personRes, locationsRes] = await Promise.all([
           fetch(`${API_BASE}/blog-views${dateQueryParams}`), // Pedimos TODOS los blogs del periodo
           fetch(`${API_BASE}/homepage-views${dateQueryParams}`),
           fetch(`${API_BASE}/routes-views${dateQueryParams}`),
           fetch(`${API_BASE}/person-views${personQueryParams}`), // Este sí va filtrado al backend
+          fetch(`${API_BASE}/location-views${personQueryParams}`), // Filtramos también ubicaciones
         ])
 
         const rawBlogStats = await blogStatsRes.json()
         const homepageDataRaw = await homepageRes.json()
         const routesDataRaw = await routesRes.json()
         const personDataRaw = await personRes.json()
+        const locationsDataRaw = await locationsRes.json()
+
+        this.locationsData = locationsDataRaw || []
 
         // --- PROCESAMIENTO Y FILTRADO EN FRONTEND ---
 
