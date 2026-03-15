@@ -322,44 +322,44 @@
             <div class="card-header-clean d-flex justify-content-between align-items-center">
               <h4 class="card-title mb-0">
                 <i class="fas fa-map-marker-alt text-muted me-2"></i>Visitas por Ubicación
-                Geográfica
               </h4>
               <span
                 class="badge bg-secondary text-white rounded-pill"
                 v-if="locationsData.length > 0"
               >
-                Top {{ locationsData.length > 15 ? 15 : locationsData.length }}
+                Top {{ Math.min(locationsData.length, 8) }}
               </span>
             </div>
 
-            <div
-              v-if="locationsData.length > 0"
-              class="mt-4 table-responsive"
-              style="max-height: 350px; overflow-y: auto"
-            >
-              <table class="table table-sm table-hover mb-0" style="font-size: 0.9rem">
-                <thead class="table-light sticky-top">
-                  <tr>
-                    <th>País</th>
-                    <th>Ciudad</th>
-                    <th class="text-center">Visitas</th>
-                    <th class="text-center">Usuarios</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="(loc, index) in locationsData.slice(0, 15)" :key="index">
-                    <td>
-                      <div class="d-flex align-items-center fw-medium">
-                        {{ loc.country }}
-                      </div>
-                    </td>
-                    <td class="text-muted">{{ loc.city }}</td>
-                    <td class="text-center fw-bold">{{ formatNumber(loc.views) }}</td>
-                    <td class="text-center text-muted">{{ formatNumber(loc.users) }}</td>
-                  </tr>
-                </tbody>
-              </table>
+            <div v-if="locationsData.length > 0" class="row mt-3 align-items-start g-3">
+              <!-- Mini gráfico -->
+              <div class="col-12 col-md-7">
+                <div style="position: relative; height: 220px">
+                  <canvas ref="locationsChart"></canvas>
+                </div>
+              </div>
+              <!-- Tabla compacta -->
+              <div class="col-12 col-md-5">
+                <table class="table table-sm table-hover mb-0" style="font-size: 0.8rem">
+                  <thead class="table-light">
+                    <tr>
+                      <th>País / Ciudad</th>
+                      <th class="text-end">Visitas</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="(loc, index) in locationsData.slice(0, 8)" :key="index">
+                      <td>
+                        <div class="fw-medium" style="font-size: 0.8rem">{{ loc.country }}</div>
+                        <div class="text-muted" style="font-size: 0.72rem">{{ loc.city }}</div>
+                      </td>
+                      <td class="text-end fw-bold">{{ formatNumber(loc.views) }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
+
             <div v-else class="text-center text-muted p-4">
               {{
                 isLoading
@@ -507,6 +507,7 @@ export default {
         topBlogsChart: null,
         sectionsChart: null,
         personPieChart: null,
+        locationsChart: null,
       },
     }
   },
@@ -787,6 +788,7 @@ export default {
       this.renderTopBlogsChart()
       this.renderSectionChart()
       this.renderPersonPieChart()
+      this.renderLocationsChart()
     },
 
     renderTotalChart() {
@@ -928,6 +930,53 @@ export default {
               position: 'right',
               labels: { boxWidth: 12, font: { size: 11 }, padding: 15 },
             },
+          },
+        },
+      })
+    },
+
+    renderLocationsChart() {
+      const ctx = this.$refs.locationsChart?.getContext('2d')
+      if (!ctx || this.locationsData.length === 0) return
+
+      const top8 = this.locationsData.slice(0, 8)
+      const labels = top8.map((l) => `${l.city !== 'Desconocida' ? l.city : l.country}`)
+      const data = top8.map((l) => l.views)
+
+      // Palette de colores suaves
+      const colors = [
+        'rgba(13, 110, 253, 0.75)',
+        'rgba(111, 66, 193, 0.75)',
+        'rgba(32, 201, 151, 0.75)',
+        'rgba(253, 126, 20, 0.75)',
+        'rgba(13, 202, 240, 0.75)',
+        'rgba(25, 135, 84, 0.75)',
+        'rgba(220, 53, 69, 0.75)',
+        'rgba(255, 193, 7, 0.75)',
+      ]
+
+      this.charts.locationsChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels,
+          datasets: [
+            {
+              label: 'Visitas',
+              data,
+              backgroundColor: colors.slice(0, data.length),
+              borderRadius: 6,
+              barPercentage: 0.65,
+            },
+          ],
+        },
+        options: {
+          indexAxis: 'y',
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { beginAtZero: true, grid: { color: '#f0f2f5' }, ticks: { font: { size: 10 } } },
+            y: { grid: { display: false }, ticks: { font: { size: 10 } } },
           },
         },
       })
