@@ -279,31 +279,15 @@ export async function getBlogEventBreakdown(startDate = '30daysAgo', endDate = '
   return breakdown
 }
 
-export async function getLocationViews(startDate = '30daysAgo', endDate = 'today', personId = '') {
-  let dimensionFilter
-  if (personId) {
-    dimensionFilter = {
-      filter: {
-        fieldName: 'pagePath',
-        stringFilter: {
-          matchType: 'BEGINS_WITH',
-          value: `/blog/`, // Or `/person/${personId}` depending on what makes sense, we'll just get all for now, or we can leave it empty to get global locations. We'll stick to global or allow filtering.
-          // Wait, personId tracking locations is complex. Let's just do global locations first, or locations for blogs.
-          // The user requested "see from what locations the page was visited". I will fetch global views by country and city.
-        },
-      },
-    }
-  }
-
-  const req = {
+export async function getLocationViews(startDate = '30daysAgo', endDate = 'today') {
+  const [response] = await analyticsDataClient.runReport({
     property: `properties/${PROPERTY_ID}`,
     dateRanges: [{ startDate, endDate }],
     dimensions: [{ name: 'country' }, { name: 'city' }],
     metrics: [{ name: 'screenPageViews' }, { name: 'activeUsers' }],
-    dimensionFilter,
-  }
-
-  const [response] = await analyticsDataClient.runReport(req)
+    orderBys: [{ metric: { metricName: 'screenPageViews' }, desc: true }],
+    limit: 50,
+  })
 
   const locations = []
   response.rows?.forEach((row) => {
@@ -311,14 +295,10 @@ export async function getLocationViews(startDate = '30daysAgo', endDate = 'today
     const city = row.dimensionValues[1].value
     const views = parseInt(row.metricValues[0].value)
     const users = parseInt(row.metricValues[1].value)
-
     if (country !== '(not set)') {
       locations.push({ country, city: city === '(not set)' ? 'Desconocida' : city, views, users })
     }
   })
-
-  // Sort by highest views first
-  locations.sort((a, b) => b.views - a.views)
 
   return locations
 }

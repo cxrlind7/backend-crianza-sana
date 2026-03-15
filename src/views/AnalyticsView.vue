@@ -662,9 +662,9 @@ export default {
         personQueryParams += `&personId=${this.selectedPersonId}`
       }
 
-      // URL base de Railway (Asegúrate de que sea la correcta y esté desplegada)
-      const API_BASE = 'https://ga4-backend-production.up.railway.app/api'
-      // const API_BASE = 'http://localhost:3001/api'
+      // Servidor unificado en Railway (frontend + backend en el mismo host)
+      const API_BASE = 'https://crianzasanabydkids.mx/api'
+      // const API_BASE = 'http://localhost:8080/api' // Para desarrollo local
 
       try {
         // Ejecutar peticiones en paralelo
@@ -673,7 +673,7 @@ export default {
           fetch(`${API_BASE}/homepage-views${dateQueryParams}`),
           fetch(`${API_BASE}/routes-views${dateQueryParams}`),
           fetch(`${API_BASE}/person-views${personQueryParams}`), // Este sí va filtrado al backend
-          fetch(`${API_BASE}/location-views${personQueryParams}`), // Filtramos también ubicaciones
+          fetch(`${API_BASE}/location-views${dateQueryParams}`), // Ubicaciones siempre globales
         ])
 
         const rawBlogStats = await blogStatsRes.json()
