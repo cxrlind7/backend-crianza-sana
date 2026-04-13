@@ -432,6 +432,191 @@ export const getEvents = async () => {
 }
 
 /**
+ * Obtiene todos los anuncios (admin).
+ */
+export const getAllAds = async () => {
+  try {
+    const response = await axios.get(`${BACKEND_URL}/api/firestore/ad`)
+    return response.data
+  } catch (error) {
+    console.error('❌ Error obteniendo ads:', error)
+    return []
+  }
+}
+
+export const updateAd = async (id, data) => {
+  try {
+    await axios.put(`${BACKEND_URL}/api/firestore/ad/${id}`, data)
+    return true
+  } catch (error) {
+    console.error(`❌ Error actualizando ad ${id}:`, error)
+    return false
+  }
+}
+
+export const createAd = async (data) => {
+  try {
+    const response = await axios.post(`${BACKEND_URL}/api/firestore/ad`, data)
+    return response.data.id
+  } catch (error) {
+    console.error('❌ Error creando ad:', error)
+    return null
+  }
+}
+
+export const deleteAd = async (id) => {
+  try {
+    await axios.delete(`${BACKEND_URL}/api/firestore/ad/${id}`)
+    return true
+  } catch (error) {
+    console.error(`❌ Error eliminando ad ${id}:`, error)
+    return false
+  }
+}
+
+/**
+ * Obtiene todos los banners (admin).
+ */
+export const getAllBanners = async () => {
+  try {
+    const response = await axios.get(`${BACKEND_URL}/api/firestore/banner/all`)
+    return response.data
+  } catch (error) {
+    console.error('❌ Error obteniendo banners:', error)
+    return []
+  }
+}
+
+export const updateBanner = async (id, data) => {
+  try {
+    await axios.put(`${BACKEND_URL}/api/firestore/banner/${id}`, data)
+    return true
+  } catch (error) {
+    console.error(`❌ Error actualizando banner ${id}:`, error)
+    return false
+  }
+}
+
+export const createBanner = async (data) => {
+  try {
+    const response = await axios.post(`${BACKEND_URL}/api/firestore/banner`, data)
+    return response.data.id
+  } catch (error) {
+    console.error('❌ Error creando banner:', error)
+    return null
+  }
+}
+
+export const deleteBanner = async (id) => {
+  try {
+    await axios.delete(`${BACKEND_URL}/api/firestore/banner/${id}`)
+    return true
+  } catch (error) {
+    console.error(`❌ Error eliminando banner ${id}:`, error)
+    return false
+  }
+}
+
+/**
+ * Obtiene todos los eventos (admin).
+ */
+export const getAllEventos = async () => {
+  try {
+    const response = await axios.get(`${BACKEND_URL}/api/firestore/eventos`)
+    return response.data
+  } catch (error) {
+    console.error('❌ Error obteniendo eventos:', error)
+    return []
+  }
+}
+
+export const updateEvento = async (id, data) => {
+  try {
+    await axios.put(`${BACKEND_URL}/api/firestore/eventos/${id}`, data)
+    return true
+  } catch (error) {
+    console.error(`❌ Error actualizando evento ${id}:`, error)
+    return false
+  }
+}
+
+export const createEvento = async (data) => {
+  try {
+    const response = await axios.post(`${BACKEND_URL}/api/firestore/eventos`, data)
+    return response.data.id
+  } catch (error) {
+    console.error('❌ Error creando evento:', error)
+    return null
+  }
+}
+
+export const deleteEvento = async (id) => {
+  try {
+    await axios.delete(`${BACKEND_URL}/api/firestore/eventos/${id}`)
+    return true
+  } catch (error) {
+    console.error(`❌ Error eliminando evento ${id}:`, error)
+    return false
+  }
+}
+
+/**
+ * Obtiene todas las campañas (admin).
+ */
+export const getAllCampanas = async () => {
+  try {
+    const response = await axios.get(`${BACKEND_URL}/api/firestore/campana/all`)
+    return response.data
+  } catch (error) {
+    console.error('❌ Error obteniendo campañas:', error)
+    return []
+  }
+}
+
+export const updateCampana = async (id, data) => {
+  try {
+    await axios.put(`${BACKEND_URL}/api/firestore/campana/${id}`, data)
+    return true
+  } catch (error) {
+    console.error(`❌ Error actualizando campaña ${id}:`, error)
+    return false
+  }
+}
+
+/**
+ * CRUD para Videos (Programas).
+ */
+export const updateVideo = async (id, data) => {
+  try {
+    await axios.put(`${BACKEND_URL}/api/firestore/videos/${id}`, data)
+    return true
+  } catch (error) {
+    console.error(`❌ Error actualizando video ${id}:`, error)
+    return false
+  }
+}
+
+export const createVideo = async (data) => {
+  try {
+    const response = await axios.post(`${BACKEND_URL}/api/firestore/videos`, data)
+    return response.data.id
+  } catch (error) {
+    console.error('❌ Error creando video:', error)
+    return null
+  }
+}
+
+export const deleteVideo = async (id) => {
+  try {
+    await axios.delete(`${BACKEND_URL}/api/firestore/videos/${id}`)
+    return true
+  } catch (error) {
+    console.error(`❌ Error eliminando video ${id}:`, error)
+    return false
+  }
+}
+
+/**
  * Obtiene el banner activo.
  * @returns {Promise<Object|null>} El banner activo o null.
  */
@@ -517,6 +702,68 @@ export const logoutUser = async () => {
     await signOut(auth)
   } catch (error) {
     console.error('❌ Error cerrando sesión:', error)
+    throw error
+  }
+}
+
+/**
+ * Suscribe un correo electrónico para recibir actualizaciones.
+ * @param {string} email
+ * @returns {Promise<{success: boolean, alreadyExists?: boolean, error?: string}>}
+ */
+export const subscribeEmail = async (email) => {
+  try {
+    const response = await axios.post(`${BACKEND_URL}/api/subscribers`, { email })
+    return { success: true, ...response.data }
+  } catch (error) {
+    if (error.response?.status === 409) {
+      return { success: false, alreadyExists: true, error: error.response.data.error }
+    }
+    console.error('❌ Error al suscribir:', error)
+    return { success: false, error: 'Error al guardar suscripción' }
+  }
+}
+
+/**
+ * Obtiene todos los suscriptores (admin).
+ * @returns {Promise<Array>}
+ */
+export const getSubscribers = async () => {
+  try {
+    const response = await axios.get(`${BACKEND_URL}/api/subscribers`)
+    return response.data
+  } catch (error) {
+    console.error('❌ Error obteniendo suscriptores:', error)
+    return []
+  }
+}
+
+/**
+ * Elimina un suscriptor por su ID de Firestore.
+ * @param {string} id
+ * @returns {Promise<boolean>}
+ */
+export const deleteSubscriber = async (id) => {
+  try {
+    await axios.delete(`${BACKEND_URL}/api/subscribers/${id}`)
+    return true
+  } catch (error) {
+    console.error('❌ Error eliminando suscriptor:', error)
+    return false
+  }
+}
+
+/**
+ * Envía un newsletter a todos los suscriptores.
+ * @param {{type: string, title: string, description: string, link: string}} payload
+ * @returns {Promise<{success: boolean, sent: number, errors: number, total: number}>}
+ */
+export const sendNewsletter = async (payload) => {
+  try {
+    const response = await axios.post(`${BACKEND_URL}/api/send-newsletter`, payload)
+    return response.data
+  } catch (error) {
+    console.error('❌ Error enviando newsletter:', error)
     throw error
   }
 }

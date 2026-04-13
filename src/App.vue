@@ -8,6 +8,7 @@ import { auth } from '@/firebase/firebaseConfig'
 import { ref, provide } from 'vue'
 import Whatsapp from './components/Whatsapp.vue'
 import AppFooter from './components/Footer.vue'
+import SubscribeModal from './components/SubscribeModal.vue'
 
 const currentUser = ref(null)
 
@@ -27,6 +28,7 @@ provide('currentUser', currentUser)
   </div>
   <AppFooter />
   <Whatsapp />
+  <SubscribeModal />
 </template>
 
 <style scoped>

@@ -8,6 +8,7 @@ import axios from 'axios'
 import cors from 'cors'
 import AWS from 'aws-sdk'
 import admin from 'firebase-admin'
+import { Resend } from 'resend'
 import {
   getBlogPageViews,
   getHomepageDailyViews,
@@ -600,6 +601,185 @@ app.get('/api/firestore/ad', async (req, res) => {
   }
 })
 
+// --- AD CRUD ---
+app.put('/api/firestore/ad/:id', async (req, res) => {
+  const { id } = req.params
+  if (!db) return res.json({ success: true })
+  try {
+    await db.collection('ad').doc(id).set(req.body, { merge: true })
+    res.json({ success: true })
+  } catch (error) {
+    console.error('Error updating ad:', error)
+    res.status(500).json({ error: 'Error updating ad' })
+  }
+})
+
+app.post('/api/firestore/ad', async (req, res) => {
+  if (!db) return res.json({ success: true, id: 'mock-id' })
+  try {
+    const docRef = await db.collection('ad').add(req.body)
+    res.json({ success: true, id: docRef.id })
+  } catch (error) {
+    console.error('Error creating ad:', error)
+    res.status(500).json({ error: 'Error creating ad' })
+  }
+})
+
+app.delete('/api/firestore/ad/:id', async (req, res) => {
+  const { id } = req.params
+  if (!db) return res.json({ success: true })
+  try {
+    await db.collection('ad').doc(id).delete()
+    res.json({ success: true })
+  } catch (error) {
+    console.error('Error deleting ad:', error)
+    res.status(500).json({ error: 'Error deleting ad' })
+  }
+})
+
+// --- BANNER CRUD ---
+app.get('/api/firestore/banner/all', async (req, res) => {
+  if (!db) return res.json([])
+  try {
+    const snapshot = await db.collection('banner').get()
+    res.json(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })))
+  } catch (error) {
+    console.error('Error fetching banners:', error)
+    res.status(500).json({ error: 'Error fetching banners' })
+  }
+})
+
+app.put('/api/firestore/banner/:id', async (req, res) => {
+  const { id } = req.params
+  if (!db) return res.json({ success: true })
+  try {
+    await db.collection('banner').doc(id).set(req.body, { merge: true })
+    res.json({ success: true })
+  } catch (error) {
+    console.error('Error updating banner:', error)
+    res.status(500).json({ error: 'Error updating banner' })
+  }
+})
+
+app.post('/api/firestore/banner', async (req, res) => {
+  if (!db) return res.json({ success: true, id: 'mock-id' })
+  try {
+    const docRef = await db.collection('banner').add(req.body)
+    res.json({ success: true, id: docRef.id })
+  } catch (error) {
+    console.error('Error creating banner:', error)
+    res.status(500).json({ error: 'Error creating banner' })
+  }
+})
+
+app.delete('/api/firestore/banner/:id', async (req, res) => {
+  const { id } = req.params
+  if (!db) return res.json({ success: true })
+  try {
+    await db.collection('banner').doc(id).delete()
+    res.json({ success: true })
+  } catch (error) {
+    console.error('Error deleting banner:', error)
+    res.status(500).json({ error: 'Error deleting banner' })
+  }
+})
+
+// --- EVENTOS CRUD ---
+app.put('/api/firestore/eventos/:id', async (req, res) => {
+  const { id } = req.params
+  if (!db) return res.json({ success: true })
+  try {
+    await db.collection('eventos').doc(id).set(req.body, { merge: true })
+    res.json({ success: true })
+  } catch (error) {
+    console.error('Error updating evento:', error)
+    res.status(500).json({ error: 'Error updating evento' })
+  }
+})
+
+app.post('/api/firestore/eventos', async (req, res) => {
+  if (!db) return res.json({ success: true, id: 'mock-id' })
+  try {
+    const docRef = await db.collection('eventos').add(req.body)
+    res.json({ success: true, id: docRef.id })
+  } catch (error) {
+    console.error('Error creating evento:', error)
+    res.status(500).json({ error: 'Error creating evento' })
+  }
+})
+
+app.delete('/api/firestore/eventos/:id', async (req, res) => {
+  const { id } = req.params
+  if (!db) return res.json({ success: true })
+  try {
+    await db.collection('eventos').doc(id).delete()
+    res.json({ success: true })
+  } catch (error) {
+    console.error('Error deleting evento:', error)
+    res.status(500).json({ error: 'Error deleting evento' })
+  }
+})
+
+// --- CAMPANA CRUD ---
+app.put('/api/firestore/campana/:id', async (req, res) => {
+  const { id } = req.params
+  if (!db) return res.json({ success: true })
+  try {
+    await db.collection('campana').doc(id).set(req.body, { merge: true })
+    res.json({ success: true })
+  } catch (error) {
+    console.error('Error updating campana:', error)
+    res.status(500).json({ error: 'Error updating campana' })
+  }
+})
+
+app.get('/api/firestore/campana/all', async (req, res) => {
+  if (!db) return res.json([])
+  try {
+    const snapshot = await db.collection('campana').get()
+    res.json(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })))
+  } catch (error) {
+    console.error('Error fetching campanas:', error)
+    res.status(500).json({ error: 'Error fetching campanas' })
+  }
+})
+
+// --- VIDEOS (PROGRAMAS) CRUD ---
+app.put('/api/firestore/videos/:id', async (req, res) => {
+  const { id } = req.params
+  if (!db) return res.json({ success: true })
+  try {
+    await db.collection('programas').doc(id).set(req.body, { merge: true })
+    res.json({ success: true })
+  } catch (error) {
+    console.error('Error updating video:', error)
+    res.status(500).json({ error: 'Error updating video' })
+  }
+})
+
+app.post('/api/firestore/videos', async (req, res) => {
+  if (!db) return res.json({ success: true, id: 'mock-id' })
+  try {
+    const docRef = await db.collection('programas').add(req.body)
+    res.json({ success: true, id: docRef.id })
+  } catch (error) {
+    console.error('Error creating video:', error)
+    res.status(500).json({ error: 'Error creating video' })
+  }
+})
+
+app.delete('/api/firestore/videos/:id', async (req, res) => {
+  const { id } = req.params
+  if (!db) return res.json({ success: true })
+  try {
+    await db.collection('programas').doc(id).delete()
+    res.json({ success: true })
+  } catch (error) {
+    console.error('Error deleting video:', error)
+    res.status(500).json({ error: 'Error deleting video' })
+  }
+})
+
 // --- BLOGS ---
 app.get('/api/firestore/blogs', async (req, res) => {
   console.log('📡 Request received for /api/firestore/blogs')
@@ -670,6 +850,168 @@ app.post('/api/firestore/blogs', async (req, res) => {
     console.error('Error creating blog:', error)
     res.status(500).json({ error: 'Error creating blog' })
   }
+})
+
+// ==========================================
+// --- SUSCRIPTORES & EMAIL ---
+// ==========================================
+
+// Configurar cliente de Resend con variable de entorno o fallback a apikey de prueba
+const resend = new Resend(process.env.RESEND_API_KEY)
+
+// POST /api/subscribers — Suscribir un correo
+app.post('/api/subscribers', async (req, res) => {
+  const { email } = req.body
+  if (!email || !email.includes('@')) {
+    return res.status(400).json({ error: 'Correo inválido' })
+  }
+
+  // Mock si no hay DB
+  if (!db) {
+    console.warn('⚠️ DB no disponible, mock subscribe success.')
+    return res.json({ success: true, message: 'Mock subscribe success' })
+  }
+
+  try {
+    // Verificar si ya existe
+    const snapshot = await db
+      .collection('subscribers')
+      .where('email', '==', email.toLowerCase())
+      .get()
+
+    if (!snapshot.empty) {
+      return res.status(409).json({ error: 'Este correo ya está registrado', alreadyExists: true })
+    }
+
+    await db.collection('subscribers').add({
+      email: email.toLowerCase(),
+      subscribedAt: admin.firestore.FieldValue.serverTimestamp(),
+    })
+
+    // Correo de bienvenida al nuevo suscriptor via Resend
+    try {
+      await resend.emails.send({
+        from: 'hola@crianzasanabydkids.mx',
+        to: email,
+        subject: "¡Bienvenido/a a Crianza Sana by D'Kids! 🌱",
+        html: `
+            <div style="font-family:'Segoe UI',Roboto,Arial,sans-serif;max-width:600px;margin:0 auto;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.1)">
+              <div style="background:linear-gradient(135deg,#7c3aed,#a855f7);padding:40px 30px;text-align:center">
+                <h1 style="color:#fff;margin:0;font-size:28px">¡Gracias por suscribirte! 🌱</h1>
+              </div>
+              <div style="padding:30px">
+                <p style="color:#374151;font-size:16px;line-height:1.6">Hola,</p>
+                <p style="color:#374151;font-size:16px;line-height:1.6">Te has suscrito exitosamente a las actualizaciones de <strong>Crianza Sana by D'Kids</strong>. A partir de ahora recibirás notificaciones cuando publiquemos nuevos blogs y programas.</p>
+                <p style="color:#6b7280;font-size:14px;margin-top:30px">Si no solicitaste esta suscripción, puedes ignorar este mensaje.</p>
+              </div>
+              <div style="background:#f9fafb;padding:20px;text-align:center">
+                <p style="color:#9ca3af;font-size:12px;margin:0">© 2026 Crianza Sana by D'Kids — <a href="https://crianzasanabydkids.mx" style="color:#7c3aed">crianzasanabydkids.mx</a></p>
+              </div>
+            </div>
+          `,
+      })
+    } catch (emailErr) {
+      console.warn('⚠️ No se pudo enviar correo de bienvenida:', emailErr.message)
+    }
+
+    res.json({ success: true, message: 'Suscripción exitosa' })
+  } catch (error) {
+    console.error('Error al suscribir:', error)
+    res.status(500).json({ error: 'Error al guardar suscripción' })
+  }
+})
+
+// GET /api/subscribers — Obtener todos los suscriptores (admin)
+app.get('/api/subscribers', async (req, res) => {
+  if (!db) return res.json([])
+  try {
+    const snapshot = await db.collection('subscribers').orderBy('subscribedAt', 'desc').get()
+    const subscribers = snapshot.docs.map((doc) => ({
+      id: doc.id,
+      email: doc.data().email,
+      subscribedAt: doc.data().subscribedAt?.toDate?.() || null,
+    }))
+    res.json(subscribers)
+  } catch (error) {
+    console.error('Error obteniendo suscriptores:', error)
+    res.status(500).json({ error: 'Error obteniendo suscriptores' })
+  }
+})
+
+// DELETE /api/subscribers/:id — Eliminar un suscriptor
+app.delete('/api/subscribers/:id', async (req, res) => {
+  const { id } = req.params
+  if (!db) return res.json({ success: true })
+  try {
+    await db.collection('subscribers').doc(id).delete()
+    res.json({ success: true })
+  } catch (error) {
+    console.error('Error eliminando suscriptor:', error)
+    res.status(500).json({ error: 'Error eliminando suscriptor' })
+  }
+})
+
+// POST /api/send-newsletter — Enviar correo a todos los suscriptores
+app.post('/api/send-newsletter', async (req, res) => {
+  const { type, title, description, link } = req.body
+  if (!title) return res.status(400).json({ error: 'Título requerido' })
+
+  if (!process.env.RESEND_API_KEY && !resend) {
+    return res.status(503).json({ error: 'Servicio de correo de Resend no configurado.' })
+  }
+
+  let subscribers = []
+  if (db) {
+    const snapshot = await db.collection('subscribers').get()
+    subscribers = snapshot.docs.map((d) => d.data().email)
+  }
+
+  if (subscribers.length === 0) {
+    return res.json({ success: true, sent: 0, message: 'No hay suscriptores registrados' })
+  }
+
+  const typeLabel = type === 'program' ? 'Nuevo Programa 🎬' : 'Nuevo Blog 📝'
+  const ctaLabel = type === 'program' ? 'Ver Programa' : 'Leer Blog'
+  const gradient =
+    type === 'program'
+      ? 'linear-gradient(135deg,#0f766e,#14b8a6)'
+      : 'linear-gradient(135deg,#7c3aed,#a855f7)'
+
+  const htmlBody = `
+    <div style="font-family:'Segoe UI',Roboto,Arial,sans-serif;max-width:600px;margin:0 auto;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.1)">
+      <div style="background:${gradient};padding:40px 30px;text-align:center">
+        <p style="color:rgba(255,255,255,0.8);margin:0 0 8px;font-size:14px;letter-spacing:2px;text-transform:uppercase">${typeLabel}</p>
+        <h1 style="color:#fff;margin:0;font-size:26px;line-height:1.3">${title}</h1>
+      </div>
+      <div style="padding:30px">
+        ${description ? `<p style="color:#374151;font-size:16px;line-height:1.7">${description}</p>` : ''}
+        ${link ? `<div style="text-align:center;margin:30px 0"><a href="${link}" style="background:${gradient.includes('0f766e') ? '#0f766e' : '#7c3aed'};color:#fff;text-decoration:none;padding:14px 32px;border-radius:8px;font-size:16px;font-weight:600;display:inline-block">${ctaLabel} →</a></div>` : ''}
+        <p style="color:#6b7280;font-size:14px">Recibe este correo porque estás suscrito/a a las actualizaciones de Crianza Sana by D'Kids.</p>
+      </div>
+      <div style="background:#f9fafb;padding:20px;text-align:center">
+        <p style="color:#9ca3af;font-size:12px;margin:0">© 2026 Crianza Sana by D'Kids — <a href="https://crianzasanabydkids.mx" style="color:#7c3aed">crianzasanabydkids.mx</a></p>
+      </div>
+    </div>
+  `
+
+  let sent = 0
+  let errors = 0
+  for (const email of subscribers) {
+    try {
+      await resend.emails.send({
+        from: 'hola@crianzasanabydkids.mx',
+        to: email,
+        subject: `${typeLabel}: ${title}`,
+        html: htmlBody,
+      })
+      sent++
+    } catch (e) {
+      console.error(`Error enviando a ${email}:`, e.message)
+      errors++
+    }
+  }
+
+  res.json({ success: true, sent, errors, total: subscribers.length })
 })
 
 // --- SEO / SERVER SIDE RENDERING (LIGERO) ---

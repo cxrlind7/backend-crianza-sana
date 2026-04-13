@@ -939,6 +939,96 @@ export default {
   text-align: left; /* NUNCA justificar texto en web */
 }
 
+/* --- Headings inside article --- */
+.blog-content-typography :deep(h2) {
+  font-size: 1.65rem;
+  font-weight: 800;
+  color: #1a202c;
+  margin: 2rem 0 0.75rem;
+  line-height: 1.25;
+  border-bottom: 2px solid #edf2f7;
+  padding-bottom: 0.4rem;
+}
+.blog-content-typography :deep(h3) {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #2d3748;
+  margin: 1.5rem 0 0.5rem;
+}
+
+/* --- Blockquote / Citas destacadas --- */
+.blog-content-typography :deep(blockquote) {
+  position: relative;
+  margin: 2rem 0;
+  padding: 1.25rem 1.5rem 1.25rem 1.75rem;
+  background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
+  border-left: 5px solid #7c3aed;
+  border-radius: 0 12px 12px 0;
+  font-style: italic;
+  font-size: 1.1rem;
+  color: #4c1d95;
+  line-height: 1.75;
+  quotes: none;
+  box-shadow: 0 4px 20px rgba(124, 58, 237, 0.08);
+}
+.blog-content-typography :deep(blockquote)::before {
+  content: '\201C';
+  position: absolute;
+  top: -4px;
+  left: 14px;
+  font-size: 4rem;
+  font-style: normal;
+  color: #7c3aed;
+  opacity: 0.25;
+  line-height: 1;
+  font-family: Georgia, serif;
+  pointer-events: none;
+}
+
+/* --- Lists --- */
+.blog-content-typography :deep(ul),
+.blog-content-typography :deep(ol) {
+  padding-left: 1.75rem;
+  margin: 0.75rem 0 1.25rem;
+}
+.blog-content-typography :deep(li) {
+  margin-bottom: 0.5rem;
+  line-height: 1.7;
+}
+.blog-content-typography :deep(ul li)::marker {
+  color: #7c3aed;
+}
+.blog-content-typography :deep(ol li)::marker {
+  color: #7c3aed;
+  font-weight: 700;
+}
+
+/* --- Links --- */
+.blog-content-typography :deep(a) {
+  color: #7c3aed;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.2s;
+}
+.blog-content-typography :deep(a:hover) {
+  color: #4c1d95;
+}
+
+/* --- Bold / Italic --- */
+.blog-content-typography :deep(strong) {
+  font-weight: 700;
+  color: #1a202c;
+}
+.blog-content-typography :deep(em) {
+  font-style: italic;
+  color: #4a5568;
+}
+
+/* --- Paragraphs spacing --- */
+.blog-content-typography :deep(p) {
+  margin-bottom: 1.1rem;
+}
+
 /* --- Sección de Comentarios Moderna --- */
 .comments-section {
   padding: 0 40px 40px;
