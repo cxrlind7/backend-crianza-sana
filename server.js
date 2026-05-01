@@ -856,8 +856,11 @@ app.post('/api/firestore/blogs', async (req, res) => {
 // --- SUSCRIPTORES & EMAIL ---
 // ==========================================
 
-// Configurar cliente de Resend con variable de entorno o fallback a apikey de prueba
-const resend = new Resend(process.env.RESEND_API_KEY)
+// Configurar cliente de Resend
+if (!process.env.RESEND_API_KEY) {
+  console.warn('⚠️  RESEND_API_KEY no configurada — emails desactivados')
+}
+const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null
 
 // POST /api/subscribers — Suscribir un correo
 app.post('/api/subscribers', async (req, res) => {
@@ -890,6 +893,7 @@ app.post('/api/subscribers', async (req, res) => {
 
     // Correo de bienvenida al nuevo suscriptor via Resend
     try {
+      if (!resend) throw new Error('RESEND_API_KEY no configurada')
       await resend.emails.send({
         from: 'hola@crianzasanabydkids.mx',
         to: email,
@@ -998,6 +1002,7 @@ app.post('/api/send-newsletter', async (req, res) => {
   let errors = 0
   for (const email of subscribers) {
     try {
+      if (!resend) throw new Error('RESEND_API_KEY no configurada')
       await resend.emails.send({
         from: 'hola@crianzasanabydkids.mx',
         to: email,

@@ -167,7 +167,16 @@
               <!-- Sección Izquierda: Video Player (Fondo Negro) -->
               <div class="video-player-section">
                 <div class="iframe-wrapper-absolute">
+                  <video
+                    v-if="isDirectVideo(selectedVideo.url)"
+                    :src="selectedVideo.url"
+                    controls
+                    autoplay
+                    playsinline
+                    class="video-iframe-fit"
+                  ></video>
                   <iframe
+                    v-else
                     :src="selectedVideo.url"
                     frameborder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -576,6 +585,11 @@ const deleteComment = async (comment, idx) => {
 
 const toggleMenu = (index) => {
   activeMenu.value = activeMenu.value === index ? null : index
+}
+
+const isDirectVideo = (url) => {
+  if (!url) return false
+  return /\.(mp4|webm|mov|ogg)(\?|$)/i.test(url)
 }
 
 onMounted(async () => {
