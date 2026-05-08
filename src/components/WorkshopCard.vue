@@ -84,14 +84,14 @@ export default {
         //   message: 'Hola, estoy interesado/a en inscribirme al "RETO REINÍCIATE 2026"...',
         //   buttonText: 'Regístrate vía WhatsApp',
         // },
-        {
-          type: 'call',
-          altText: 'NeuroKids Center Durango - Desarrollo Cognitivo',
-          imageSrc: neuro,
-          phone: '6181072514',
-          message: '',
-          buttonText: 'Llamar para Cita',
-        },
+        // {
+        //   type: 'call',
+        //   altText: 'NeuroKids Center Durango - Desarrollo Cognitivo',
+        //   imageSrc: neuro,
+        //   phone: '6181072514',
+        //   message: '',
+        //   buttonText: 'Llamar para Cita',
+        // },
       ],
     }
   },
