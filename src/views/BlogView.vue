@@ -466,7 +466,7 @@ onMounted(() => {
   /* background: linear-gradient(to right, #d7e1ec, #b0c6e8); */
   min-height: 100vh;
   font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  color: #343a40;
+  color: var(--dm-text);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -478,7 +478,7 @@ onMounted(() => {
   margin-top: 20px;
   align-items: center;
   padding: 10px 20px;
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: var(--dm-surface);
   border: none;
   border-radius: 30px;
   color: var(--dm-text-secondary);
@@ -543,7 +543,7 @@ onMounted(() => {
 .controls-container {
   max-width: 1200px;
   margin: 0 auto;
-  background: rgba(255, 255, 255, 0.95); /* Fondo semi-transparente para que se integre */
+  background: var(--dm-surface); /* Fondo semi-transparente para que se integre */
   padding: 25px;
   border-radius: 16px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
@@ -637,7 +637,7 @@ onMounted(() => {
 
 .sort-segmented-control {
   display: flex;
-  background: #e9ecef;
+  background: var(--dm-surface-2);
   border-radius: 8px;
   padding: 4px;
 }
@@ -676,7 +676,7 @@ onMounted(() => {
 
 /* --- Tarjeta de Blog Moderna --- */
 .blog-card-modern {
-  background: rgba(255, 255, 255, 0.95); /* Fondo semi-transparente */
+  background: var(--dm-surface); /* Fondo semi-transparente */
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
@@ -731,7 +731,7 @@ onMounted(() => {
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.9);
+  background: var(--dm-surface);
   border: none;
   color: var(--dm-text-secondary);
   display: flex;
@@ -837,7 +837,7 @@ onMounted(() => {
 
 /* --- Estado Vacío --- */
 .empty-state-container {
-  background: rgba(255, 255, 255, 0.8);
+  background: var(--dm-surface);
   padding: 40px;
   border-radius: 16px;
   display: inline-block;
@@ -859,7 +859,7 @@ onMounted(() => {
   height: 40px;
   border-radius: 50%;
   border: none;
-  background: rgba(255, 255, 255, 0.8);
+  background: var(--dm-surface);
   color: var(--dm-text-secondary);
   font-weight: 600;
   display: flex;
@@ -886,7 +886,7 @@ onMounted(() => {
 .pagination-arrow:disabled {
   opacity: 0.5;
   cursor: not-allowed;
-  background: rgba(255, 255, 255, 0.5);
+  background: var(--dm-surface);
 }
 
 .pagination-pages {
