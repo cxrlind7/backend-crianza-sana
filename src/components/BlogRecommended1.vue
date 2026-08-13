@@ -55,7 +55,7 @@ export default {
     width: 90%;
     max-width: 1000px;
     margin: 40px auto;
-    background-color: #ffffff;
+    background-color: var(--dm-surface);
     border-radius: 12px;
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
     overflow: hidden;
@@ -100,7 +100,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #f9f9f9;
+    background-color: var(--dm-surface-2);
 }
 
 .image img {
@@ -117,7 +117,7 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    background-color: #ffffff;
+    background-color: var(--dm-surface);
 }
 
 .text-section {
@@ -135,7 +135,7 @@ export default {
 .content h1 {
     font-size: 1.8rem;
     font-weight: 700;
-    color: #333333;
+    color: var(--dm-text);
     margin-bottom: 15px;
 }
 
@@ -183,7 +183,7 @@ export default {
         margin-top: -4rem;
         flex: none;
         width: 100%;
-        background-color: #f0f0f0;
+        background-color: var(--dm-surface-2);
     }
 
     .image img {

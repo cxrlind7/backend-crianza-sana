@@ -1969,7 +1969,7 @@ export default {
    ============================================================ */
 .cfg-root {
   min-height: 100vh;
-  background: #f0f2f8;
+  background: var(--dm-surface-2);
   font-family:
     'Segoe UI',
     system-ui,
@@ -2184,13 +2184,13 @@ export default {
 
 .cfg-section-sub {
   font-size: 0.82rem;
-  color: #9ca3af;
+  color: var(--dm-text-secondary);
   margin: 0;
 }
 
 /* === Content Card === */
 .cfg-content-card {
-  background: #fff;
+  background: var(--dm-surface);
   border-radius: 20px;
   box-shadow:
     0 1px 3px rgba(0, 0, 0, 0.06),
@@ -2222,7 +2222,7 @@ export default {
 }
 
 .cfg-denied-card {
-  background: #fff;
+  background: var(--dm-surface);
   border-radius: 24px;
   padding: 3rem 2.5rem;
   text-align: center;
@@ -2243,7 +2243,7 @@ export default {
 }
 
 .cfg-denied-card p {
-  color: #6b7280;
+  color: var(--dm-text-secondary);
   font-size: 0.9rem;
   margin-bottom: 1.5rem;
 }
@@ -2285,7 +2285,7 @@ export default {
 .cfg-placeholder {
   text-align: center;
   padding: 4rem 2rem;
-  color: #9ca3af;
+  color: var(--dm-text-secondary);
 }
 
 .cfg-placeholder-icon {
@@ -2332,8 +2332,8 @@ export default {
 }
 .modal-footer {
   padding: 1rem 1.5rem;
-  border-top: 1px solid #f3f4f6;
-  background: #fafafa;
+  border-top: 1px solid var(--dm-border);
+  background: var(--dm-surface-2);
 }
 
 /* ============================================================
@@ -2365,7 +2365,7 @@ export default {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  color: #9ca3af;
+  color: var(--dm-text-secondary);
 }
 
 .table tbody tr {
@@ -2391,7 +2391,7 @@ export default {
    =========================================================== */
 .cfg-root {
   min-height: 100vh;
-  background: #f4f5fa;
+  background: var(--dm-surface-2);
   font-family: 'Segoe UI', system-ui, sans-serif;
   padding-top: 62px; /* below the fixed site navbar */
 }
@@ -2558,12 +2558,12 @@ export default {
 }
 .cfg-page-sub {
   font-size: 0.8rem;
-  color: #9ca3af;
+  color: var(--dm-text-secondary);
   margin: 0;
 }
 
 .cfg-card {
-  background: #fff;
+  background: var(--dm-surface);
   border-radius: 20px;
   box-shadow:
     0 1px 3px rgba(0, 0, 0, 0.05),
@@ -2593,7 +2593,7 @@ export default {
   padding: 2rem;
 }
 .cfg-denied-card {
-  background: #fff;
+  background: var(--dm-surface);
   border-radius: 24px;
   padding: 3rem 2.5rem;
   text-align: center;
@@ -2611,7 +2611,7 @@ export default {
   margin-bottom: 0.5rem;
 }
 .cfg-denied-card p {
-  color: #6b7280;
+  color: var(--dm-text-secondary);
   font-size: 0.9rem;
   margin-bottom: 1.5rem;
 }
@@ -2649,7 +2649,7 @@ export default {
 .cfg-placeholder {
   text-align: center;
   padding: 4rem 2rem;
-  color: #9ca3af;
+  color: var(--dm-text-secondary);
 }
 .cfg-placeholder-icon {
   font-size: 3.5rem;
@@ -2686,8 +2686,8 @@ export default {
 }
 .modal-footer {
   padding: 1rem 1.5rem;
-  border-top: 1px solid #f3f4f6;
-  background: #fafafa;
+  border-top: 1px solid var(--dm-border);
+  background: var(--dm-surface-2);
 }
 
 /* ===========================================================
@@ -2714,7 +2714,7 @@ export default {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.07em;
-  color: #9ca3af;
+  color: var(--dm-text-secondary);
 }
 .table tbody tr:hover {
   background: rgba(124, 58, 237, 0.03);
@@ -2738,12 +2738,12 @@ export default {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  color: #6b7280;
+  color: var(--dm-text-secondary);
   margin-bottom: 0.4rem;
 }
 .blog-field-input {
   border-radius: 10px;
-  border: 1.5px solid #e5e7eb;
+  border: 1.5px solid var(--dm-border);
   font-size: 0.95rem;
   transition: border-color 0.2s;
 }
@@ -2754,7 +2754,7 @@ export default {
 .blog-color-input {
   height: 42px;
   border-radius: 10px;
-  border: 1.5px solid #e5e7eb;
+  border: 1.5px solid var(--dm-border);
   cursor: pointer;
   padding: 4px;
 }
@@ -2764,7 +2764,7 @@ export default {
   border-radius: 12px;
   overflow: hidden;
   max-height: 180px;
-  border: 1.5px solid #e5e7eb;
+  border: 1.5px solid var(--dm-border);
 }
 .blog-img-preview img {
   width: 100%;
@@ -2785,7 +2785,7 @@ export default {
 .blog-editor-tabs {
   display: flex;
   gap: 4px;
-  background: #f3f4f6;
+  background: var(--dm-surface-2);
   border-radius: 8px;
   padding: 3px;
 }
@@ -2796,12 +2796,12 @@ export default {
   border: none;
   border-radius: 6px;
   background: transparent;
-  color: #6b7280;
+  color: var(--dm-text-secondary);
   cursor: pointer;
   transition: all 0.18s;
 }
 .blog-tab-btn.active {
-  background: #fff;
+  background: var(--dm-surface);
   color: #4c1d95;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
 }
@@ -2814,8 +2814,8 @@ export default {
   align-items: center;
   gap: 2px;
   flex-wrap: wrap;
-  background: #f9fafb;
-  border: 1.5px solid #e5e7eb;
+  background: var(--dm-surface-2);
+  border: 1.5px solid var(--dm-border);
   border-bottom: none;
   border-radius: 10px 10px 0 0;
   padding: 6px 10px;
@@ -2827,7 +2827,7 @@ export default {
   border: none;
   border-radius: 6px;
   background: transparent;
-  color: #374151;
+  color: var(--dm-text-secondary);
   font-size: 0.95rem;
   cursor: pointer;
   display: flex;
@@ -2848,11 +2848,11 @@ export default {
   color: #7c3aed;
 }
 .toolbar-quote:hover {
-  background: #ede9fe;
+  background: rgba(124, 58, 237, 0.15);
   color: #4c1d95;
 }
 .toolbar-btn-danger:hover {
-  background: #fee2e2;
+  background: rgba(220, 38, 38, 0.15);
   color: #dc2626;
 }
 .toolbar-sep {
@@ -2870,13 +2870,13 @@ export default {
   min-height: 280px;
   max-height: 420px;
   overflow-y: auto;
-  border: 1.5px solid #e5e7eb;
+  border: 1.5px solid var(--dm-border);
   border-radius: 0 0 10px 10px;
   padding: 1rem 1.25rem;
   font-size: 1rem;
   line-height: 1.75;
-  color: #1f2937;
-  background: #fff;
+  color: var(--dm-text);
+  background: var(--dm-surface);
   outline: none;
   font-family: 'Segoe UI', system-ui, sans-serif;
 }
@@ -2886,7 +2886,7 @@ export default {
 }
 .blog-rich-editor:empty::before {
   content: 'Empieza a escribir el contenido del artículo...';
-  color: #9ca3af;
+  color: var(--dm-text-secondary);
   pointer-events: none;
 }
 
@@ -2895,7 +2895,7 @@ export default {
 .blog-preview-pane h2 {
   font-size: 1.45rem;
   font-weight: 800;
-  color: #1a202c;
+  color: var(--dm-text);
   margin: 1.2rem 0 0.5rem;
   line-height: 1.25;
 }
@@ -2903,7 +2903,7 @@ export default {
 .blog-preview-pane h3 {
   font-size: 1.15rem;
   font-weight: 700;
-  color: #2d3748;
+  color: var(--dm-text);
   margin: 1rem 0 0.4rem;
 }
 .blog-rich-editor blockquote,
@@ -2911,7 +2911,7 @@ export default {
   position: relative;
   margin: 1.25rem 0;
   padding: 1rem 1.25rem 1rem 1.5rem;
-  background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
+  background: rgba(124, 58, 237, 0.1);
   border-left: 4px solid #7c3aed;
   border-radius: 0 10px 10px 0;
   font-style: italic;
@@ -2960,12 +2960,12 @@ export default {
   min-height: 280px;
   max-height: 420px;
   overflow-y: auto;
-  border: 1.5px solid #e5e7eb;
+  border: 1.5px solid var(--dm-border);
   border-radius: 10px;
   padding: 1rem 1.25rem;
-  background: #fff;
+  background: var(--dm-surface);
   font-size: 1rem;
   line-height: 1.75;
-  color: #1f2937;
+  color: var(--dm-text);
 }
 </style>

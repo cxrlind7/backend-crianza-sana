@@ -100,6 +100,13 @@
       <div class="content-section mb-2 fade-in delay-3">
         <PersonBlogs :personName="person.name" :personColor="person.color" />
       </div>
+      <div class="content-section mb-2 fade-in delay-3">
+        <PersonYoutube
+          :videos="person.youtubeVideos"
+          :channelUrl="person.youtubeChannelUrl"
+          :personColor="person.color"
+        />
+      </div>
     </div>
     <div v-else class="container py-5 text-center">
       <p class="text-muted">Persona no encontrada.</p>
@@ -113,6 +120,7 @@ import people from '../../data'
 import ServicesProfile from './ServicesProfile.vue'
 import MisionProfile from './MisionProfile.vue'
 import PersonBlogs from './PersonBlogs.vue'
+import PersonYoutube from './PersonYoutube.vue'
 import PersonReels from './PersonReels.vue'
 import PersonFAQs from './PersonFAQs.vue'
 import PersonDownloads from './PersonDownloads.vue'
@@ -129,6 +137,7 @@ export default {
     ServicesProfile,
     MisionProfile,
     PersonBlogs,
+    PersonYoutube,
     PersonReels,
     PersonFAQs,
     PersonDownloads,
@@ -218,7 +227,7 @@ export default {
   background-color: rgba(255, 255, 255, 0.8);
   border: none;
   border-radius: 30px;
-  color: #555;
+  color: var(--dm-text-secondary);
   font-weight: 600;
   font-size: 0.9rem;
   cursor: pointer;
@@ -229,8 +238,8 @@ export default {
 }
 
 .btn-back:hover {
-  background-color: #ffffff;
-  color: #000;
+  background-color: var(--dm-surface);
+  color: var(--dm-text);
   transform: translateX(-5px);
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
 }
@@ -243,7 +252,7 @@ export default {
 .profile-header-card {
   border-radius: 16px;
   overflow: hidden;
-  background: #ffffff;
+  background: var(--dm-surface);
   box-shadow:
     0 15px 35px rgba(50, 50, 93, 0.03),
     0 5px 15px rgba(0, 0, 0, 0.03) !important;
@@ -297,7 +306,7 @@ export default {
   padding: 10px 20px;
   /* Bordes completamente redondeados (forma de pastilla) */
   border-radius: 30px;
-  background-color: #ffffff;
+  background-color: var(--dm-surface);
   margin: 0;
   transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   text-decoration: none;
@@ -305,7 +314,7 @@ export default {
   border: 2px solid transparent;
   cursor: pointer;
   /* Color del texto por defecto (se sobrescribe con el inline style para el icono) */
-  color: #555;
+  color: var(--dm-text-secondary);
   font-weight: 600;
   font-size: 0.95rem;
 }
@@ -313,7 +322,7 @@ export default {
 /* Espacio entre el icono y el texto */
 .social-text {
   margin-left: 10px;
-  color: #555; /* Color base del texto */
+  color: var(--dm-text-secondary); /* Color base del texto */
   transition: color 0.3s ease;
 }
 

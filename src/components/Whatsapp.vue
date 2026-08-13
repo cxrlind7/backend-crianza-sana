@@ -193,14 +193,14 @@ const openWhatsApp = (person) => {
   max-width: calc(100% - 40px);
   height: 500px;
   max-height: calc(100vh - 120px);
-  background-color: #fff;
+  background-color: var(--dm-surface);
   border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 10px 30px var(--dm-shadow);
   z-index: 1001;
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  border: 1px solid rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--dm-border);
 }
 
 .chat-header {
@@ -230,7 +230,7 @@ const openWhatsApp = (person) => {
   flex: 1;
   padding: 15px;
   overflow-y: auto;
-  background-color: #f0f2f5; /* Color de fondo estilo WhatsApp */
+  background-color: var(--dm-surface-2); /* Color de fondo estilo WhatsApp */
   background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zM32 63c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm57-13c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23d1d7db' fill-opacity='0.4' fill-rule='evenodd'/%3E%3C/svg%3E");
 }
 
@@ -244,11 +244,11 @@ const openWhatsApp = (person) => {
 .specialist-item {
   display: flex;
   align-items: center;
-  background-color: #fff;
+  background-color: var(--dm-surface);
   padding: 12px;
   border-radius: 12px;
   margin-bottom: 10px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 5px var(--dm-shadow);
   transition:
     transform 0.2s,
     box-shadow 0.2s;
@@ -291,13 +291,13 @@ const openWhatsApp = (person) => {
   margin: 0;
   font-size: 0.95rem;
   font-weight: 600;
-  color: #333;
+  color: var(--dm-text);
 }
 
 .role {
   margin: 2px 0 0;
   font-size: 0.8rem;
-  color: #666;
+  color: var(--dm-text-secondary);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -305,7 +305,7 @@ const openWhatsApp = (person) => {
 }
 
 .start-chat-btn {
-  background-color: #f0f2f5;
+  background-color: var(--dm-surface-2);
   color: #25d366;
   border: none;
   width: 36px;

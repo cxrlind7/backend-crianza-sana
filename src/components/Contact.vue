@@ -36,7 +36,7 @@
 
 <style scoped>
 .contact-card {
-    background-color: #f9f9f9;
+    background-color: var(--dm-surface-2);
     border-radius: 10px;
 }
 </style>

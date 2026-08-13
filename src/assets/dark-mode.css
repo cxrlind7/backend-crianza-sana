@@ -1,0 +1,53 @@
+/*
+  Dark mode override layer.
+  Bootstrap 5.3's [data-bs-theme="dark"] already re-themes most components
+  (cards, modals, dropdowns, tables, forms, navbars, offcanvas, accordions...).
+  This file only patches the *static* utility classes Bootstrap does not
+  re-theme (bg-white, bg-light, text-dark, text-black...) plus a handful of
+  generic patterns used throughout this codebase's own scoped styles.
+*/
+
+html[data-theme='dark'] {
+  color-scheme: dark;
+}
+
+/* Static Bootstrap utilities that ignore data-bs-theme */
+[data-theme='dark'] .bg-white {
+  background-color: var(--dm-surface) !important;
+}
+
+[data-theme='dark'] .bg-light {
+  background-color: var(--dm-surface-2) !important;
+}
+
+[data-theme='dark'] .text-dark,
+[data-theme='dark'] .text-black {
+  color: var(--dm-text) !important;
+}
+
+[data-theme='dark'] .border {
+  border-color: var(--dm-border) !important;
+}
+
+/* Scrollbar */
+[data-theme='dark'] ::-webkit-scrollbar {
+  background-color: var(--dm-bg);
+}
+[data-theme='dark'] ::-webkit-scrollbar-thumb {
+  background-color: var(--dm-border);
+  border-radius: 6px;
+}
+
+/* Generic hardcoded-white "card" panels found across custom scoped styles
+   that don't use Bootstrap classes. Kept low-impact: only plain boxes,
+   never buttons/badges carrying brand colors. */
+[data-theme='dark'] .card,
+[data-theme='dark'] .modal-content {
+  border-color: var(--dm-border);
+}
+
+[data-theme='dark'] input,
+[data-theme='dark'] textarea,
+[data-theme='dark'] select {
+  color-scheme: dark;
+}

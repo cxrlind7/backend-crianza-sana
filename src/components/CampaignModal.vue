@@ -283,7 +283,7 @@ onUnmounted(() => {
 :root {
   --christmas-red-deep: #a01a1c;
   --christmas-gold: #c5a05e;
-  --text-color-dark: #2c3e50;
+  --text-color-dark: var(--dm-text);
 }
 
 .modal-overlay {
@@ -306,7 +306,7 @@ onUnmounted(() => {
   width: 100%;
   /* AUMENTADO: Ancho máximo mucho mayor */
   max-width: 1200px;
-  background: #fff;
+  background: var(--dm-surface);
   border-radius: 12px; /* Radio un poco más sutil para ganar espacio en esquinas */
   /* REDUCIDO: Padding interno mínimo para maximizar área útil */
   padding: 15px;
@@ -408,7 +408,7 @@ onUnmounted(() => {
   align-items: center;
   overflow: hidden;
   border-radius: 8px;
-  background: #fafafa;
+  background: var(--dm-surface-2);
 }
 
 .campaign-image {
@@ -501,7 +501,7 @@ onUnmounted(() => {
 
 .share-label {
   font-size: 0.9rem;
-  color: #718096;
+  color: var(--dm-text-secondary);
   font-weight: 600;
 }
 
@@ -519,12 +519,12 @@ onUnmounted(() => {
 }
 
 .copy-btn {
-  background-color: #edf2f7;
-  color: #4a5568;
+  background-color: var(--dm-border);
+  color: var(--dm-text-secondary);
 }
 .copy-btn:hover {
-  background-color: #e2e8f0;
-  color: #2d3748;
+  background-color: var(--dm-border);
+  color: var(--dm-text);
 }
 
 .facebook-btn {
@@ -541,8 +541,8 @@ onUnmounted(() => {
   position: fixed;
   top: 30px;
   right: 30px;
-  background: white;
-  color: #2d3748;
+  background: var(--dm-surface);
+  color: var(--dm-text);
   padding: 12px 20px;
   border-radius: 10px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);

@@ -74,8 +74,9 @@ export default {
 
 <style scoped>
 .footer {
-  background-color: #f8f9fa;
-  border-top: 1px solid #dee2e6;
+  background-color: var(--dm-surface-2);
+  border-top: 1px solid var(--dm-border);
+  color: var(--dm-text);
 }
 
 .footer a {

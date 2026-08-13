@@ -85,7 +85,7 @@ export default {
 .hero-title {
   font-size: 2.5rem;
   line-height: 1.2;
-  color: #2c3e50;
+  color: var(--dm-text);
 }
 .bg-cyan {
   background-color: var(--accent-cyan) !important;

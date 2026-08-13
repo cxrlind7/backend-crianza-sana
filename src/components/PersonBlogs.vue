@@ -270,7 +270,7 @@ export default {
   transform: translateY(-50%);
   width: 50px;
   height: 50px;
-  background-color: #ffffff;
+  background-color: var(--dm-surface);
   /* Usamos la variable CSS definida en el estilo inline del template */
   color: var(--arrow-color);
   border-radius: 50%;
@@ -328,7 +328,7 @@ export default {
 
 /* Estilos de la Tarjeta */
 .blog-card {
-  background: white;
+  background: var(--dm-surface);
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
@@ -385,21 +385,21 @@ export default {
 
 .blog-meta {
   font-size: 0.85rem;
-  color: #6c757d;
+  color: var(--dm-text-secondary);
   margin-bottom: 10px;
 }
 
 .blog-title {
   font-size: 1.25rem;
   font-weight: 700;
-  color: #2c3e50;
+  color: var(--dm-text);
   margin-bottom: 12px;
   line-height: 1.4;
 }
 
 .blog-excerpt {
   font-size: 0.95rem;
-  color: #6c757d;
+  color: var(--dm-text-secondary);
   line-height: 1.6;
   margin-bottom: 20px;
   flex-grow: 1;
@@ -408,7 +408,7 @@ export default {
 .blog-footer {
   margin-top: auto;
   padding-top: 15px;
-  border-top: 1px solid #f0f0f0;
+  border-top: 1px solid var(--dm-border);
 }
 
 .read-more {

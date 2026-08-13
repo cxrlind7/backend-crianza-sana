@@ -137,7 +137,7 @@ export default {
 <style scoped>
 .section-title {
   text-align: center;
-  color: #2c3e50;
+  color: var(--dm-text);
   font-size: 2rem;
   margin-bottom: 10px;
   padding: 0 20px;
@@ -175,7 +175,7 @@ export default {
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background-color: #e2e8f0; /* Color gris claro para inactivos */
+  background-color: var(--dm-border); /* Color gris claro para inactivos */
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -196,7 +196,7 @@ export default {
 /* --- ESTILOS DE LA TARJETA (Igual que antes) --- */
 .blog-card {
   display: flex;
-  background-color: #ffffff;
+  background-color: var(--dm-surface);
   border-radius: var(--card-radius);
   box-shadow: var(--card-shadow);
   overflow: hidden;
@@ -288,7 +288,7 @@ export default {
   border-radius: var(--card-radius);
   overflow: hidden;
   box-shadow: var(--card-shadow);
-  background-color: #fff;
+  background-color: var(--dm-surface);
 }
 
 .banner-link {

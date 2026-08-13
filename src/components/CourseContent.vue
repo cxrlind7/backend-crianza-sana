@@ -117,7 +117,7 @@ export default {
   color: var(--accent-cyan) !important;
 }
 .bg-light-blue {
-  background-color: #f0f9ff;
+  background-color: rgba(13, 110, 253, 0.1);
 }
 
 .video-player-container {
@@ -127,7 +127,7 @@ export default {
 }
 
 .content-list-card {
-  background-color: #ffffff;
+  background-color: var(--dm-surface);
   border: 1px solid rgba(6, 182, 212, 0.1);
   max-height: 600px;
   overflow-y: auto;
@@ -136,7 +136,7 @@ export default {
 
 .list-group-item {
   background-color: transparent;
-  color: #333;
+  color: var(--dm-text);
   transition: all 0.2s;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
 }

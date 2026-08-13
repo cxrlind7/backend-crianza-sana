@@ -153,7 +153,7 @@ export default {
   transform: translateY(-50%);
   width: 50px;
   height: 50px;
-  background-color: #ffffff;
+  background-color: var(--dm-surface);
   /* Usamos la variable CSS definida en el estilo inline del template */
   color: var(--arrow-color);
   border-radius: 50%;
@@ -212,7 +212,7 @@ export default {
 
 /* Estilo de la Tarjeta (Mantenemos la elegancia anterior) */
 .service-card {
-  background-color: #ffffff;
+  background-color: var(--dm-surface);
   border-radius: 20px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
   transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
@@ -245,7 +245,7 @@ export default {
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background-color: #f0f2f5;
+  background-color: var(--dm-surface-2);
   box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.03);
   transition: all 0.4s ease;
   overflow: hidden; /* Para recortar la imagen */
@@ -253,7 +253,7 @@ export default {
 }
 
 .service-card:hover .icon-wrapper {
-  background-color: #ffffff;
+  background-color: var(--dm-surface);
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
   transform: scale(1.08);
 }
@@ -270,7 +270,7 @@ export default {
 .service-title {
   font-size: 1.35rem;
   font-weight: 700;
-  color: #2c3e50;
+  color: var(--dm-text);
   margin-top: 1rem;
 }
 
@@ -278,7 +278,7 @@ export default {
   font-size: 1rem;
   line-height: 1.7;
   font-weight: 300;
-  color: #6c757d;
+  color: var(--dm-text-secondary);
 }
 
 /* Personalización de los puntos de paginación de Swiper */

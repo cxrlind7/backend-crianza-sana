@@ -255,7 +255,7 @@ const slides = ref([
   position: fixed;
   top: 50px;
   right: 20px;
-  background-color: #f8fafb;
+  background-color: var(--dm-surface-2);
   color: #343a3f;
   padding: 10px 20px;
   border-radius: 5px;
@@ -360,7 +360,7 @@ const slides = ref([
 }
 
 .carousel-indicators button.active {
-  background-color: #fff;
+  background-color: var(--dm-surface);
   transform: scale(1.3);
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
 }

@@ -481,7 +481,7 @@ onMounted(() => {
   background-color: rgba(255, 255, 255, 0.8);
   border: none;
   border-radius: 30px;
-  color: #555;
+  color: var(--dm-text-secondary);
   font-weight: 600;
   font-size: 0.9rem;
   cursor: pointer;
@@ -495,8 +495,8 @@ onMounted(() => {
 }
 
 .btn-back:hover {
-  background-color: #ffffff;
-  color: #000;
+  background-color: var(--dm-surface);
+  color: var(--dm-text);
   transform: translateX(-5px);
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
 }
@@ -514,8 +514,8 @@ onMounted(() => {
 
 /* Nuevo botón para mostrar/ocultar filtros */
 .btn-toggle-filters {
-  background: white;
-  color: #495057;
+  background: var(--dm-surface);
+  color: var(--dm-text-secondary);
   border: none;
   padding: 10px 20px;
   border-radius: 30px;
@@ -529,9 +529,9 @@ onMounted(() => {
 }
 
 .btn-toggle-filters:hover {
-  background: #f8f9fa;
+  background: var(--dm-surface-2);
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
-  color: #212529;
+  color: var(--dm-text);
 }
 
 /* --- Controles Desplegables --- */
@@ -577,7 +577,7 @@ onMounted(() => {
   display: block;
   font-weight: 700;
   font-size: 0.95rem;
-  color: #495057;
+  color: var(--dm-text-secondary);
   margin-bottom: 12px;
 }
 
@@ -596,9 +596,9 @@ onMounted(() => {
 .category-pill {
   padding: 8px 16px;
   border-radius: 50px;
-  border: 2px solid #e9ecef;
-  background: white;
-  color: #6c757d;
+  border: 2px solid var(--dm-border);
+  background: var(--dm-surface);
+  color: var(--dm-text-secondary);
   font-weight: 600;
   font-size: 0.9rem;
   cursor: pointer;
@@ -607,7 +607,7 @@ onMounted(() => {
 
 .category-pill:hover {
   border-color: #adb5bd;
-  background: #f8f9fa;
+  background: var(--dm-surface-2);
 }
 
 .category-pill.active {
@@ -647,7 +647,7 @@ onMounted(() => {
   padding: 8px 12px;
   border: none;
   background: none;
-  color: #6c757d;
+  color: var(--dm-text-secondary);
   font-weight: 600;
   font-size: 0.9rem;
   border-radius: 6px;
@@ -656,8 +656,8 @@ onMounted(() => {
 }
 
 .sort-segmented-control button.active {
-  background: white;
-  color: #212529;
+  background: var(--dm-surface);
+  color: var(--dm-text);
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
@@ -733,7 +733,7 @@ onMounted(() => {
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.9);
   border: none;
-  color: #495057;
+  color: var(--dm-text-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -744,7 +744,7 @@ onMounted(() => {
 }
 
 .share-btn-floating:hover {
-  background: white;
+  background: var(--dm-surface);
   color: #0d6efd;
   transform: scale(1.1);
 }
@@ -758,7 +758,7 @@ onMounted(() => {
 
 .blog-card-meta {
   font-size: 0.85rem;
-  color: #6c757d;
+  color: var(--dm-text-secondary);
   margin-bottom: 12px;
 }
 
@@ -770,7 +770,7 @@ onMounted(() => {
 }
 
 .blog-card-title a {
-  color: #212529;
+  color: var(--dm-text);
   text-decoration: none;
   transition: color 0.2s;
 }
@@ -781,7 +781,7 @@ onMounted(() => {
 
 .blog-card-excerpt {
   font-size: 0.95rem;
-  color: #495057;
+  color: var(--dm-text-secondary);
   line-height: 1.6;
   margin-bottom: 25px;
   flex-grow: 1;
@@ -814,7 +814,7 @@ onMounted(() => {
 .author-name {
   font-size: 0.9rem;
   font-weight: 600;
-  color: #495057;
+  color: var(--dm-text-secondary);
 }
 
 .read-more-btn {
@@ -841,7 +841,7 @@ onMounted(() => {
   padding: 40px;
   border-radius: 16px;
   display: inline-block;
-  color: #6c757d;
+  color: var(--dm-text-secondary);
 }
 
 /* --- Paginación Moderna --- */
@@ -860,7 +860,7 @@ onMounted(() => {
   border-radius: 50%;
   border: none;
   background: rgba(255, 255, 255, 0.8);
-  color: #495057;
+  color: var(--dm-text-secondary);
   font-weight: 600;
   display: flex;
   align-items: center;
@@ -872,8 +872,8 @@ onMounted(() => {
 
 .pagination-arrow:hover:not(:disabled),
 .pagination-page-btn:hover {
-  background: white;
-  color: #212529;
+  background: var(--dm-surface);
+  color: var(--dm-text);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -899,8 +899,8 @@ onMounted(() => {
   position: fixed;
   top: 5rem;
   right: 30px;
-  background: white;
-  color: #212529;
+  background: var(--dm-surface);
+  color: var(--dm-text);
   padding: 15px 25px;
   border-radius: 12px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
@@ -919,14 +919,14 @@ onMounted(() => {
 .toast-close {
   background: none;
   border: none;
-  color: #adb5bd;
+  color: var(--dm-text-secondary);
   font-size: 1.1rem;
   margin-left: 20px;
   cursor: pointer;
   transition: color 0.2s;
 }
 .toast-close:hover {
-  color: #495057;
+  color: var(--dm-text-secondary);
 }
 
 /* --- Animaciones y Utilidades --- */

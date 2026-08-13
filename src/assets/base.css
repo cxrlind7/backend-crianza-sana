@@ -22,7 +22,7 @@
 }
 
 /* semantic color variables for this project */
-/* :root {
+:root {
   --color-background: var(--vt-c-white);
   --color-background-soft: var(--vt-c-white-soft);
   --color-background-mute: var(--vt-c-white-mute);
@@ -31,23 +31,45 @@
   --color-border-hover: var(--vt-c-divider-light-1);
 
   --color-heading: var(--vt-c-text-light-1);
-  --color-text: var(--vt-c-text-light-1);
+  --color-text: #2c2c2c;
 
   --section-gap: 160px;
-} */
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-background: var(--vt-c-black);
-    --color-background-soft: var(--vt-c-black-soft);
-    --color-background-mute: var(--vt-c-black-mute);
+  /* Dark-mode-aware role variables used across components.
+     Components should prefer these over hardcoded hex values. */
+  --dm-bg: #ffffff;
+  --dm-bg-soft: #f8f9fa;
+  --dm-surface: #ffffff;
+  --dm-surface-2: #f5f6f8;
+  --dm-text: #2c2c2c;
+  --dm-text-secondary: #5a5a5a;
+  --dm-border: #e9ecef;
+  --dm-shadow: rgba(0, 0, 0, 0.1);
 
-    --color-border: var(--vt-c-divider-dark-2);
-    --color-border-hover: var(--vt-c-divider-dark-1);
+  color-scheme: light;
+}
 
-    --color-heading: var(--vt-c-text-dark-1);
-    /* --color-text: var(--vt-c-text-dark-2); */
-  }
+:root[data-theme='dark'] {
+  --color-background: #121214;
+  --color-background-soft: #1a1a1e;
+  --color-background-mute: #202024;
+
+  --color-border: var(--vt-c-divider-dark-2);
+  --color-border-hover: var(--vt-c-divider-dark-1);
+
+  --color-heading: var(--vt-c-text-dark-1);
+  --color-text: #e4e4e7;
+
+  --dm-bg: #121214;
+  --dm-bg-soft: #1a1a1e;
+  --dm-surface: #1c1c20;
+  --dm-surface-2: #232328;
+  --dm-text: #e4e4e7;
+  --dm-text-secondary: #a8a8b3;
+  --dm-border: #35353c;
+  --dm-shadow: rgba(0, 0, 0, 0.45);
+
+  color-scheme: dark;
 }
 
 *,
@@ -58,14 +80,18 @@
   font-weight: normal;
 }
 
+html {
+  background-color: var(--dm-bg);
+}
+
 body {
   min-height: 100vh;
-  /* width: ; */
   color: var(--color-text);
+  background-color: var(--dm-bg);
 
   transition:
-    color 0.5s,
-    background-color 0.5s;
+    color 0.3s ease,
+    background-color 0.3s ease;
   line-height: 1.6;
   font-family:
     Inter,

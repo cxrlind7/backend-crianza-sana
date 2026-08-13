@@ -59,7 +59,7 @@ export default {
 
 .event-date {
   font-size: 1rem;
-  color: #9ca3af;
+  color: var(--dm-text-secondary);
   margin-bottom: 1.5rem;
 }
 

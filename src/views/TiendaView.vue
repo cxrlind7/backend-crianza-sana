@@ -636,8 +636,8 @@ onMounted(async () => {
    Variables CSS
    ========================================= */
 :root {
-  --text-dark: #343a40;
-  --text-muted: #6c757d;
+  --text-dark: var(--dm-text);
+  --text-muted: var(--dm-text-secondary);
   --accent-color: #0d6efd;
   --accent-hover: #0a58ca;
   --radius-pill: 50px;
@@ -678,7 +678,7 @@ onMounted(async () => {
   background-color: rgba(255, 255, 255, 0.8);
   border: none;
   border-radius: 30px;
-  color: #555;
+  color: var(--dm-text-secondary);
   font-weight: 600;
   font-size: 0.9rem;
   cursor: pointer;
@@ -687,8 +687,8 @@ onMounted(async () => {
   backdrop-filter: blur(5px);
 }
 .btn-back:hover {
-  background-color: #ffffff;
-  color: #000;
+  background-color: var(--dm-surface);
+  color: var(--dm-text);
   transform: translateX(-5px);
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
 }
@@ -701,8 +701,8 @@ onMounted(async () => {
   font-weight: 600;
 }
 .btn-toggle-filters {
-  background: white;
-  color: #495057;
+  background: var(--dm-surface);
+  color: var(--dm-text-secondary);
   border: none;
   padding: 10px 20px;
   border-radius: 30px;
@@ -715,9 +715,9 @@ onMounted(async () => {
   align-items: center;
 }
 .btn-toggle-filters:hover {
-  background: #f8f9fa;
+  background: var(--dm-surface-2);
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
-  color: #212529;
+  color: var(--dm-text);
 }
 
 /* =========================================
@@ -751,7 +751,7 @@ onMounted(async () => {
   display: block;
   font-weight: 700;
   font-size: 0.95rem;
-  color: #495057;
+  color: var(--dm-text-secondary);
   margin-bottom: 12px;
 }
 
@@ -763,9 +763,9 @@ onMounted(async () => {
   width: 100%;
   padding: 10px 15px;
   border-radius: 12px;
-  border: 2px solid #e9ecef;
-  background-color: white;
-  color: #495057;
+  border: 2px solid var(--dm-border);
+  background-color: var(--dm-surface);
+  color: var(--dm-text-secondary);
   font-weight: 600;
   cursor: pointer;
   appearance: none;
@@ -806,7 +806,7 @@ onMounted(async () => {
   padding: 8px 12px;
   border: none;
   background: none;
-  color: #6c757d;
+  color: var(--dm-text-secondary);
   font-weight: 600;
   font-size: 0.9rem;
   border-radius: 6px;
@@ -814,8 +814,8 @@ onMounted(async () => {
   transition: all 0.2s ease;
 }
 .sort-segmented-control button.active {
-  background: white;
-  color: #212529;
+  background: var(--dm-surface);
+  color: var(--dm-text);
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
@@ -830,7 +830,7 @@ onMounted(async () => {
 }
 
 .album-card-clean {
-  background: white;
+  background: var(--dm-surface);
   border-radius: var(--radius-lg);
   overflow: hidden;
   box-shadow: var(--shadow-sm);
@@ -849,7 +849,7 @@ onMounted(async () => {
   position: relative;
   height: 200px;
   overflow: hidden;
-  background-color: #eee;
+  background-color: var(--dm-border);
 }
 .album-thumbnail-img {
   width: 100%;
@@ -945,7 +945,7 @@ onMounted(async () => {
   padding: 40px;
   border-radius: 16px;
   display: inline-block;
-  color: #6c757d;
+  color: var(--dm-text-secondary);
   box-shadow: var(--shadow-sm);
 }
 
@@ -969,7 +969,7 @@ onMounted(async () => {
 }
 
 .gallery-modal-container {
-  background: #fff;
+  background: var(--dm-surface);
   width: 100%;
   max-width: 1200px;
   height: 90vh;
@@ -1074,10 +1074,10 @@ onMounted(async () => {
   padding: 30px;
   display: flex;
   flex-direction: column;
-  background: #ffffff;
+  background: var(--dm-surface);
   color: var(--text-dark);
   overflow: hidden;
-  border-left: 1px solid #e9ecef;
+  border-left: 1px solid var(--dm-border);
 }
 
 .details-header {
@@ -1101,7 +1101,7 @@ onMounted(async () => {
 }
 
 .share-btn-light {
-  background: #f1f3f5;
+  background: var(--dm-surface-2);
   border: none;
   color: var(--text-dark);
   width: 40px;
@@ -1124,12 +1124,12 @@ onMounted(async () => {
 .modal-album-meta {
   margin-bottom: 20px;
   padding-bottom: 20px;
-  border-bottom: 1px solid #e9ecef;
+  border-bottom: 1px solid var(--dm-border);
 }
 
 .btn-share-sm {
   background: none;
-  border: 1px solid #e9ecef;
+  border: 1px solid var(--dm-border);
   color: var(--text-muted);
   width: 32px;
   height: 32px;
@@ -1157,7 +1157,7 @@ onMounted(async () => {
   height: 6px;
 }
 .thumbnails-grid-container::-webkit-scrollbar-thumb {
-  background-color: #dee2e6;
+  background-color: var(--dm-border);
   border-radius: 10px;
 }
 
@@ -1214,7 +1214,7 @@ onMounted(async () => {
   width: 6px;
 }
 .comments-list.light-scroll::-webkit-scrollbar-thumb {
-  background-color: #dee2e6;
+  background-color: var(--dm-border);
   border-radius: 10px;
 }
 
@@ -1234,7 +1234,7 @@ onMounted(async () => {
 
 .comment-body.light-comment-bg {
   flex-grow: 1;
-  background: #f8f9fa;
+  background: var(--dm-surface-2);
   padding: 15px;
   border-radius: 12px;
   position: relative;
@@ -1255,7 +1255,7 @@ onMounted(async () => {
   font-size: 0.95rem;
   line-height: 1.5;
   margin: 0;
-  color: #495057;
+  color: var(--dm-text-secondary);
 }
 
 .menu-trigger {
@@ -1266,8 +1266,8 @@ onMounted(async () => {
   padding: 0 5px;
 }
 .menu-dropdown.light-dropdown-bg {
-  background: #fff;
-  border: 1px solid #e9ecef;
+  background: var(--dm-surface);
+  border: 1px solid var(--dm-border);
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   position: absolute;
   top: 100%;
@@ -1290,7 +1290,7 @@ onMounted(async () => {
   font-weight: 600;
 }
 .btn-delete:hover {
-  background: #fff5f5;
+  background: rgba(220, 38, 38, 0.12);
   border-radius: 4px;
 }
 
@@ -1312,7 +1312,7 @@ onMounted(async () => {
   align-items: center;
   gap: 15px;
   padding-top: 20px;
-  border-top: 1px solid #e9ecef;
+  border-top: 1px solid var(--dm-border);
 }
 
 .input-avatar {
@@ -1320,7 +1320,7 @@ onMounted(async () => {
   height: 40px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid #e9ecef;
+  border: 2px solid var(--dm-border);
   flex-shrink: 0;
 }
 
@@ -1331,8 +1331,8 @@ onMounted(async () => {
 .comment-input-field.light-input-bg {
   width: 100%;
   padding: 14px 55px 14px 20px;
-  border: 2px solid #e9ecef;
-  background: #f8f9fa;
+  border: 2px solid var(--dm-border);
+  background: var(--dm-surface-2);
   color: var(--text-dark);
   border-radius: var(--radius-pill);
   font-size: 1rem;
@@ -1341,7 +1341,7 @@ onMounted(async () => {
 .comment-input-field.light-input-bg:focus {
   outline: none;
   border-color: var(--accent-color);
-  background: #fff;
+  background: var(--dm-surface);
   box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.1);
 }
 
@@ -1380,8 +1380,8 @@ onMounted(async () => {
   position: fixed;
   top: 30px;
   right: 30px;
-  background: white;
-  color: #2d3748;
+  background: var(--dm-surface);
+  color: var(--dm-text);
   padding: 12px 20px;
   margin-top: 3rem;
   border-radius: 10px;
@@ -1505,7 +1505,7 @@ onMounted(async () => {
     padding: 20px;
     max-height: 45vh;
     border-left: none;
-    border-top: 1px solid #e9ecef;
+    border-top: 1px solid var(--dm-border);
   }
   .close-modal-btn-on-dark {
     top: 10px;

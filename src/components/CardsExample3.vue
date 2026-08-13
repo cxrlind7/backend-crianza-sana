@@ -118,7 +118,7 @@ export default {
 
 /* Cara frontal */
 .card-front {
-    background-color: #ffffff;
+    background-color: var(--dm-surface);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -153,7 +153,7 @@ export default {
 
 /* Imagen */
 .image-container {
-    background-color: #f8f8f8;
+    background-color: var(--dm-surface-2);
     padding: 15px;
     display: flex;
     justify-content: center;
@@ -177,19 +177,19 @@ export default {
     font-size: 1.2rem;
     font-weight: bold;
     margin-bottom: 5px;
-    color: #333;
+    color: var(--dm-text);
 }
 
 .title {
     font-size: 1rem;
     font-weight: 500;
-    color: #555;
+    color: var(--dm-text-secondary);
     margin-bottom: 10px;
 }
 
 .description {
     font-size: 0.9rem;
-    color: #666;
+    color: var(--dm-text-secondary);
     margin-bottom: 15px;
     line-height: 1.4;
 }
@@ -203,7 +203,7 @@ export default {
 
 .social-icons a {
     font-size: 1.2rem;
-    color: #666;
+    color: var(--dm-text-secondary);
     transition: color 0.3s;
 }
 

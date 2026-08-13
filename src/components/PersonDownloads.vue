@@ -152,7 +152,7 @@ export default {
 
 /* --- Estilos de la Card Blanca --- */
 .downloads-wrapper {
-  background: #ffffff;
+  background: var(--dm-surface);
   border-radius: 24px;
   padding: 20px;
   box-shadow:
@@ -174,7 +174,7 @@ export default {
 }
 
 .list-group-item:hover {
-  background-color: #f8f9fa;
+  background-color: var(--dm-surface-2);
   transform: translateX(5px);
 }
 
@@ -188,7 +188,7 @@ export default {
 
 .file-name {
   font-weight: 600;
-  color: #2c3e50;
+  color: var(--dm-text);
 }
 
 /* Iconos de acción */
@@ -202,7 +202,7 @@ export default {
 }
 
 .list-group-item:hover .download-icon {
-  color: #6c757d;
+  color: var(--dm-text-secondary);
 }
 
 .download-link:hover .download-icon {
@@ -229,7 +229,7 @@ export default {
   width: 100%;
   max-width: 1000px;
   height: 85vh;
-  background: white;
+  background: var(--dm-surface);
   border-radius: 16px;
   position: relative;
   /* Mantenemos hidden aquí para que nada se salga de las esquinas redondeadas */
@@ -243,7 +243,7 @@ export default {
   position: absolute;
   top: 15px;
   right: 15px; /* Reverted to right */
-  background: #ffffff; /* Fully opaque to hide the underlying button */
+  background: var(--dm-surface); /* Fully opaque to hide the underlying button */
   border: none;
   border-radius: 50%;
   width: 40px;
@@ -256,11 +256,11 @@ export default {
   justify-content: center;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   transition: all 0.2s;
-  color: #333;
+  color: var(--dm-text);
 }
 
 .close-btn:hover {
-  background: #ffffff;
+  background: var(--dm-surface);
   transform: scale(1.1);
   color: #dc3545;
 }
@@ -271,7 +271,7 @@ export default {
   /* Esto hace que llene el espacio vertical disponible exactamente */
   flex: 1;
   height: auto;
-  background: #f3f4f6;
+  background: var(--dm-surface-2);
   position: relative;
   /* --- FIX: Asegurar que el contenedor del iframe no desborde --- */
   overflow: hidden;

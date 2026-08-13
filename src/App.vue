@@ -36,9 +36,16 @@ provide('currentUser', currentUser)
   position: fixed;
   inset: 0;
   z-index: -1;
+  background-color: var(--dm-bg);
   background-image: radial-gradient(circle at 30% 70%, rgba(173, 216, 230, 0.35), transparent 60%),
     radial-gradient(circle at 70% 30%, rgba(255, 182, 193, 0.4), transparent 60%);
   background-size: 100% 100%;
+  transition: background-color 0.3s ease;
+}
+
+:global([data-theme='dark']) .app-background {
+  background-image: radial-gradient(circle at 30% 70%, rgba(72, 91, 168, 0.18), transparent 60%),
+    radial-gradient(circle at 70% 30%, rgba(168, 72, 130, 0.16), transparent 60%);
 }
 
 .app-content {

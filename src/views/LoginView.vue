@@ -174,11 +174,11 @@ export default {
   width: 50vw;
   height: 60vh;
   /* padding: 20px; */
-  background-color: #f5f5f5;
+  background-color: var(--dm-surface-2);
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  background-color: #f5f5f5;
+  background-color: var(--dm-surface-2);
   overflow: hidden;
   /* ✅ prevenir scroll si se desborda */
   position: relative;
@@ -193,7 +193,7 @@ export default {
   width: 100%;
   padding: 30px;
   border-radius: 6px;
-  background: #f5f5f5;
+  background: var(--dm-surface-2);
 }
 
 .form.signup {
@@ -214,7 +214,7 @@ export default {
 header {
   font-size: 28px;
   font-weight: 600;
-  color: #232836;
+  color: var(--dm-text);
   text-align: center;
 }
 
@@ -256,7 +256,7 @@ header {
   right: 10px;
   transform: translateY(-50%);
   font-size: 18px;
-  color: #8b8b8b;
+  color: var(--dm-text-secondary);
   cursor: pointer;
   padding: 5px;
 }
@@ -281,7 +281,7 @@ header {
 .form-link a {
   font-size: 14px;
   font-weight: 400;
-  color: #232836;
+  color: var(--dm-text);
 }
 
 .form a {
@@ -307,8 +307,8 @@ header {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: #f5f5f5;
-  color: #8b8b8b;
+  background-color: var(--dm-surface-2);
+  color: var(--dm-text-secondary);
   padding: 0 15px;
 }
 
@@ -332,7 +332,7 @@ a.facebook .facebook-icon {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #fff;
+  background-color: var(--dm-surface);
 }
 
 .facebook-icon,
@@ -350,13 +350,13 @@ img.google-img {
 }
 
 a.google {
-  border: 1px solid #CACACA;
+  border: 1px solid var(--dm-border);
 }
 
 a.google span {
   font-weight: 500;
   opacity: 0.6;
-  color: #232836;
+  color: var(--dm-text);
 }
 
 @media (max-width: 768px) {
@@ -367,7 +367,7 @@ a.google span {
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: #f5f5f5;
+    background-color: var(--dm-surface-2);
     /* ✅ evita desplazamiento vertical */
   }
 
@@ -382,7 +382,7 @@ a.google span {
     /* ✅ apilar formularios verticalmente */
     align-items: center;
     justify-content: center;
-    background-color: #f5f5f5;
+    background-color: var(--dm-surface-2);
     overflow: hidden;
     /* ✅ prevenir scroll si se desborda */
     position: relative;

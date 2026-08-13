@@ -134,7 +134,7 @@ export default {
 .instagram-profile-replica {
   padding: 60px 20px; /* Más espacio alrededor */
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  color: #262626;
+  color: var(--dm-text);
   display: flex;
   justify-content: center;
 }
@@ -143,7 +143,7 @@ export default {
 .card-container {
   max-width: 935px;
   width: 100%;
-  background-color: #fff; /* Fondo blanco para la tarjeta */
+  background-color: var(--dm-surface); /* Fondo blanco para la tarjeta */
   border-radius: 24px; /* Bordes muy redondeados */
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); /* Sombra suave y moderna */
   padding: 40px; /* Espacio interno generoso */
@@ -169,7 +169,7 @@ export default {
   width: 160px; /* Un poco más grande */
   height: 160px;
   border-radius: 50%;
-  border: 1px solid #dbdbdb;
+  border: 1px solid var(--dm-border);
   padding: 3px;
 }
 
@@ -203,7 +203,7 @@ export default {
   line-height: 36px;
   margin: 0;
   margin-right: 25px;
-  color: #262626;
+  color: var(--dm-text);
 }
 
 .header-actions {
@@ -243,11 +243,11 @@ export default {
 
 .btn-secondary {
   background-color: transparent;
-  border: 1px solid #dbdbdb;
-  color: #262626;
+  border: 1px solid var(--dm-border);
+  color: var(--dm-text);
 }
 .btn-secondary:hover {
-  background-color: #f8f8f8;
+  background-color: var(--dm-surface-2);
   border-color: #c7c7c7;
 }
 
@@ -260,7 +260,7 @@ export default {
   align-items: center;
 }
 .btn-icon:hover {
-  background-color: #f0f0f0;
+  background-color: var(--dm-surface-2);
   border-radius: 50%;
   transform: none;
   box-shadow: none;
@@ -277,7 +277,7 @@ export default {
 
 .insta-stats-row li {
   margin-right: 45px;
-  color: #262626;
+  color: var(--dm-text);
 }
 
 .insta-stats-row li:last-child {
@@ -286,7 +286,7 @@ export default {
 
 .stat-bold {
   font-weight: 700; /* Más negrita */
-  color: #262626;
+  color: var(--dm-text);
 }
 
 .stat-link {
@@ -309,12 +309,12 @@ export default {
   font-weight: 700;
   font-size: 18px;
   margin: 0 0 6px 0;
-  color: #262626;
+  color: var(--dm-text);
 }
 
 .insta-bio-text {
   white-space: pre-wrap;
-  color: #262626;
+  color: var(--dm-text);
 }
 
 /* --- Animación --- */
@@ -387,8 +387,8 @@ export default {
 
   .insta-stats-row {
     justify-content: space-around;
-    border-top: 1px solid #efefef;
-    border-bottom: 1px solid #efefef;
+    border-top: 1px solid var(--dm-border);
+    border-bottom: 1px solid var(--dm-border);
     padding: 15px 0;
     margin-bottom: 20px;
     font-size: 15px;
@@ -405,7 +405,7 @@ export default {
   .stat-bold {
     display: block;
     font-size: 18px;
-    color: #262626;
+    color: var(--dm-text);
     margin-bottom: 2px;
   }
 

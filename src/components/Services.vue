@@ -181,7 +181,7 @@ export default {
 
 .section-title {
   text-align: center;
-  color: #2c3e50;
+  color: var(--dm-text);
   font-size: 2rem;
   margin-bottom: 10px;
   padding: 0 20px;
@@ -189,7 +189,7 @@ export default {
 
 .section-subtitle {
   text-align: center;
-  color: #666;
+  color: var(--dm-text-secondary);
   margin-bottom: 40px;
   max-width: 600px;
   margin-left: auto;
@@ -229,7 +229,7 @@ export default {
   transform: translateY(-50%);
   width: 40px;
   height: 40px;
-  background-color: #ffffff;
+  background-color: var(--dm-surface);
   color: #d63384; /* Color rosa del icono */
   border-radius: 50%; /* Círculo perfecto */
   display: flex;
@@ -292,7 +292,7 @@ export default {
 .service-card {
   display: flex;
   flex-direction: column;
-  background-color: #ffffff;
+  background-color: var(--dm-surface);
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
@@ -358,14 +358,14 @@ export default {
   font-size: 1.25rem;
   font-weight: 700;
   margin-bottom: 12px;
-  color: #2c3e50;
+  color: var(--dm-text);
 }
 
 .description {
   font-size: 0.95rem;
   font-weight: 400;
   line-height: 1.5;
-  color: #64748b;
+  color: var(--dm-text-secondary);
 }
 
 /* --- Call to Action --- */
@@ -375,8 +375,8 @@ export default {
   justify-content: space-between;
   align-items: center;
   gap: 10px;
-  border-top: 1px solid #f0f0f0;
-  background-color: #fafafa;
+  border-top: 1px solid var(--dm-border);
+  background-color: var(--dm-surface-2);
   opacity: 0;
   transform: translateY(10px);
   transition: all 0.3s ease;
@@ -414,7 +414,7 @@ export default {
   display: flex;
   align-items: center;
   gap: 6px;
-  color: #64748b;
+  color: var(--dm-text-secondary);
   font-weight: 600;
   font-size: 0.9rem;
   cursor: pointer;
@@ -440,7 +440,7 @@ export default {
 @media (max-width: 768px) {
   .service-card {
     box-shadow: none;
-    border: 1px solid #e5e7eb;
+    border: 1px solid var(--dm-border);
   }
 
   .card-cta {

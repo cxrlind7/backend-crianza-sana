@@ -188,7 +188,7 @@ onUnmounted(() => {
   font-size: 2.5rem;
   font-weight: 700;
   text-align: center;
-  color: #1e293b;
+  color: var(--dm-text);
   margin: 0;
 }
 
@@ -221,7 +221,7 @@ onUnmounted(() => {
   font-weight: 700;
   text-align: center;
   margin-bottom: 4rem;
-  color: #1e293b;
+  color: var(--dm-text);
 }
 
 /* Grid del equipo */
@@ -255,7 +255,7 @@ onUnmounted(() => {
 
 /* Marco blanco de la polaroid */
 .polaroid-frame {
-  background-color: #ffffff;
+  background-color: var(--dm-surface);
   padding: 1rem;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
   border-radius: 0.125rem;
@@ -335,7 +335,7 @@ onUnmounted(() => {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
     'Courier New', monospace;
   font-size: 1.25rem;
-  color: #1e293b;
+  color: var(--dm-text);
   letter-spacing: 0.025em;
   margin-bottom: 0.25rem; /* Pequeño margen debajo del nombre */
 }

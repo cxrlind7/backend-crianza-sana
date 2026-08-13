@@ -220,7 +220,7 @@ export default {
 <style scoped>
 .section-title {
   text-align: center;
-  color: #2c3e50;
+  color: var(--dm-text);
   font-size: 2rem;
   margin-bottom: 10px;
   padding: 0 20px;

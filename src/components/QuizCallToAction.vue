@@ -44,7 +44,7 @@ export default {
 
 <style scoped>
 .quiz-cta-card {
-  background-color: #ffffff;
+  background-color: var(--dm-surface);
   border: 1px solid rgba(0, 0, 0, 0.05);
 }
 

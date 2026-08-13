@@ -86,7 +86,7 @@ export default {
 
 /* --- Estilos de la Card Blanca --- */
 .accordion-wrapper {
-  background: #ffffff;
+  background: var(--dm-surface);
   border-radius: 24px;
   padding: 30px 30px 10px 30px;
   /* Sombra pronunciada y elegante */
@@ -139,7 +139,7 @@ export default {
   padding: 1rem 0;
   font-size: 1.05rem;
   font-weight: 600;
-  color: #2c3e50;
+  color: var(--dm-text);
   transition: all 0.3s ease;
 }
 
@@ -177,7 +177,7 @@ export default {
 .accordion-body {
   font-size: 1rem;
   line-height: 1.6;
-  color: #6c757d;
+  color: var(--dm-text-secondary);
 }
 
 /* Animaciones */

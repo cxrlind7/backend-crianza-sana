@@ -68,14 +68,14 @@ const closeVideo = () => {
 /* Typography */
 .main-message {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: #4a5568;
+  color: var(--dm-text-secondary);
   font-size: 1.05rem;
   line-height: 1.6;
   margin: 0;
 }
 
 .main-message strong {
-  color: #2d3748;
+  color: var(--dm-text);
   font-weight: 700;
 }
 
@@ -89,7 +89,7 @@ const closeVideo = () => {
 
 .wishes {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: #555;
+  color: var(--dm-text-secondary);
   font-size: 1.1rem;
   font-weight: 500;
   margin: 0;

@@ -1,5 +1,5 @@
 <template>
-  <section class="upcoming-events-section">
+  <section v-if="events.length > 0" class="upcoming-events-section">
     <div class="container-fluid main-container">
       <div class="text-center mb-4 fade-in">
         <h2 class="section-title">Próximos Eventos</h2>
@@ -97,18 +97,19 @@ export default {
   },
   computed: {
     currentEvent() {
-      return this.events[this.currentEventIndex]
+      return this.events[this.currentEventIndex] ?? null
     },
     actionIcon() {
-      return this.currentEvent.type === 'whatsapp' ? 'fab fa-whatsapp' : 'fas fa-phone'
+      return this.currentEvent?.type === 'whatsapp' ? 'fab fa-whatsapp' : 'fas fa-phone'
     },
     helpText() {
-      if (this.currentEvent.type === 'call') {
+      if (this.currentEvent?.type === 'call') {
         return 'Da clic para llamar o copiar número.'
       }
       return 'Haz clic para abrir el chat directo.'
     },
     actionLink() {
+      if (!this.currentEvent) return '#'
       if (this.currentEvent.type === 'whatsapp') {
         const encodedMessage = encodeURIComponent(this.currentEvent.message)
         return `https://wa.me/${this.currentEvent.phone}?text=${encodedMessage}`
@@ -203,14 +204,14 @@ export default {
 
 .section-title {
   text-align: center;
-  color: #2c3e50;
+  color: var(--dm-text);
   font-size: 2rem;
   margin-bottom: 10px;
 }
 
 .section-subtitle {
   text-align: center;
-  color: #666;
+  color: var(--dm-text-secondary);
   margin-bottom: 40px;
 }
 
@@ -329,8 +330,8 @@ export default {
   position: fixed;
   top: 30px; /* Ajusta esto si tu navbar tapa el toast */
   right: 30px;
-  background: white;
-  color: #2d3748;
+  background: var(--dm-surface);
+  color: var(--dm-text);
   padding: 12px 20px;
   margin-top: 3rem; /* Margen extra por seguridad */
   border-radius: 10px;

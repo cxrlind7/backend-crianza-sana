@@ -38,6 +38,7 @@
 
         <!-- User Profile / Auth -->
         <div class="user-section">
+          <DarkModeToggle class="theme-toggle-slot" />
           <div v-if="currentUser" class="user-profile" @click="toggleUserMenu">
             <img
               :src="currentUser.photoURL || '/defaultAvatar5.jpg'"
@@ -63,6 +64,7 @@ import { ref, onMounted, onUnmounted, inject } from 'vue'
 import { useRouter } from 'vue-router'
 import { auth } from '@/firebase/firebaseConfig'
 import { signOut, onAuthStateChanged } from 'firebase/auth'
+import DarkModeToggle from './DarkModeToggle.vue'
 
 const router = useRouter()
 const currentUser = inject('currentUser', ref(null))
@@ -142,9 +144,6 @@ onUnmounted(() => {
 :root {
   --navbar-height: 80px;
   --primary-color: #ed1c24;
-  --text-color: #333;
-  --bg-color: #ffffff;
-  --glass-bg: rgba(255, 255, 255, 0.95);
 }
 
 .navbar {
@@ -160,9 +159,9 @@ onUnmounted(() => {
 }
 
 .navbar-scrolled {
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: var(--dm-surface);
   backdrop-filter: blur(10px);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 10px var(--dm-shadow);
   height: 70px;
 }
 
@@ -205,7 +204,7 @@ onUnmounted(() => {
 
 .nav-link {
   text-decoration: none;
-  color: #333;
+  color: var(--dm-text);
   font-weight: 600;
   font-size: 1.1rem; /* Increased font size */
   position: relative;
@@ -252,6 +251,9 @@ onUnmounted(() => {
 /* User Section */
 .user-section {
   margin-left: 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
 }
 
 .login-btn {
@@ -287,10 +289,10 @@ onUnmounted(() => {
   position: absolute;
   top: 120%;
   right: 0;
-  background-color: white;
+  background-color: var(--dm-surface);
   min-width: 150px;
   border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 12px var(--dm-shadow);
   padding: 10px;
   animation: fadeIn 0.2s ease;
 }
@@ -301,13 +303,13 @@ onUnmounted(() => {
   border: none;
   text-align: left;
   padding: 8px;
-  color: #333;
+  color: var(--dm-text);
   cursor: pointer;
   border-radius: 4px;
 }
 
 .user-dropdown button:hover {
-  background-color: #f5f5f5;
+  background-color: var(--dm-surface-2);
   color: #ed1c24;
 }
 
@@ -317,7 +319,7 @@ onUnmounted(() => {
   background: none;
   border: none;
   font-size: 1.5rem;
-  color: #333;
+  color: var(--dm-text);
   cursor: pointer;
   z-index: 1001;
 }
@@ -339,12 +341,12 @@ onUnmounted(() => {
     width: 80%;
     max-width: 300px;
     height: 100vh;
-    background-color: white;
+    background-color: var(--dm-surface);
     flex-direction: column;
     padding: 80px 20px 20px;
     transition: right 0.3s ease-in-out;
     z-index: 1000;
-    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+    box-shadow: -5px 0 15px var(--dm-shadow);
     align-items: flex-start;
   }
 
@@ -373,7 +375,7 @@ onUnmounted(() => {
     margin-top: auto;
     width: 100%;
     padding-top: 20px;
-    border-top: 1px solid #eee;
+    border-top: 1px solid var(--dm-border);
   }
 
   .user-profile {

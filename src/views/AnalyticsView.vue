@@ -990,10 +990,10 @@ export default {
    Variables y Estilos Base
    ========================================= */
 :root {
-  --analytics-bg: #f4f7fc; /* Fondo ligeramente azulado/gris */
-  --card-bg: #ffffff;
-  --text-dark: #2c3e50;
-  --text-muted: #7f8c8d;
+  --analytics-bg: var(--dm-bg-soft); /* Fondo ligeramente azulado/gris */
+  --card-bg: var(--dm-surface);
+  --text-dark: var(--dm-text);
+  --text-muted: var(--dm-text-secondary);
   --primary-color: #0d6efd;
   --radius-lg: 16px;
   --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
@@ -1048,7 +1048,7 @@ export default {
   background-color: var(--card-bg);
   border: none;
   border-radius: 30px;
-  color: #555;
+  color: var(--dm-text-secondary);
   font-weight: 600;
   font-size: 0.9rem;
   cursor: pointer;
@@ -1056,7 +1056,7 @@ export default {
   transition: all 0.3s ease;
 }
 .btn-back:hover {
-  background-color: #fff;
+  background-color: var(--dm-surface);
   color: var(--primary-color);
   transform: translateX(-3px);
   box-shadow: var(--shadow-md);
@@ -1124,8 +1124,8 @@ export default {
   width: 100%;
   padding: 12px 15px;
   border-radius: 10px;
-  border: 1px solid #e9ecef;
-  background-color: #f8f9fa;
+  border: 1px solid var(--dm-border);
+  background-color: var(--dm-surface-2);
   font-weight: 600;
   color: var(--text-dark);
   cursor: pointer;
@@ -1134,7 +1134,7 @@ export default {
 }
 .modern-select:focus {
   border-color: var(--primary-color);
-  background-color: #fff;
+  background-color: var(--dm-surface);
   outline: none;
 }
 .filter-badge {
@@ -1209,7 +1209,7 @@ export default {
 }
 
 .highlight-card {
-  background: linear-gradient(145deg, #ffffff, #f0f7ff);
+  background: linear-gradient(145deg, var(--dm-surface), var(--dm-surface-2));
   border: 1px solid rgba(13, 110, 253, 0.15);
 }
 .font-small {
@@ -1254,7 +1254,7 @@ export default {
 
 /* Tablas */
 .modern-table-wrapper {
-  background: #fff;
+  background: var(--dm-surface);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-sm);
   overflow: hidden;

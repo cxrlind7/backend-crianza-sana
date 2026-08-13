@@ -115,12 +115,12 @@ export default {
       // NUEVA PALETA DE COLORES (Psicología / Azul y Cian) - VERSIÓN LIGHT
       return {
         // Fondo principal: Gradiente claro similar a PersonProfile
-        '--bg-primary': '#f8f9fa',
-        '--bg-secondary': '#ffffff',
+        '--bg-primary': 'var(--dm-bg-soft)',
+        '--bg-secondary': 'var(--dm-surface)',
         // Color de acento: Cian/Turquesa (basado en la imagen de Luis)
         '--accent-cyan': '#06B6D4',
-        '--text-light': '#333333', // Texto oscuro para fondo claro
-        '--text-muted': '#6c757d',
+        '--text-light': 'var(--dm-text)', // Texto oscuro para fondo claro
+        '--text-muted': 'var(--dm-text-secondary)',
       }
     },
   },
@@ -159,7 +159,7 @@ export default {
   color: var(--accent-cyan) !important;
 }
 .text-body {
-  color: #333;
+  color: var(--dm-text);
 }
 
 /* Estilos del botón Regresar (Igual a PersonProfile) */
@@ -171,7 +171,7 @@ export default {
   background-color: rgba(255, 255, 255, 0.8);
   border: none;
   border-radius: 30px;
-  color: #555;
+  color: var(--dm-text-secondary);
   font-weight: 600;
   font-size: 0.9rem;
   cursor: pointer;
@@ -182,8 +182,8 @@ export default {
 }
 
 .btn-back:hover {
-  background-color: #ffffff;
-  color: #000;
+  background-color: var(--dm-surface);
+  color: var(--dm-text);
   transform: translateX(-5px);
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
 }
@@ -192,7 +192,7 @@ export default {
   font-weight: 700;
   position: relative;
   padding-bottom: 1rem;
-  color: #2c3e50; /* Color oscuro para títulos */
+  color: var(--dm-text); /* Color oscuro para títulos */
 }
 .section-title::after {
   content: '';
@@ -212,7 +212,7 @@ export default {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
 }
 .preview-item:hover {
-  background-color: #ffffff;
+  background-color: var(--dm-surface);
   border-color: var(--accent-cyan);
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
 }

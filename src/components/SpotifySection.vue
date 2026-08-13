@@ -183,9 +183,9 @@ export default {
 
 /* --- Estilos del Botón Toggle --- */
 .btn-toggle-list {
-  background-color: #f8f9fa;
-  color: #333;
-  border: 1px solid #e9ecef;
+  background-color: var(--dm-surface-2);
+  color: var(--dm-text);
+  border: 1px solid var(--dm-border);
   font-weight: 600;
   font-size: 0.85rem;
   transition: all 0.2s ease;
@@ -223,7 +223,7 @@ export default {
 }
 
 .episode-item:hover {
-  background-color: #f1f3f5;
+  background-color: var(--dm-surface-2);
 }
 
 .bg-selected {

@@ -113,7 +113,7 @@ const formatPrice = (price) => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* background-color: #f8f9fa; */
+  /* background-color: var(--dm-surface-2); */
 }
 
 .content-wrapper {
@@ -130,7 +130,7 @@ const formatPrice = (price) => {
   background-color: rgba(255, 255, 255, 0.8);
   border: none;
   border-radius: 30px;
-  color: #555;
+  color: var(--dm-text-secondary);
   font-weight: 600;
   font-size: 0.9rem;
   cursor: pointer;
@@ -142,8 +142,8 @@ const formatPrice = (price) => {
   margin-left: 10%;
 }
 .btn-back:hover {
-  background-color: #ffffff;
-  color: #000;
+  background-color: var(--dm-surface);
+  color: var(--dm-text);
   transform: translateX(-5px);
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
 }
@@ -165,7 +165,7 @@ const formatPrice = (price) => {
 }
 
 .course-card-clean {
-  background: white;
+  background: var(--dm-surface);
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
@@ -186,7 +186,7 @@ const formatPrice = (price) => {
   position: relative;
   width: 100%;
   padding-top: 56.25%; /* 16:9 Aspect Ratio */
-  background-color: #f0f0f0;
+  background-color: var(--dm-surface-2);
   overflow: hidden;
 }
 
@@ -240,7 +240,7 @@ const formatPrice = (price) => {
 
 .view-icon-svg {
   font-size: 1.5rem;
-  color: #333;
+  color: var(--dm-text);
 }
 
 .card-info {
@@ -260,12 +260,12 @@ const formatPrice = (price) => {
   line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  color: #212529;
+  color: var(--dm-text);
 }
 
 .card-presenter {
   font-size: 0.9rem;
-  color: #6c757d;
+  color: var(--dm-text-secondary);
   margin-bottom: 15px;
   display: flex;
   align-items: center;
@@ -293,7 +293,7 @@ const formatPrice = (price) => {
 
 .empty-state-box {
   text-align: center;
-  color: #6c757d;
+  color: var(--dm-text-secondary);
 }
 
 /* Animations */

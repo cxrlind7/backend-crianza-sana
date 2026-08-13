@@ -129,7 +129,7 @@ export default {
 
 .section-title {
   text-align: center;
-  color: #2c3e50;
+  color: var(--dm-text);
   font-size: 2rem;
   margin-bottom: 10px;
   padding: 0 20px;
@@ -137,7 +137,7 @@ export default {
 
 .section-subtitle {
   text-align: center;
-  color: #666;
+  color: var(--dm-text-secondary);
   margin-bottom: 40px;
   max-width: 600px;
   margin-left: auto;
@@ -165,7 +165,7 @@ export default {
 
 /* --- Card Design --- */
 .team-card {
-  background: white;
+  background: var(--dm-surface);
   border-radius: 20px;
   overflow: hidden;
   box-shadow:
@@ -204,7 +204,7 @@ export default {
   right: 15px;
   width: 32px;
   height: 32px;
-  background-color: white; /* Fondo blanco para que resalte sobre el banner */
+  background-color: var(--dm-surface); /* Fondo blanco para que resalte sobre el banner */
   color: var(--local-accent); /* Color del icono igual al acento */
   border-radius: 50%;
   display: flex;
@@ -245,7 +245,7 @@ export default {
   object-fit: cover;
   border: 5px solid white;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  background-color: #eee;
+  background-color: var(--dm-border);
 }
 
 .card-body {
@@ -258,7 +258,7 @@ export default {
 }
 
 .member-name {
-  color: #1f2937;
+  color: var(--dm-text);
   font-size: 1.25rem;
   font-weight: 700;
   margin: 0 0 5px 0;
@@ -273,7 +273,7 @@ export default {
 
 /* --- Estilos para la descripción truncada --- */
 .member-desc {
-  color: #6b7280;
+  color: var(--dm-text-secondary);
   font-size: 0.85rem;
   line-height: 1.6;
   margin-bottom: 20px;
@@ -296,13 +296,13 @@ export default {
   text-align: left;
   margin-top: 10px;
   padding-top: 20px;
-  border-top: 1px solid #f0f0f0;
+  border-top: 1px solid var(--dm-border);
 }
 
 .services-title {
   font-size: 1.1rem;
   font-weight: 700;
-  color: #1f2937;
+  color: var(--dm-text);
   margin-bottom: 1rem;
   text-align: center; /* Centrado para consistencia */
 }
@@ -320,7 +320,7 @@ export default {
   padding-left: 20px;
   margin-bottom: 8px;
   font-size: 0.9rem;
-  color: #4b5563;
+  color: var(--dm-text-secondary);
   line-height: 1.4;
 }
 
@@ -335,7 +335,7 @@ export default {
 /* --- Footer y Botón --- */
 .card-footer {
   padding: 20px 25px;
-  border-top: 1px solid #f0f0f0;
+  border-top: 1px solid var(--dm-border);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -388,7 +388,7 @@ export default {
   justify-content: center;
   margin-top: 10px;
   margin-bottom: 30px;
-  color: #9ca3af;
+  color: var(--dm-text-secondary);
 }
 
 .indicator-icon {
@@ -399,7 +399,7 @@ export default {
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background-color: #f3f4f6;
+  background-color: var(--dm-surface-2);
   margin-bottom: 8px;
 }
 

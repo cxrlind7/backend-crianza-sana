@@ -39,7 +39,7 @@ export default {
 /* Botón Regresar (Estilo BlogView) */
 .btn-back {
   background: rgba(255, 255, 255, 0.9);
-  color: #495057;
+  color: var(--dm-text-secondary);
   border: 1px solid rgba(0, 0, 0, 0.05);
   padding: 8px 20px;
   border-radius: 50px;
@@ -56,9 +56,9 @@ export default {
 }
 
 .btn-back:hover {
-  background-color: #ffffff;
+  background-color: var(--dm-surface);
   transform: translateX(-5px);
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-  color: #000;
+  color: var(--dm-text);
 }
 </style>

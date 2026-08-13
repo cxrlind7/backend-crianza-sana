@@ -612,7 +612,7 @@ export default {
   justify-content: center;
   align-items: flex-start;
   font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  color: #2c3e50; /* Color de texto principal más suave que el negro puro */
+  color: var(--dm-text); /* Color de texto principal más suave que el negro puro */
   flex-direction: column;
   align-items: center;
 }
@@ -625,7 +625,7 @@ export default {
   background-color: rgba(255, 255, 255, 0.8);
   border: none;
   border-radius: 30px;
-  color: #555;
+  color: var(--dm-text-secondary);
   font-weight: 600;
   font-size: 0.9rem;
   cursor: pointer;
@@ -637,15 +637,15 @@ export default {
 }
 
 .btn-back:hover {
-  background-color: #ffffff;
-  color: #000;
+  background-color: var(--dm-surface);
+  color: var(--dm-text);
   transform: translateX(-5px);
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
 }
 
 /* --- Tarjeta del Detalle del Blog --- */
 .blog-detail-card {
-  background-color: #ffffff;
+  background-color: var(--dm-surface);
   width: 100%;
   max-width: 850px; /* Ancho óptimo para lectura */
   border-radius: 16px;
@@ -675,14 +675,14 @@ export default {
   font-size: 2.5rem;
   font-weight: 800;
   line-height: 1.2;
-  color: #1a202c;
+  color: var(--dm-text);
   margin-bottom: 10px;
 }
 
 .blog-subtitle {
   font-size: 1.5rem;
   font-weight: 400;
-  color: #4a5568;
+  color: var(--dm-text-secondary);
   margin-bottom: 25px;
 }
 
@@ -694,7 +694,7 @@ export default {
   flex-wrap: wrap;
   gap: 20px;
   padding-top: 20px;
-  border-top: 1px solid #edf2f7;
+  border-top: 1px solid var(--dm-border);
 }
 
 .author-meta {
@@ -720,12 +720,12 @@ export default {
 .author-name {
   font-weight: 700;
   font-size: 1rem;
-  color: #2d3748;
+  color: var(--dm-text);
 }
 
 .meta-date {
   font-size: 0.9rem;
-  color: #718096;
+  color: var(--dm-text-secondary);
 }
 
 /* Botones de Compartir */
@@ -737,7 +737,7 @@ export default {
 
 .share-label {
   font-size: 0.9rem;
-  color: #718096;
+  color: var(--dm-text-secondary);
   font-weight: 600;
 }
 
@@ -755,12 +755,12 @@ export default {
 }
 
 .copy-btn {
-  background-color: #edf2f7;
-  color: #4a5568;
+  background-color: var(--dm-border);
+  color: var(--dm-text-secondary);
 }
 .copy-btn:hover {
-  background-color: #e2e8f0;
-  color: #2d3748;
+  background-color: var(--dm-border);
+  color: var(--dm-text);
 }
 
 .facebook-btn {
@@ -904,8 +904,8 @@ export default {
 }
 
 .story-listen-badge {
-  background: white;
-  color: black;
+  background: var(--dm-surface);
+  color: var(--dm-text);
   padding: 15px 40px;
   border-radius: 50px;
   font-weight: 700;
@@ -935,7 +935,7 @@ export default {
 .blog-content-typography {
   font-size: 1.125rem; /* 18px es excelente para lectura */
   line-height: 1.8; /* Interlineado amplio para facilitar la lectura */
-  color: #2d3748;
+  color: var(--dm-text);
   text-align: left; /* NUNCA justificar texto en web */
 }
 
@@ -943,16 +943,16 @@ export default {
 .blog-content-typography :deep(h2) {
   font-size: 1.65rem;
   font-weight: 800;
-  color: #1a202c;
+  color: var(--dm-text);
   margin: 2rem 0 0.75rem;
   line-height: 1.25;
-  border-bottom: 2px solid #edf2f7;
+  border-bottom: 2px solid var(--dm-border);
   padding-bottom: 0.4rem;
 }
 .blog-content-typography :deep(h3) {
   font-size: 1.25rem;
   font-weight: 700;
-  color: #2d3748;
+  color: var(--dm-text);
   margin: 1.5rem 0 0.5rem;
 }
 
@@ -961,7 +961,7 @@ export default {
   position: relative;
   margin: 2rem 0;
   padding: 1.25rem 1.5rem 1.25rem 1.75rem;
-  background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
+  background: rgba(124, 58, 237, 0.1);
   border-left: 5px solid #7c3aed;
   border-radius: 0 12px 12px 0;
   font-style: italic;
@@ -1017,11 +1017,11 @@ export default {
 /* --- Bold / Italic --- */
 .blog-content-typography :deep(strong) {
   font-weight: 700;
-  color: #1a202c;
+  color: var(--dm-text);
 }
 .blog-content-typography :deep(em) {
   font-style: italic;
-  color: #4a5568;
+  color: var(--dm-text-secondary);
 }
 
 /* --- Paragraphs spacing --- */
@@ -1032,19 +1032,19 @@ export default {
 /* --- Sección de Comentarios Moderna --- */
 .comments-section {
   padding: 0 40px 40px;
-  background-color: #f8fafc; /* Fondo ligeramente diferente para separar */
-  border-top: 1px solid #edf2f7;
+  background-color: var(--dm-surface-2); /* Fondo ligeramente diferente para separar */
+  border-top: 1px solid var(--dm-border);
 }
 
 .comments-title {
   font-size: 1.5rem;
   font-weight: 700;
   margin: 30px 0 25px;
-  color: #1a202c;
+  color: var(--dm-text);
 }
 
 .comments-count {
-  color: #718096;
+  color: var(--dm-text-secondary);
   font-weight: 400;
 }
 
@@ -1072,9 +1072,9 @@ export default {
 .comment-input-modern {
   width: 100%;
   padding: 12px 50px 12px 20px;
-  border: 2px solid #e2e8f0;
+  border: 2px solid var(--dm-border);
   border-radius: 25px;
-  background-color: white;
+  background-color: var(--dm-surface);
   font-size: 0.95rem;
   transition: all 0.3s ease;
 }
@@ -1135,13 +1135,13 @@ export default {
 }
 
 .comment-bubble {
-  background-color: white;
+  background-color: var(--dm-surface);
   padding: 15px;
   border-radius: 18px;
   border-top-left-radius: 2px; /* Efecto burbuja de chat */
   flex-grow: 1;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-  border: 1px solid #edf2f7;
+  border: 1px solid var(--dm-border);
 }
 
 .comment-header {
@@ -1154,12 +1154,12 @@ export default {
 .comment-author-name {
   font-weight: 700;
   font-size: 0.95rem;
-  color: #2d3748;
+  color: var(--dm-text);
 }
 
 .comment-text {
   font-size: 0.95rem;
-  color: #4a5568;
+  color: var(--dm-text-secondary);
   line-height: 1.5;
   margin: 0;
   white-space: pre-wrap;
@@ -1173,26 +1173,26 @@ export default {
 .options-btn {
   background: none;
   border: none;
-  color: #a0aec0;
+  color: var(--dm-text-secondary);
   font-size: 1.2rem;
   padding: 0 5px;
   cursor: pointer;
 }
 .options-btn:hover {
-  color: #718096;
+  color: var(--dm-text-secondary);
 }
 
 .options-dropdown {
   position: absolute;
   top: 100%;
   right: 0;
-  background: white;
+  background: var(--dm-surface);
   border-radius: 8px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   padding: 5px;
   z-index: 10;
   min-width: 120px;
-  border: 1px solid #edf2f7;
+  border: 1px solid var(--dm-border);
 }
 
 .dropdown-item {
@@ -1209,7 +1209,7 @@ export default {
   transition: background 0.2s;
 }
 .dropdown-item:hover {
-  background-color: #f7fafc;
+  background-color: var(--dm-surface-2);
 }
 .text-danger {
   color: #e53e3e;
@@ -1218,7 +1218,7 @@ export default {
 .no-comments-state {
   text-align: center;
   padding: 30px;
-  color: #a0aec0;
+  color: var(--dm-text-secondary);
   font-style: italic;
 }
 
@@ -1227,8 +1227,8 @@ export default {
   position: fixed;
   top: 30px;
   right: 30px;
-  background: white;
-  color: #2d3748;
+  background: var(--dm-surface);
+  color: var(--dm-text);
   padding: 12px 20px;
   margin-top: 3rem;
   border-radius: 10px;
@@ -1294,7 +1294,7 @@ export default {
   display: flex;
   justify-content: center;
   padding-top: 100px;
-  color: #718096;
+  color: var(--dm-text-secondary);
 }
 
 /* --- Responsive --- */

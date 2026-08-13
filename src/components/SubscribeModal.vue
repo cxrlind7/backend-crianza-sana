@@ -139,7 +139,7 @@ export default {
 /* Modal card */
 .subscribe-modal {
   position: relative;
-  background: rgba(255, 255, 255, 0.95);
+  background: var(--dm-surface);
   backdrop-filter: blur(20px);
   border-radius: 24px;
   padding: 2.5rem 2rem;
@@ -159,7 +159,7 @@ export default {
   background: transparent;
   border: none;
   font-size: 1.1rem;
-  color: #9ca3af;
+  color: var(--dm-text-secondary);
   cursor: pointer;
   line-height: 1;
   padding: 4px;
@@ -169,8 +169,8 @@ export default {
     background 0.2s;
 }
 .subscribe-close:hover {
-  color: #374151;
-  background: #f3f4f6;
+  color: var(--dm-text);
+  background: var(--dm-surface-2);
 }
 
 /* Icon bubble */
@@ -193,11 +193,11 @@ export default {
 .subscribe-title {
   font-size: 1.6rem;
   font-weight: 700;
-  color: #1f2937;
+  color: var(--dm-text);
   margin-bottom: 0.5rem;
 }
 .subscribe-desc {
-  color: #6b7280;
+  color: var(--dm-text-secondary);
   font-size: 0.95rem;
   line-height: 1.6;
   margin-bottom: 1.5rem;
@@ -216,25 +216,26 @@ export default {
   left: 14px;
   top: 50%;
   transform: translateY(-50%);
-  color: #9ca3af;
+  color: var(--dm-text-secondary);
   font-size: 1rem;
 }
 .subscribe-input {
   width: 100%;
   padding: 0.75rem 1rem 0.75rem 2.5rem;
-  border: 1.5px solid #e5e7eb;
+  border: 1.5px solid var(--dm-border);
   border-radius: 12px;
   font-size: 0.95rem;
+  color: var(--dm-text);
   transition:
     border-color 0.2s,
     box-shadow 0.2s;
   outline: none;
-  background: #f9fafb;
+  background: var(--dm-surface-2);
 }
 .subscribe-input:focus {
   border-color: #7c3aed;
   box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
-  background: #fff;
+  background: var(--dm-surface);
 }
 
 /* Error */
@@ -280,7 +281,7 @@ export default {
 .subscribe-skip {
   background: none;
   border: none;
-  color: #9ca3af;
+  color: var(--dm-text-secondary);
   font-size: 0.85rem;
   cursor: pointer;
   text-decoration: underline;
@@ -288,7 +289,7 @@ export default {
   transition: color 0.2s;
 }
 .subscribe-skip:hover {
-  color: #6b7280;
+  color: var(--dm-text);
 }
 
 /* Success */
@@ -302,11 +303,11 @@ export default {
 .subscribe-success h3 {
   font-size: 1.4rem;
   font-weight: 700;
-  color: #1f2937;
+  color: var(--dm-text);
   margin-bottom: 0.5rem;
 }
 .subscribe-success p {
-  color: #6b7280;
+  color: var(--dm-text-secondary);
   margin-bottom: 1.5rem;
 }
 

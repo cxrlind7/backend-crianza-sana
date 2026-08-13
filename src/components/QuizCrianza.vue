@@ -78,7 +78,7 @@
             <!-- Barra de Progreso -->
             <div
               class="progress mb-4"
-              style="height: 10px; border-radius: 5px; background-color: #f0f0f0"
+              style="height: 10px; border-radius: 5px; background-color: var(--dm-surface-2)"
             >
               <div
                 class="progress-bar bg-gradient-primary"
@@ -96,7 +96,7 @@
             <!-- Pregunta con Transición -->
             <transition name="fade" mode="out-in">
               <div :key="currentQuestionIdx" class="question-block mb-2">
-                <h3 class="fw-bold mb-4" style="color: #2c3e50">
+                <h3 class="fw-bold mb-4" style="color: var(--dm-text)">
                   {{ currentQuestion }}
                 </h3>
 
@@ -140,7 +140,7 @@
 
           <!-- PASO 2: RESULTADO -->
           <div v-else-if="step === 2 && finalResult" class="step-result fade-in">
-            <h2 class="fw-bold mb-3" style="color: #2c3e50">{{ finalResult.name }}</h2>
+            <h2 class="fw-bold mb-3" style="color: var(--dm-text)">{{ finalResult.name }}</h2>
 
             <!-- Icono del Resultado (Solo Emoji) -->
             <div class="result-image-container mb-4">
@@ -594,7 +594,7 @@ export default {
 /* 1. Asegúrate de que el body no tenga scroll blanco */
 :host,
 body {
-  background-color: #f8f9fa; /* Color base similar al fondo */
+  background-color: var(--dm-surface-2); /* Color base similar al fondo */
   margin: 0;
 }
 
@@ -664,7 +664,7 @@ body {
 }
 
 .answer-btn:hover {
-  background-color: #f8f9fa;
+  background-color: var(--dm-surface-2);
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05) !important;
   border-color: #d1d1d1 !important;
@@ -756,7 +756,7 @@ body {
 /* Card Styles */
 .category-card {
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  background: white;
+  background: var(--dm-surface);
   cursor: pointer;
   border-radius: 1.5rem !important;
 }
@@ -769,7 +769,7 @@ body {
 .category-card.locked {
   cursor: not-allowed;
   opacity: 0.7;
-  background: #f8f9fa;
+  background: var(--dm-surface-2);
   filter: grayscale(0.8);
 }
 
@@ -817,7 +817,7 @@ body {
   position: fixed;
   top: 5rem;
   right: 20px;
-  background-color: white;
+  background-color: var(--dm-surface);
   border-left: 4px solid #48bb78; /* Green accent */
   border-radius: 8px;
   padding: 1rem 1.5rem;
@@ -832,7 +832,7 @@ body {
   display: flex;
   align-items: center;
   gap: 10px;
-  color: #2d3748;
+  color: var(--dm-text);
   font-weight: 500;
 }
 
@@ -884,15 +884,15 @@ body {
 
 .btn-nav-prev:disabled {
   background: #e5e7eb;
-  color: #9ca3af;
+  color: var(--dm-text-secondary);
   cursor: not-allowed;
   box-shadow: none;
 }
 
 .btn-nav-reset {
   background: rgba(255, 255, 255, 0.8);
-  color: #6b7280;
-  border: 1px solid #e5e7eb;
+  color: var(--dm-text-secondary);
+  border: 1px solid var(--dm-border);
   font-weight: 600;
   font-size: 0.9rem;
   transition: all 0.3s ease;
@@ -900,9 +900,9 @@ body {
 }
 
 .btn-nav-reset:hover {
-  background: rgba(255, 255, 255, 1);
-  color: #374151;
-  border-color: #d1d5db;
+  background: var(--dm-surface);
+  color: var(--dm-text-secondary);
+  border-color: var(--dm-border);
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }

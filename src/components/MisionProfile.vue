@@ -83,7 +83,7 @@ export default {
 
 /* Estilo Base de las Tarjetas (Coherente con ServicesProfile) */
 .mv-card {
-  background-color: #ffffff;
+  background-color: var(--dm-surface);
   border-radius: 16px;
   /* Sombra suave y elegante */
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
@@ -115,7 +115,7 @@ export default {
   align-items: center;
   justify-content: center;
   border-radius: 10px;
-  background: #f8f9fa;
+  background: var(--dm-surface-2);
 }
 .text-primary-muted {
   color: #007bff99;
@@ -128,7 +128,7 @@ export default {
 .card-title {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #2c3e50;
+  color: var(--dm-text);
   letter-spacing: -0.5px;
 }
 
@@ -136,7 +136,7 @@ export default {
 .card-description {
   font-size: 1.05rem;
   line-height: 1.8; /* Mayor interlineado para elegancia */
-  color: #555;
+  color: var(--dm-text-secondary);
   font-weight: 300; /* Fuente más ligera */
   text-align: left; /* Justificado a la izquierda es más moderno que 'justify' */
 }

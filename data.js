@@ -495,6 +495,17 @@
     preguntasFrecuentes: [],
     files: [],
     direccion: { iconClass: 'fab fa-maps', link: 'https://maps.app.goo.gl/5L4PzK1jK7to8T6P9' },
+    youtubeChannelUrl: 'https://www.youtube.com/@MezcalLegal',
+    youtubeVideos: [
+      { id: 'eNVzGlHT304', title: 'Magistrado Asesinado: ¿Crimen Pasional o Política? #shorts' },
+      { id: 'r8VOU2tRGWU', title: 'El Debate de las Mujeres Trans en el Deporte #shorts' },
+      { id: 'Ijv6db-sH9o', title: 'Credencial de Mujer Salva el Día en el Baño #shorts' },
+      { id: 'IIXMVhshU7g', title: 'Transgénero en México: Experiencias en Baños Públicos #shorts' },
+      { id: 'tjey-4meic8', title: 'El Futuro de las Relaciones: ¿Adiós a las Mujeres? #shorts' },
+      { id: 'Y7sA6SfS-SI', title: 'Igualdad o Hembrismo: ¿Dónde Queda el Feminismo? #shorts' },
+      { id: 'AO6lWXdVvN4', title: 'Protege tu Libertad: Denuncia Falsas Acusaciones #shorts' },
+      { id: 'CWSVDhJIuhk', title: 'Hombre se vuelve mujer para no pagar pensión alimenticia #shorts' },
+    ],
   },
   {
     id: 4,
